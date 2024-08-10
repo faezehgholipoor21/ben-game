@@ -11,10 +11,10 @@
             height: 70px;
         }
         table {
+            table-layout: fixed;
             width: 100%;
-            border-collapse: collapse;
         }
-        .my_th, .my_td {
+        .my_th{
             border: 1px solid #ddd;
             padding: 8px;
             text-align: center; /* مرکزچین کردن متن به صورت افقی */
@@ -22,7 +22,20 @@
             width: 50%; /* تنظیم عرض سلول، می‌توانید بر حسب نیاز تغییر دهید */
         }
         .my_td {
-            word-break: break-word; /* اطمینان از شکستن کلمات طولانی */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            max-width: 100%;
+            vertical-align: middle !important;
+
+
+        }
+        p{
+            max-width: 100%; /* یا هر مقداری که برای شما مناسب است */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            text-align: justify !important;
         }
     </style>
 @endsection
@@ -69,7 +82,7 @@
                             <thead>
                             <tr>
                                 <th>ردیف</th>
-                                <th>عنوان عکس</th>
+                                <th>تصویر</th>
                                 <th>موضوع</th>
                                 <th class="my_th">پیشگفتار</th>
                                 <th>عملیات</th>
