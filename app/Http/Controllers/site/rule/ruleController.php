@@ -15,9 +15,10 @@ class ruleController extends Controller
         return view('site.rule.index',compact('rule_info'));
     }
 
-    public function detail(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function detail($rule_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $detail_info = Rules::query()
+            ->where('id',$rule_id)
             ->first();
 
         return view('site.rule.detail',compact('detail_info'));

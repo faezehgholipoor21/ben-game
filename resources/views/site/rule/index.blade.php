@@ -1,6 +1,6 @@
 @extends('layouts.site_layout')
 @section('title')
-    سایت بازی
+    سایت بازی | قوانین
 @endsection
 
 @section('css')
@@ -24,7 +24,12 @@
                 <div class="site-breadcrumb-wrap">
                     <h4 class="breadcrumb-title">راهنما</h4>
                     <ul class="breadcrumb-menu">
-                        <li><a href="{{asset('site.home')}}"><i class="far fa-home"></i> صفحه اصلی</a></li>
+                        <li>
+                            <a href="{{asset('site.home')}}">
+                                <i class="far fa-home"></i>
+                                صفحه اصلی
+                            </a>
+                        </li>
                         <li class="active">راهنما</li>
                     </ul>
                 </div>

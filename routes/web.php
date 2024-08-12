@@ -319,6 +319,9 @@ Route::namespace('App\Http\Controllers\site')
         Route::get('register',[registerController::class,'index'])
             ->name('register');
 
+        Route::post('user_store',[registerController::class,'store'])
+            ->name('user_store');
+
         //forgot-password
         Route::get('forgot-password',[forgotPasswordController::class,'index'])
             ->name('forgot-password');
@@ -348,3 +351,8 @@ Route::post('/logout', function () {
     auth()->logout();
     return redirect()->route('login.view');
 })->name('logout');
+
+Route::get('/site_logout', function () {
+    auth()->logout();
+    return redirect()->route('site.home');
+})->name('site_logout');

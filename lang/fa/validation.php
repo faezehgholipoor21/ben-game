@@ -237,6 +237,7 @@ return [
         'product_price' => 'قیمت محصول',
         'product_content' => 'توضیحات محصول',
         'cat_title','cat_post_title' => 'نام دسته بندی',
+        'family' => 'نام خانوادگی',
     ],
 
 ];

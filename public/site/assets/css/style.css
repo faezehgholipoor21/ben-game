@@ -563,6 +563,11 @@ label {
         width: 25px
     }
 }
+.theme-btn:disabled {
+    background-color: #cccccc !important;
+    color: #666666;
+    cursor: not-allowed;
+}
 
 .theme-btn {
     font-family: var(--body-font);

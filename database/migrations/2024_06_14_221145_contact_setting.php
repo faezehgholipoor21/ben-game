@@ -13,13 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('settingContact', function (Blueprint $table) {
+        Schema::create('contact_setting', function (Blueprint $table) {
             $table->id();
             $table->string('address',255)->nullable()->default(null);
-            $table->string('mobile',10)->nullable()->default(null);
-            $table->string('phone',10)->nullable()->default(null);
-            $table->string('email_one',10)->nullable()->default(null);
-            $table->string('email_two',10)->nullable()->default(null);
+            $table->string('mobile',11)->nullable()->default(null);
+            $table->string('phone',11)->nullable()->default(null);
+            $table->string('email_one',255)->nullable()->default(null);
+            $table->string('email_two',255)->nullable()->default(null);
             $table->longText('open_store');
             $table->timestamps();
         });

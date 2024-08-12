@@ -112,7 +112,6 @@
                 <div class="col-7 col-lg-3 col-xl-4">
                     <div class="header-middle-right">
                         <ul class="header-middle-list">
-                            <li><a href="#" class="list-item"><i class="far fa-user-circle"></i></a></li>
                             <li><a href="#" class="list-item"><i class="far fa-arrows-rotate"></i><span>0</span></a>
                             </li>
                             <li><a href="#" class="list-item"><i class="far fa-heart"></i><span>0</span></a></li>
@@ -265,8 +264,16 @@
                     </ul>
                     <div class="nav-right">
                         <div class="nav-right-btn">
-                            <a href="{{route('site.login')}}" class="theme-btn">ورود</a>
-                            <a href="{{route('site.register')}}" class="theme-btn">ثبت نام</a>
+                            @if(Auth()->check())
+                                <a href="{{route('site.login')}}" class="theme-btn">
+                                    {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
+                                </a>
+
+                            @else
+                                <a href="{{route('site.login')}}" class="theme-btn">ورود</a>
+                                <a href="{{route('site.register')}}" class="theme-btn">ثبت نام</a>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -474,6 +481,8 @@
 <script src="{{asset('site/assets/js/countdown.min.js')}}"></script>
 <script src="{{asset('site/assets/js/wow.min.js')}}"></script>
 <script src="{{asset('site/assets/js/main.js')}}"></script>
+<script src="{{asset('admin/assets/js/sweetalert.all.js')}}"></script>
+@include('sweetalert::alert')
 @yield('js')
 </body>
 </html>

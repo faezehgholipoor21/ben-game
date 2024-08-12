@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -42,11 +44,23 @@ class AppServiceProvider extends ServiceProvider
             $view->with('user_info', $user_info);
         });
 
-        View::composer(['*'],function ($view){
-            $category_info =Category::query()
-            ->get();
+        View::composer(['*'], function ($view) {
+            $category_info = Category::query()
+                ->get();
 
-            $view->with('category_info',$category_info);
+            $view->with('category_info', $category_info);
+        });
+
+        View::composer(['*'], function ($view) {
+            if (auth()->check()) {
+                $user_info = User::query()
+                    ->where('id', auth()->id())
+                    ->firstOrFail();
+            } else {
+                $user_info = [];
+            }
+
+            $view->with('user_info', $user_info);
         });
     }
 

@@ -8,3 +8,8 @@
 </p>
 
 Ben Game
+
+1. Modification of how to save Nickname in the category section
+2. Correcting the names of the models, which was the opposite of migrations, gave an error
+3. Adding the number format on the product page to display three digits and three digits of the prices
+4. create register page and change login button name and family

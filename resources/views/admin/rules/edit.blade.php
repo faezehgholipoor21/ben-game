@@ -62,7 +62,7 @@
                               method="post"
                               class="row">
                             @csrf
-                            <div class="col-12 col-sm-5 col-md-3">
+                            <div class="col-12">
                                 <div class="row">
                                     <div class="col-12">
                                         <label>تصویر قانون</label>
@@ -74,9 +74,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-7 col-md-9 mt-4">
+                            <div class="col-12 mt-4">
                                 <div class="row">
-                                    <div class="col-12 col-md-8 mb-4">
+                                    <div class="col-12 mb-4">
                                         <label>موضوع</label>
                                         @error('title')
                                         <span class="validation_label_error">{{$message}}</span>

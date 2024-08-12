@@ -15,6 +15,35 @@
 
 @section('custom-js')
     <script>
+        function putComma(Number) {
+            Number += '';
+            Number = Number.replace(',', '');
+            Number = Number.replace(',', '');
+            Number = Number.replace(',', '');
+            Number = Number.replace(',', '');
+            Number = Number.replace(',', '');
+            Number = Number.replace(',', '');
+            x = Number.split('.');
+            y = x[0];
+            z = x.length > 1 ? '.' + x[1] : '';
+            var rgx = /(\d+)(\d{3})/;
+            while (rgx.test(y))
+                y = y.replace(rgx, '$1' + ',' + '$2');
+            return y + z;
+        }
+
+        function removeComma(Number) {
+            return Number.replace(/,/g, '');
+        }
+
+        function setComma(tag) {
+            var value = $(tag).val();
+            value = removeComma(value);
+            value = putComma(value);
+            $(tag).val(value);
+            return true;
+        }
+
         function removeProduct(id) {
             var removeModal = $("#RemoveModal");
             var action = "/panel/product_delete/" + id;
@@ -94,7 +123,7 @@
                                     </td>
                                     <td class="text-center">
                                         <p class="mb-0">
-                                            {{$product['product_price']}}
+                                            {{number_format($product['product_price'])}}
                                         </p>
                                     </td>
                                     <td class="text-center">

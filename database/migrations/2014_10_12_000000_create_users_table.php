@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('first_name',255)->nullable()->default(null);
             $table->string('last_name',255)->nullable()->default(null);
-            $table->string('mobile',10)->nullable()->default(null);
+            $table->string('mobile',11)->nullable()->default(null);
             $table->unsignedTinyInteger('gender')->nullable()->default(null);
-            $table->string('national_code',10)->nullable()->default(null);
+            $table->string('national_code',11)->nullable()->default(null);
             $table->date('birth_day')->nullable()->default(null);
             $table->string('email',255)->unique();
             $table->timestamp('email_verified_at')->nullable();

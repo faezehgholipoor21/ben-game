@@ -34,7 +34,7 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-md-6 col-sm-12">
-                    <h1>ویرایش دربازه ما </h1>
+                    <h1>ویرایش تماس با ما </h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">پنل مدیریت</a></li>
@@ -121,7 +121,7 @@
                                     <div class="col-12 col-sm-6 col-md-3">
                                         <button type="submit" class="btn btn-success w-100">
                                             <i class="fa fa-edit mr-2"></i>
-                                            ویرایش درباره ما
+                                            ویرایش تماس با ما
                                         </button>
                                     </div>
                                 </div>

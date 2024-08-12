@@ -4,21 +4,40 @@
 @endsection
 
 @section('css')
+
 @endsection
 
 @section('js')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const termsCheckbox = document.getElementById('agree');
+            const registerButton = document.getElementById('registerBtn');
+
+            termsCheckbox.addEventListener('change', function () {
+                registerButton.disabled = !termsCheckbox.checked;
+            });
+        });
+    </script>
 @endsection
 
 @section('content')
     <main class="main">
 
         <div class="site-breadcrumb">
-            <div class="site-breadcrumb-bg" style="background: url({{asset('site/assets/img/breadcrumb/01.jpg')}})"></div>
+            <div class="site-breadcrumb-bg"
+                 style="background: url({{asset('site/assets/img/breadcrumb/01.jpg')}})"></div>
             <div class="container">
                 <div class="site-breadcrumb-wrap">
-                    <h4 class="breadcrumb-title">ثبت نام</h4>
+                    <h4 class="breadcrumb-title">
+                        ثبت نام
+                    </h4>
                     <ul class="breadcrumb-menu">
-                        <li><a href="{{route('site.home')}}"><i class="far fa-home"></i> صفحه اصلی</a></li>
+                        <li>
+                            <a href="{{route('site.home')}}">
+                                <i class="far fa-home"></i>
+                                صفحه اصلی
+                            </a>
+                        </li>
                         <li class="active">ثبت نام</li>
                     </ul>
                 </div>
@@ -34,40 +53,55 @@
                             <img src="{{asset('site/assets/img/logo/logo.png')}}" alt>
                             <p>حساب گومارت رایگان خود را ایجاد کنید</p>
                         </div>
-                        <form action="#">
-                            <div class="form-group">
-                                <label>نام کامل</label>
-                                <input type="text" class="form-control" placeholder="نام شما">
-                            </div>
-                            <div class="form-group">
-                                <label>آدرس ایمیل</label>
-                                <input type="email" class="form-control" placeholder="ایمیل شما">
-                            </div>
-                            <div class="form-group">
-                                <label>رمز عبور</label>
-                                <input type="password" class="form-control" placeholder="گذرواژه شما">
-                            </div>
-                            <div class="form-check form-group">
-                                <input class="form-check-input" type="checkbox" value id="agree">
-                                <label class="form-check-label" for="agree">
-                                    من با <a href="#">شرایط خدمات</a> موافقم
-                                </label>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <button type="submit" class="theme-btn"><i class="far fa-paper-plane"></i> ثبت نام</button>
+                        <form action="{{route('site.user_store')}}" method="post">
+                            @csrf
+                            <div class="row">
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label>نام کامل</label>
+                                    <input type="text" class="form-control" name="name" placeholder="نام شما">
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label>نام خانوادگی کامل</label>
+                                    <input type="text" class="form-control" name="family"
+                                           placeholder="نام خانوادگی شما">
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label>تلفن همراه</label>
+                                    <input type="text" class="form-control" name="mobile" placeholder="تلفن همراه">
+                                </div>
+                                <div class="col-12 col-md-6 mt-3">
+                                    <label>کد ملی</label>
+                                    <input type="text" class="form-control" name="national_code" placeholder="کد ملی">
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <label>آدرس ایمیل</label>
+                                    <input type="text" class="form-control" name="email" placeholder="ایمیل شما">
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <input class="form-check-input" type="checkbox" value id="agree">
+                                    <label class="form-check-label" for="agree">
+                                        من با
+                                        <a href="#">
+                                            شرایط خدمات
+                                        </a>
+                                        موافقم
+                                    </label>
+                                </div>
+                                <div class="col-12 mt-3">
+                                    <button type="submit" class="theme-btn my_btn" disabled id="registerBtn">
+                                        <i class="far fa-paper-plane"></i>
+                                        ثبت نام
+                                    </button>
+                                </div>
                             </div>
                         </form>
                         <div class="login-footer">
-                            <p>از قبل حساب کاربری دارید؟ <a href="{{route('site.login')}}">وارد شوید.</a></p>
-                            <div class="social-login">
-                                <span class="social-divider">یا</span>
-                                <p>ادامه با رسانه های اجتماعی</p>
-                                <div class="social-login-list">
-                                    <a href="#" class="fb-auth"><i class="fab fa-facebook-f"></i> فیس بوک</a>
-                                    <a href="#" class="gl-auth"><i class="fab fa-google"></i> گوگل</a>
-                                    <a href="#" class="tw-auth"><i class="fab fa-twitter"></i> توییتر</a>
-                                </div>
-                            </div>
+                            <p>
+                                از قبل حساب کاربری دارید؟
+                                <a href="{{route('site.login')}}">
+                                    وارد شوید.
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>

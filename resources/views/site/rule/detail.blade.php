@@ -1,6 +1,6 @@
 @extends('layouts.site_layout')
 @section('title')
-    سایت بازی
+   سایت بازی | جزئیات قانون
 @endsection
 
 @section('css')

@@ -47,7 +47,7 @@ class adminCategoryController extends Controller
 
        $categories= Category::create([
             'cat_title' => $input['cat_title'],
-            'cat_slug' => $input['cat_slug'],
+            'cat_slug' => str_replace(' ', '-', $input['cat_slug']),
         ]);
 
         alert()->success('', 'دسته بندی با موفقیت افزوده شد.');
@@ -78,7 +78,7 @@ class adminCategoryController extends Controller
 
         $category_product_info->update([
             'cat_title' => $input['cat_title'],
-            'cat_slug' => $input['cat_slug']
+            'cat_slug' => str_replace(' ', '-', $input['cat_slug'])
         ]);
 
         alert()->success('', 'دسته بندی با موفقیت ویرایش شد.');
