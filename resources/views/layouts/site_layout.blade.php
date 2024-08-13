@@ -275,6 +275,11 @@
                                     <a href="{{route('admin_norm.dashboard')}}" class="theme-btn">
                                         {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
                                     </a>
+
+                                @elseif($role_id ==1)
+                                    <a href="{{route('admin.dashboard')}}" class="theme-btn">
+                                        {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
+                                    </a>
                                 @endif
                             @else
                                 <a href="{{route('site_login')}}" class="theme-btn">ورود</a>
