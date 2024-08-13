@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,24 @@ class AppServiceProvider extends ServiceProvider
             }
 
             $view->with('user_info', $user_info);
+        });
+
+        View::composer(['*'], function ($view) {
+            if (auth()->check()) {
+                $user_info = User::query()
+                    ->where('id', auth()->id())
+                    ->firstOrFail();
+                $role_user_info = RoleUser::query()
+                    ->where('user_id' , $user_info['id'])
+                    ->first();
+
+                $role_id = $role_user_info['role_id'];
+
+            } else {
+                $role_id = [];
+            }
+
+            $view->with('role_id', $role_id);
         });
     }
 

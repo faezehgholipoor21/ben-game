@@ -103,7 +103,8 @@
                         <form action="{{route('site.search')}}" method="post">
                             @csrf
                             <div class="search-content">
-                                <input type="text" class="form-control" placeholder="در اینجا جستجو کنید..." name="query">
+                                <input type="text" class="form-control" placeholder="در اینجا جستجو کنید..."
+                                       name="query">
                                 <button type="submit" class="search-btn"><i class="far fa-search"></i></button>
                             </div>
                         </form>
@@ -162,7 +163,7 @@
                                                 <div class="cart-img">
                                                     <a href="#">
                                                         <img src="{{asset('site/assets/img/product/p32.png')}}"
-                                                                     alt="#">
+                                                             alt="#">
                                                     </a>
                                                 </div>
                                                 <div class="cart-info">
@@ -212,8 +213,9 @@
                                         <div class="col-lg-3">
                                             <div class="category-single">
                                                 <div class="category-link">
-                                                    <a href="#"><img src="{{asset('site/assets/img/category_post/05.jpg')}}"
-                                                                     alt></a>
+                                                    <a href="#"><img
+                                                            src="{{asset('site/assets/img/category_post/05.jpg')}}"
+                                                            alt></a>
                                                     <a href="#">اسباب‌بازی‌های کودکان</a>
                                                 </div>
                                             </div>
@@ -265,10 +267,15 @@
                     <div class="nav-right">
                         <div class="nav-right-btn">
                             @if(Auth()->check())
-                                <a href="{{route('user.dashboard')}}" class="theme-btn">
-                                    {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
-                                </a>
-
+                                @if($role_id == 2)
+                                    <a href="{{route('user.dashboard')}}" class="theme-btn">
+                                        {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
+                                    </a>
+                                @elseif($role_id == 3)
+                                    <a href="{{route('admin_norm.dashboard')}}" class="theme-btn">
+                                        {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
+                                    </a>
+                                @endif
                             @else
                                 <a href="{{route('site_login')}}" class="theme-btn">ورود</a>
                                 <a href="{{route('site.register')}}" class="theme-btn">ثبت نام</a>

@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'loginMiddleware' => \App\Http\Middleware\loginMiddleware::class,
         'userAuth' => \App\Http\Middleware\userAuth::class,
         'site_login_middleware' => \App\Http\Middleware\siteLoginMiddleware::class,
+        'admin_norm_middleware' => \App\Http\Middleware\adminNormAuth::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,

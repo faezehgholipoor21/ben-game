@@ -42,6 +42,9 @@ use App\Http\Controllers\site\foreign_payment\foreignPaymentController;
 //user
 use App\Http\Controllers\user\dashboard\userDashboardController;
 
+//admin norm
+use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
+
 use Illuminate\Support\Facades\Route;
 
 //*****************site**************
@@ -260,6 +263,19 @@ Route::namespace('App\Http\Controllers\user')
     });
 
 // *************************  user **********************************
+
+// *************************  admin norm **********************************
+
+Route::namespace('App\Http\Controllers\admin-norm')
+    ->middleware('admin_norm_middleware')
+    ->name('admin_norm.')
+    ->prefix('/admin-norm-panel')
+    ->group(function () {
+        //dashboard
+        Route::get('dashboard', [adminNormDashboardController::class, 'index'])->name('dashboard');
+    });
+
+// *************************  admin norm **********************************
 
 //login & logout
 Route::middleware('loginMiddleware')

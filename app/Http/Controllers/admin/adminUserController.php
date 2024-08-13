@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Helper\GetUserRoleNameByUserId;
+use App\Helper\RepairFileSrc;
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
 use App\Models\Images;
+use App\Models\Role;
+use App\Models\RoleUser;
 use App\Models\User;
 use App\Rules\national_code;
 use Illuminate\Http\Request;
@@ -21,6 +25,9 @@ class adminUserController extends Controller
             ->paginate(15);
 
         $searched = false;
+        foreach ($users as $user) {
+            $user['user_role_info'] = GetUserRoleNameByUserId::get_user_role_name_by_user_id($user['id']);
+        }
         return view('admin.users.index', compact('users', 'searched'));
     }
 
@@ -40,6 +47,12 @@ class adminUserController extends Controller
             $last_name = '';
         }
 
+        if ($request->has('mobile') and $input['mobile'] != '') {
+            $mobile = $input['mobile'];
+        } else {
+            $mobile = '';
+        }
+
 //        if ($request->has('gender') and $input['gender'] != '') {
 //            $gender = $input['gender'];
 //        } else {
@@ -55,11 +68,18 @@ class adminUserController extends Controller
             ->when($last_name != '', function ($q) use ($last_name) {
                 $q->where('users.last_name', 'like', '%' . $last_name . '%');
             })
+            ->when($mobile != '', function ($q) use ($mobile) {
+                $q->where('users.mobile', 'like', '%' . $mobile . '%');
+            })
 //            ->when($gender != 0, function ($q) use ($gender) {
 //                $q->where('users.gender', $gender);
 //            })
             ->latest('users.created_at')
             ->get();
+
+        foreach ($users as $user) {
+            $user['user_role_info'] = GetUserRoleNameByUserId::get_user_role_name_by_user_id($user['id']);
+        }
 
         $searched = true;
         return view('admin.users.index', compact('users', 'searched'));
@@ -73,15 +93,24 @@ class adminUserController extends Controller
             ->where('id', $user_id)
             ->firstOrFail();
 
+        $role_info = Role::query()
+            ->get();
+
+        $user_role_info = RoleUser::query()
+            ->where('user_id', $this_user_info['user_id'])
+            ->first();
+
+        $role_id = $user_role_info['role_id'];
+
         //get profile image
-        $images = $this_user_info->images;
-        $placeholder = asset('admin/assets/image_name/placeholders/user_placeholder.png');
-        $profile = $this->get_user_image($images, 'profile', $placeholder, false);
-        $this_user_info['profile'] = $profile;
+//        $images = $this_user_info->images;
+//        $placeholder = asset('admin/assets/image_name/placeholders/user_placeholder.png');
+//        $profile = $this->get_user_image($images, 'profile', $placeholder, false);
+//        $this_user_info['profile'] = $profile;
 
         $genders = Gender::all();
 
-        return view('admin.users.edit', compact('this_user_info', 'genders'));
+        return view('admin.users.edit', compact('this_user_info', 'genders', 'role_info', 'role_id', 'user_role_info'));
     }
 
     function update(Request $request, $user_id)
@@ -96,7 +125,7 @@ class adminUserController extends Controller
             'birth_day' => "nullable|string|max:255",
             'gender' => "string|max:255",
             'mobile' => 'nullable|regex:/(09)[0-9]{9}/|digits:11|numeric',
-            'profile' => "nullable|mimes:png,jpg,jpeg|max:2560", //2.5 MG
+            'user_image' => "nullable|mimes:png,jpg,jpeg|max:2560", //2.5 MG
         ]);
 
         if ($validation->fails()) {
@@ -118,34 +147,32 @@ class adminUserController extends Controller
             'birth_day' => $input['birth_day'] != '' ? $this->convertDateToGregorian($input['birth_day']) : $user['birth_day'],
         ]);
 
-        if ($request->has('profile')) {
-            //get profile image and delete old profile
-            $images = $user->images;
-            $placeholder = false;
-            $profile = $this->get_user_image($images, 'profile', $placeholder, true);
-            if ($profile != '' and file_exists($profile) and !is_dir($profile)) {
-                unlink($profile);
+        $role_user_info = RoleUser::query()
+            ->where('user_id', $user['id'])
+            ->first();
+
+        $role_user_info->update([
+            'role_id' => $input['role']
+        ]);
+
+        if ($request->has('user_image')) {
+            //get posts image and delete old profile
+            $old = $user->user_image;
+            if (file_exists($old) and !is_dir($old)) {
+                unlink($old);
             }
 
-            $file = $request->file('profile');
+            $file = $request->file('user_image');
             $file_ext = $file->getClientOriginalExtension();
-            $file_name = 'profile_' . time() . '.' . $file_ext;
-            $profile = $this->repair_file_src($file->move('site\assets\user_images', $file_name));
+            $file_name = 'user_image_' . time() . '.' . $file_ext;
+            $user_image = $file->move('site/assets/user_image', $file_name);
 
-            $image = Images::query()
-                ->where('image_name', 'profile')
-                ->first();
-
-            $forSync = [
-                $image['image_id'] => [
-                    'image_src' => $profile
-                ]
-            ];
-
-            $user->images()->sync($forSync, false);
+            $user->update([
+                'user_image' => RepairFileSrc::repair_file_src($user_image),
+            ]);
         }
 
-        alert()->success('کاربر با موفقیت ویرایش شد.', 'با تشکر');
+        alert()->success('','کاربر با موفقیت ویرایش شد.');
         return back();
     }
 

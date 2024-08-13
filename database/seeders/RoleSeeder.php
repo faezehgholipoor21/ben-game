@@ -17,12 +17,20 @@ class RoleSeeder extends Seeder
     {
         DB::table('roles')->insert([
             [
-                'role_name' => 'ادمین',
+                'role_name' => 'ادمین کل',
                 'role_class' => 'badge-success',
             ],
             [
                 'role_name' => 'کاربر عادی',
                 'role_class' => 'badge-warning',
+            ],
+            [
+                'role_name' => 'ادمین معمولی',
+                'role_class' => 'badge-primary',
+            ],
+            [
+                'role_name' => 'کارشناس محتوا',
+                'role_class' => 'badge-info',
             ],
         ]);
     }

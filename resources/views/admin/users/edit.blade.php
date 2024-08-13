@@ -61,21 +61,19 @@
         <div class="row clearfix">
             <div class="col-12">
                 <div class="card">
-                    <form enctype="multipart/form-data"
-                          action="{{route('admin.users.update', ['user_id' => $this_user_info['user_id']])}}"
-                          method="post"
-                          class="card-body">
+                    <form method="post" class="card-body" enctype="multipart/form-data"
+                          action="{{route('admin.users.update', ['user_id' => $this_user_info['user_id']])}}">
                         @csrf
                         <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="row">
                                     <div class="col-12">
                                         <label>تصویر</label>
-                                        @error('profile')
+                                        @error('user_image')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input type="file" class="dropify" name="profile"
-                                               data-default-file="{{$this_user_info['profile']}}">
+                                        <input type="file" class="dropify" name="user_image"
+                                               data-default-file="{{asset($this_user_info['user_image'])}}">
                                     </div>
                                 </div>
                             </div>
@@ -158,6 +156,21 @@
                                                     value="0">
                                                 غیر فعال
                                             </option>
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4 mb-4">
+                                        <label>سمت</label>
+                                        @error('role')
+                                        <span class="validation_label_error">{{$message}}</span>
+                                        @enderror
+                                        <select class="form-control" name="role">
+                                            @foreach($role_info as $role)
+                                                <option @if($role['id'] == $role_id) selected="selected" @endif
+                                                value="{{$role['id']}}">
+                                                    {{$role['role_name']}}
+                                                </option>
+                                            @endforeach
+
                                         </select>
                                     </div>
                                 </div>

@@ -1,6 +1,18 @@
 @extends('layouts.admin_layout')
 
-@section('Title')پنل مدیریت | کاربران@endsection
+@section('Title')
+    پنل مدیریت | کاربران
+@endsection
+
+@section('custom-css')
+    <style>
+        .user_role{
+            border: #989494  solid 1px;
+            padding: 10px;
+            border-radius: 15px;
+        }
+    </style>
+@endsection
 
 @section('content')
     <div class="container-fluid">
@@ -15,7 +27,9 @@
                                     پنل مدیریت
                                 </a>
                             </li>
-                            <li class="breadcrumb-item active" aria-current="page">کاربران</li>
+                            <li class="breadcrumb-item active" aria-current="page">
+                                کاربران
+                            </li>
                         </ol>
                     </nav>
                 </div>
@@ -36,6 +50,11 @@
                             <div class="col-12 col-sm-6 col-md-3 mb-4">
                                 <label>نام خانوادگی</label>
                                 <input type="text" name="last_name" class="form-control">
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                <label>موبایل</label>
+                                <input type="text" name="mobile" class="form-control">
                             </div>
 
                             @if(!$searched)
@@ -72,6 +91,7 @@
                                 <th>#</th>
                                 <th>نام و نام خانوادگی</th>
                                 <th>موبایل</th>
+                                <th>سمت</th>
                                 <th>عملیات</th>
                             </tr>
                             </thead>
@@ -102,15 +122,21 @@
                                     </td>
 
                                     <td>
+                                        <span class="{{$user['user_role_info'][1]}} user_role">
+                                            {{$user['user_role_info'][0]}}
+                                        </span>
+                                    </td>
+
+                                    <td>
                                         @if($user['id'] == auth()->id())
-                                            <a href="#" disabled="disabled">
+                                            <a href="{{route('admin.users.edit' , ['user_id' => $user['id']])}}" disabled="disabled">
                                                 <button class="btn btn-primary">
                                                     <i class="icon-pencil"></i>
                                                 </button>
                                             </a>
                                         @else
-                                            <a href="#" disabled="disabled">
-                                                <button class="btn btn-primary" >
+                                            <a href="{{route('admin.users.edit' , ['user_id' => $user['id']])}}" disabled="disabled">
+                                                <button class="btn btn-primary">
                                                     <i class="icon-pencil"></i>
                                                 </button>
                                             </a>

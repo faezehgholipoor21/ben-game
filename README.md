@@ -19,3 +19,9 @@ Ben Game
 8. add siteLoginMiddleware in middleware and kernel and add to login config
 9. change site.login to site_login
 10. login and go to user dashboard is compelete.
+11. create genders table 
+12. add user role in users page in admin panel
+13. add user_image in users table for personal image
+14. update image by add user_image in USER MODEL in fillable becuses user table
+15. add admin_norm_middleware in kernel and middleware and webconfig and add admin norm controller
+16. admin-norm and user its finish
