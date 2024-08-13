@@ -25,3 +25,4 @@ Ben Game
 14. update image by add user_image in USER MODEL in fillable becuses user table
 15. add admin_norm_middleware in kernel and middleware and webconfig and add admin norm controller
 16. admin-norm and user its finish
+17. add admin panel in site layout
