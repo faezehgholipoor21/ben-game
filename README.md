@@ -12,4 +12,10 @@ Ben Game
 1. Modification of how to save Nickname in the category section
 2. Correcting the names of the models, which was the opposite of migrations, gave an error
 3. Adding the number format on the product page to display three digits and three digits of the prices
-4. create register page and change login button name and family
+4. create register page and change login button name and family - the app service provider helped me
+5. create user controller and middleware userAuth and config in webconfig and set middleware and create user panel
+6. add userAuth in kernel
+7. create user dashboard view
+8. add siteLoginMiddleware in middleware and kernel and add to login config
+9. change site.login to site_login
+10. login and go to user dashboard is compelete.

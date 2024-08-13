@@ -265,12 +265,12 @@
                     <div class="nav-right">
                         <div class="nav-right-btn">
                             @if(Auth()->check())
-                                <a href="{{route('site.login')}}" class="theme-btn">
+                                <a href="{{route('user.dashboard')}}" class="theme-btn">
                                     {{$user_info['first_name'] . ' ' . $user_info['last_name'] }}
                                 </a>
 
                             @else
-                                <a href="{{route('site.login')}}" class="theme-btn">ورود</a>
+                                <a href="{{route('site_login')}}" class="theme-btn">ورود</a>
                                 <a href="{{route('site.register')}}" class="theme-btn">ثبت نام</a>
                             @endif
 

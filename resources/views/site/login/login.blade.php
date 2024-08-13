@@ -1,6 +1,6 @@
 @extends('layouts.site_layout')
 @section('title')
-    سایت بازی
+    سایت بازی | ورود
 @endsection
 
 @section('css')
@@ -13,12 +13,18 @@
     <main class="main">
 
         <div class="site-breadcrumb">
-            <div class="site-breadcrumb-bg" style="background: url({{asset('site/assets/img/breadcrumb/01.jpg')}})"></div>
+            <div class="site-breadcrumb-bg"
+                 style="background: url({{asset('site/assets/img/breadcrumb/01.jpg')}})"></div>
             <div class="container">
                 <div class="site-breadcrumb-wrap">
                     <h4 class="breadcrumb-title">ورود به سیستم</h4>
                     <ul class="breadcrumb-menu">
-                        <li><a href="{{route('site.home')}}"><i class="far fa-home"></i> صفحه اصلی</a></li>
+                        <li>
+                            <a href="{{route('site.home')}}">
+                                <i class="far fa-home"></i>
+                                صفحه اصلی
+                            </a>
+                        </li>
                         <li class="active">ورود به سیستم</li>
                     </ul>
                 </div>
@@ -34,39 +40,30 @@
                             <img src="{{asset('site/assets/img/logo/logo.png')}}" alt>
                             <p>با حساب گومارت خود وارد شوید</p>
                         </div>
-                        <form action="#">
+                        <form action="{{route('site_login_do')}}" method="post">
+                            @csrf
                             <div class="form-group">
-                                <label>آدرس ایمیل</label>
-                                <input type="email" class="form-control" placeholder="ایمیل شما">
+                                <label>شناسه کاربری</label>
+                                <input type="text" class="form-control" name="national_code" placeholder="شناسه کاربری">
                             </div>
                             <div class="form-group">
                                 <label>رمز عبور</label>
-                                <input type="password" class="form-control" placeholder="گذرواژه شما">
-                            </div>
-                            <div class="d-flex justify-content-between mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value id="remember">
-                                    <label class="form-check-label" for="remember">
-                                        مرا به خاطر بسپار
-                                    </label>
-                                </div>
-                                <a href="{{route('site.forgot-password')}}" class="forgot-pass">گذرواژه را فراموش کرده‌اید؟</a>
+                                <input type="password" class="form-control" name="password" placeholder="رمز عبور">
                             </div>
                             <div class="d-flex align-items-center">
-                                <button type="submit" class="theme-btn"><i class="far fa-sign-in"></i> ورود</button>
+                                <button type="submit" class="theme-btn">
+                                    <i class="far fa-sign-in"></i>
+                                    ورود
+                                </button>
                             </div>
                         </form>
                         <div class="login-footer">
-                            <p>حساب ندارید؟ <a href="{{route('site.register')}}">ثبت نام کنید.</a></p>
-                            <div class="social-login">
-                                <span class="social-divider">یا</span>
-                                <p>ادامه با رسانه های اجتماعی</p>
-                                <div class="social-login-list">
-                                    <a href="#" class="fb-auth"><i class="fab fa-facebook-f"></i> فیس بوک</a>
-                                    <a href="#" class="gl-auth"><i class="fab fa-google"></i> گوگل</a>
-                                    <a href="#" class="tw-auth"><i class="fab fa-twitter"></i> توییتر</a>
-                                </div>
-                            </div>
+                            <p>
+                                حساب ندارید؟
+                                <a href="{{route('site.register')}}">
+                                    ثبت نام کنید.
+                                </a>
+                            </p>
                         </div>
                     </div>
                 </div>

@@ -98,7 +98,7 @@
                         <div class="login-footer">
                             <p>
                                 از قبل حساب کاربری دارید؟
-                                <a href="{{route('site.login')}}">
+                                <a href="{{route('site_login')}}">
                                     وارد شوید.
                                 </a>
                             </p>

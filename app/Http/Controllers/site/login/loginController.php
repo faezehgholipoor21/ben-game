@@ -11,4 +11,20 @@ class loginController extends Controller
     {
         return view('site.login.login');
     }
+
+    public function site_login_do(Request $request){
+        $input = $request->all();
+
+        $national_code = $input['national_code'];
+        $password = $input['password'];
+
+        if (auth()->attempt(['national_code' => $national_code, 'password' => $password])) {
+            return redirect()->route('user.dashboard');
+        } else {
+            alert()->error('','کلمه عبور یا نام کاربری اشتباه است.');
+            return back()->withErrors(['auth' => 'کلمه عبور یا نام کاربری اشتباه است.']);
+        }
+    }
+
+
 }
