@@ -65,6 +65,7 @@ class adminProductController extends Controller
             'product_meta_keywords' => 'required',
             'product_content' => 'required',
             'product_price' => 'required',
+            'inventory' => 'required',
         ]);
 
         if ($validation->fails()) {
@@ -72,13 +73,16 @@ class adminProductController extends Controller
             return back()->withErrors($validation->errors());
         }
 
+        $price = str_replace(",", "", $input['product_price']);
+
         $product_info = Product::query()->create([
             'product_name' => $input['product_name'],
             'product_meta_description' => $input['product_meta_description'],
             'product_nickname' => str_replace(' ', '-', $input['product_nickname']),
             'product_meta_keywords' => $input['product_meta_keywords'],
             'product_content' => $input['product_content'],
-            'product_price' => $input['product_price'],
+            'product_price' => $price,
+            'inventory' =>  $input['inventory'],
             'cat_id' => $input['cat_id'],
             'game_account_id' => $input['account_name'],
         ]);
@@ -158,13 +162,16 @@ class adminProductController extends Controller
             ]);
         }
 
+        $price = str_replace(",", "", $input['product_price']);
+
         $product_info->update([
             'product_name' => $input['product_name'],
             'product_meta_description' => $input['product_meta_description'],
             'product_nickname' => str_replace(' ', '-', $input['product_nickname']),
             'product_meta_keywords' => $input['product_meta_keywords'],
             'product_content' => $input['product_content'],
-            'product_price' => $input['product_price'],
+            'product_price' => $price,
+            'inventory' =>  $input['inventory'],
         ]);
 
         alert()->success('', 'محصول  با موفقیت ویرایش شد.');

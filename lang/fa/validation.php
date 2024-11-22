@@ -238,6 +238,10 @@ return [
         'product_content' => 'توضیحات محصول',
         'cat_title','cat_post_title' => 'نام دسته بندی',
         'family' => 'نام خانوادگی',
+        'birth_day' => 'تاریخ تولد',
+        'new_password' => 'رمز جدید',
+        'confirm_new_password' => 'تکرار رمز جدید',
+        'inventory' => 'موجودی انبار',
     ],
 
 ];

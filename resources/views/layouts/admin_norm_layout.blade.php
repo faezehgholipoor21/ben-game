@@ -114,7 +114,7 @@
         <div class="container-fluid">
             <div class="navbar-left">
                 <div class="navbar-btn">
-                    <a href="{{route('admin.dashboard')}}">
+                    <a href="{{route('admin_norm.dashboard')}}">
                         <img src="{{asset('admin/assets/images/logo.png')}}" alt="پنل ادمین معمولی" class="img-fluid logo">
                     </a>
                     <button type="button" class="btn-toggle-offcanvas">
@@ -177,7 +177,7 @@
                     </li>
 
                     <li>
-                        <a href="{{route('admin.profile')}}" class="megamenu_toggle icon-menu">
+                        <a href="{{route('admin_norm.profile')}}" class="megamenu_toggle icon-menu">
                             پروفایل من
                         </a>
                     </li>
@@ -193,7 +193,7 @@
 
     <div id="left-sidebar" class="sidebar">
         <div class="navbar-brand">
-            <a href="{{route('admin.dashboard')}}">
+            <a href="{{route('admin_norm.dashboard')}}">
                 <img src="{{asset('admin/assets/images/logo.png')}}" alt="پنل ادمین معمولی" class="img-fluid logo">
                 <span>پنل ادمین معمولی</span>
             </a>
@@ -217,14 +217,14 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-right account vivify flipInY">
                         <li>
-                            <a href="{{route('admin.profile')}}">
+                            <a href="{{route('admin_norm.profile')}}">
                                 <i class="icon-user"></i>
                                 پروفایل من
                             </a>
                         </li>
 
                         <li>
-                            <a href="{{route('admin.profile')}}">
+                            <a href="{{route('admin_norm.profile')}}">
                                 <i class="icon-lock"></i>
                                 تغییر رمز
                             </a>
@@ -255,7 +255,7 @@
                     </li>
 
                     <li>
-                        <a href="{{route('admin.dashboard')}}">
+                        <a href="{{route('admin_norm.dashboard')}}">
                             <i class="icon-speedometer"></i>
                             <span>داشبورد</span>
                         </a>

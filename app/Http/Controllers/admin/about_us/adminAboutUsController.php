@@ -28,7 +28,7 @@ class adminAboutUsController extends Controller
 
         $validation = Validator::make($input, [
             'title' => 'required|string|max:255',
-            'image' => 'required|mimes:png,jpg,jpeg|max:1024',
+//            'image' => 'required|mimes:png,jpg,jpeg|max:1024',
             'description' => 'required|string',
         ]);
 

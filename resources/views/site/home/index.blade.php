@@ -3,10 +3,10 @@
     سایت بازی
 @endsection
 
-@section('css')
+@section('custom-css')
 @endsection
 
-@section('js')
+@section('custom-js')
 @endsection
 
 @section('content')
@@ -152,8 +152,8 @@
                                         <img src="{{asset('site/assets/img/banner/mini-banner-1.jpg')}}" alt>
                                         <div class="banner-content">
                                             <p>مجموعه های داغ</p>
-                                            <h3> بهترین فروش سفر <br>مجموعه‌های </h3>
-                                            <a href="#">اکنون کشف کنید</a>
+                                            <h3>مجموعه‌های <br>پرندگان خشمگین</h3>
+                                            <a href="#">بازی کنید</a>
                                         </div>
                                     </div>
                                 </div>
@@ -161,9 +161,9 @@
                                     <div class="banner-item">
                                         <img src="{{asset('site/assets/img/banner/mini-banner-2.jpg')}}" alt>
                                         <div class="banner-content">
-                                            <p>مجموعه‌های اپل</p>
-                                            <h3>ساعت هوشمند اپل <br> کالکشن</h3>
-                                            <a href="#">اکنون خرید کنید</a>
+                                            <p>بازیای موبایل</p>
+                                            <h3>ساده<br>جذاب</h3>
+                                            <a href="#">از ما بخر</a>
                                         </div>
                                     </div>
                                 </div>
@@ -479,7 +479,9 @@
                 <div class="product-item">
                     <div class="product-img">
                         <span class="type new">جدید</span>
-                        <a href="shop-single.html"><img src="{{asset($product['image_product'])}}" alt></a>
+                        <a href="{{route('site.product_detail',['product_id' => $product['id']])}}">
+                            <img src="{{asset($product['image_product'])}}" alt>
+                        </a>
                         <div class="product-action-wrap">
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"

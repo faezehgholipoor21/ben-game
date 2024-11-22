@@ -108,12 +108,18 @@ class adminRulesController extends Controller
         $image_info = Rules::query()
             ->get();
 
-        foreach ($image_info as $item) {
-            $old = $item['image_src'];
+
+         $old = $rule_info['image_src'];
             if (file_exists($old) and !is_dir($old)) {
                 unlink($old);
             }
-        }
+
+//        foreach ($image_info as $item) {
+//            $old = $item['image_src'];
+//            if (file_exists($old) and !is_dir($old)) {
+//                unlink($old);
+//            }
+//        }
 
         $rule_info->delete();
 

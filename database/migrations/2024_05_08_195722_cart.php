@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('cart', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('product_id');
-            $table->string('cookie', 255);
+            $table->string('cookie', 100);
+            $table->unsignedBigInteger('count');
             $table->timestamps();
         });
     }

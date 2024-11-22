@@ -26,6 +26,17 @@
             filterPlaceholder: 'جستجو کنید',
             allSelectedText: 'همه انتخاب شدند',
         });
+
+        function formatNumber(input) {
+            // حذف همه کاراکترهای غیر از عدد
+            let value = input.value.replace(/\D/g, '');
+
+            // جدا کردن اعداد به صورت سه‌رقمی
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // تنظیم مقدار جدید در input
+            input.value = value;
+        }
     </script>
 @endsection
 
@@ -37,8 +48,12 @@
                     <h1>افزودن محصول جدید</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">پنل مدیریت</a></li>
-                            <li class="breadcrumb-item"><a href="{{route('admin.product_panel')}}">محصولات</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="{{route('admin.dashboard')}}">پنل مدیریت</a>
+                            </li>
+                            <li class="breadcrumb-item">
+                                <a href="{{route('admin.product_panel')}}">محصولات</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">افزودن محصول جدید</li>
                         </ol>
                     </nav>
@@ -55,7 +70,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <form enctype="multipart/form-data" action="{{route('admin.product_store_panel')}}" method="post"
+                        <form enctype="multipart/form-data" action="{{route('admin.product_store_panel')}}"
+                              method="post"
                               class="row">
                             @csrf
                             <div class="col-12 col-sm-5 col-md-3">
@@ -68,11 +84,12 @@
                                         <input name="image_src" type="file" class="form-control dropify">
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <label>قیمت محصول</label>
+                                        <label>قیمت محصول(تومان)</label>
                                         @error('product_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input type="text" class="form-control text-right" name="product_price">
+                                        <input type="text" class="form-control text-right" name="product_price"
+                                               oninput="formatNumber(this)">
                                     </div>
                                 </div>
                             </div>
@@ -99,7 +116,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-6 mb-4">
+                                    <div class="col-12 col-md-4 mb-4">
                                         <label>دسته بندی های محصول</label>
                                         @error('cat_id')
                                         <span class="validation_label_error">{{$message}}</span>
@@ -116,7 +133,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-6 mb-4">
+                                    <div class="col-12 col-md-4 mb-4">
                                         <label>دسته بندی های اکانت</label>
                                         @error('game_account_id')
                                         <span class="validation_label_error">{{$message}}</span>
@@ -132,6 +149,15 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 mb-4">
+                                        <label>موجودی انبار</label>
+                                        @error('inventory')
+                                        <span class="validation_label_error">{{$message}}</span>
+                                        @enderror
+                                        <input value="{{old('inventory')}}" type="text"
+                                               class="form-control" dir="ltr"
+                                               name="inventory">
                                     </div>
                                 </div>
 

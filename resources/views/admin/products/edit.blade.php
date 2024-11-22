@@ -26,6 +26,17 @@
             filterPlaceholder: 'جستجو کنید',
             allSelectedText: 'همه انتخاب شدند',
         });
+
+        function formatNumber(input) {
+            // حذف همه کاراکترهای غیر از عدد
+            let value = input.value.replace(/\D/g, '');
+
+            // جدا کردن اعداد به صورت سه‌رقمی
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+            // تنظیم مقدار جدید در input
+            input.value = value;
+        }
     </script>
 @endsection
 
@@ -74,12 +85,13 @@
                                                type="file" class="form-control dropify">
                                     </div>
                                     <div class="col-12 mt-4">
-                                        <label>قیمت محصول</label>
+                                        <label>قیمت محصول(تومان)</label>
                                         @error('product_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input value="{{$product_info['product_price']}}" type="text"
-                                               class="form-control text-right" name="product_price">
+                                        <input value="{{number_format($product_info['product_price'])}}" type="text"
+                                               class="form-control text-right" name="product_price"
+                                               oninput="formatNumber(this)">
                                     </div>
                                 </div>
                             </div>
@@ -108,7 +120,7 @@
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-6 mb-4">
+                                    <div class="col-12 col-md-4 mb-4">
                                         <label>دسته بندی های محصول</label>
                                         @error('cat_id')
                                         <span class="validation_label_error">{{$message}}</span>
@@ -126,7 +138,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-6 mb-4">
+                                    <div class="col-12 col-md-4 mb-4">
                                         <label>دسته بندی اکانت محصولات</label>
                                         @error('game_account_id')
                                         <span class="validation_label_error">{{$message}}</span>
@@ -143,6 +155,15 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="col-12 col-md-4 mb-4">
+                                        <label>موجودی انبار</label>
+                                        @error('inventory')
+                                        <span class="validation_label_error">{{$message}}</span>
+                                        @enderror
+                                        <input value="{{$product_info['inventory']}}" type="text"
+                                               class="form-control" dir="ltr"
+                                               name="inventory">
                                     </div>
                                 </div>
 

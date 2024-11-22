@@ -19,8 +19,15 @@
     <link rel="stylesheet" href="{{asset('site/assets/css/owl.carousel.min.css')}}">
     <link rel="stylesheet" href="{{asset('site/assets/css/jquery-ui.min.css')}}">
     <link rel="stylesheet" href="{{asset('site/assets/css/nice-select.min.css')}}">
+    <link rel="stylesheet" href="{{asset('site/assets/css/flex-slider.min.css')}}">
     <link rel="stylesheet" href="{{asset('site/assets/css/style.css')}}">
-    @yield('css')
+    <style>
+        .login_img{
+            width: 40px;
+            height: 40px;
+        }
+    </style>
+    @yield('custom-css')
 </head>
 <body class="home-2" dir="rtl">
 
@@ -113,77 +120,76 @@
                 <div class="col-7 col-lg-3 col-xl-4">
                     <div class="header-middle-right">
                         <ul class="header-middle-list">
-                            <li><a href="#" class="list-item"><i class="far fa-arrows-rotate"></i><span>0</span></a>
-                            </li>
-                            <li><a href="#" class="list-item"><i class="far fa-heart"></i><span>0</span></a></li>
                             <li class="dropdown-cart">
-                                <a href="#" class="shop-cart list-item"><i class="far fa-shopping-bag"></i>
-                                    <span>5</span></a>
-                                <div class="dropdown-cart-menu">
-                                    <div class="dropdown-cart-header">
-                                        <span>03 مورد</span>
-                                        <a href="#">مشاهده سبد خرید</a>
-                                    </div>
-                                    <ul class="dropdown-cart-list">
-                                        <li>
-                                            <div class="dropdown-cart-item">
-                                                <div class="cart-img">
-                                                    <a href="#">
-                                                        <img src="#" alt="#"/>
-                                                    </a>
-                                                </div>
-                                                <div class="cart-info">
-                                                    <h4><a href="#">ایکسا ها ای 15 قرمز</a></h4>
-                                                    <p class="cart-qty">1x - <span
-                                                            class="cart-amount">200.00 ریال</span>
-                                                    </p>
-                                                </div>
-                                                <a href="#" class="cart-remove" title="حذف این مورد"><i
-                                                        class="far fa-times-circle"></i></a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-cart-item">
-                                                <div class="cart-img">
-                                                    <a href="#">
-                                                        <img src="#" alt="#">
-                                                    </a>
-                                                </div>
-                                                <div class="cart-info">
-                                                    <h4><a href="#">ساعت آبی اپل</a></h4>
-                                                    <p class="cart-qty">1x - <span class="cart-amount">120$</span>
-                                                    </p>
-                                                </div>
-                                                <a href="#" class="cart-remove" title="حذف این مورد"><i
-                                                        class="far fa-times-circle"></i></a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-cart-item">
-                                                <div class="cart-img">
-                                                    <a href="#">
-                                                        <img src="{{asset('site/assets/img/product/p32.png')}}"
-                                                             alt="#">
-                                                    </a>
-                                                </div>
-                                                <div class="cart-info">
-                                                    <h4><a href="#">ژاکت نارنجی</a></h4>
-                                                    <p class="cart-qty">1x - <span class="cart-amount">330.00$</span>
-                                                    </p>
-                                                </div>
-                                                <a href="#" class="cart-remove" title="حذف این مورد"><i
-                                                        class="far fa-times-circle"></i></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="dropdown-cart-bottom">
-                                        <div class="dropdown-cart-total">
-                                            <span>مجموع</span>
-                                            <span class="total-amount">650.00 ریال</span>
-                                        </div>
-                                        <a href="#" class="theme-btn">تسویه حساب</a>
-                                    </div>
-                                </div>
+                                <a href="{{route('site.cart')}}" class="shop-cart list-item">
+                                    <i class="far fa-shopping-bag"></i>
+                                    <span id="cart_count_span">{{$cart_count}}</span>
+                                </a>
+{{--                                <div class="dropdown-cart-menu">--}}
+{{--                                    <div class="dropdown-cart-header">--}}
+{{--                                        <span>03 مورد</span>--}}
+{{--                                        <a href="#">مشاهده سبد خرید</a>--}}
+{{--                                    </div>--}}
+{{--                                    <ul class="dropdown-cart-list">--}}
+{{--                                        <li>--}}
+{{--                                            <div class="dropdown-cart-item">--}}
+{{--                                                <div class="cart-img">--}}
+{{--                                                    <a href="#">--}}
+{{--                                                        <img src="#" alt="#"/>--}}
+{{--                                                    </a>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="cart-info">--}}
+{{--                                                    <h4><a href="#">ایکسا ها ای 15 قرمز</a></h4>--}}
+{{--                                                    <p class="cart-qty">1x - <span--}}
+{{--                                                            class="cart-amount">200.00 ریال</span>--}}
+{{--                                                    </p>--}}
+{{--                                                </div>--}}
+{{--                                                <a href="#" class="cart-remove" title="حذف این مورد"><i--}}
+{{--                                                        class="far fa-times-circle"></i></a>--}}
+{{--                                            </div>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <div class="dropdown-cart-item">--}}
+{{--                                                <div class="cart-img">--}}
+{{--                                                    <a href="#">--}}
+{{--                                                        <img src="#" alt="#">--}}
+{{--                                                    </a>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="cart-info">--}}
+{{--                                                    <h4><a href="#">ساعت آبی اپل</a></h4>--}}
+{{--                                                    <p class="cart-qty">1x - <span class="cart-amount">120$</span>--}}
+{{--                                                    </p>--}}
+{{--                                                </div>--}}
+{{--                                                <a href="#" class="cart-remove" title="حذف این مورد"><i--}}
+{{--                                                        class="far fa-times-circle"></i></a>--}}
+{{--                                            </div>--}}
+{{--                                        </li>--}}
+{{--                                        <li>--}}
+{{--                                            <div class="dropdown-cart-item">--}}
+{{--                                                <div class="cart-img">--}}
+{{--                                                    <a href="#">--}}
+{{--                                                        <img src="{{asset('site/assets/img/product/p32.png')}}"--}}
+{{--                                                             alt="#">--}}
+{{--                                                    </a>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="cart-info">--}}
+{{--                                                    <h4><a href="#">ژاکت نارنجی</a></h4>--}}
+{{--                                                    <p class="cart-qty">1x - <span class="cart-amount">330.00$</span>--}}
+{{--                                                    </p>--}}
+{{--                                                </div>--}}
+{{--                                                <a href="#" class="cart-remove" title="حذف این مورد"><i--}}
+{{--                                                        class="far fa-times-circle"></i></a>--}}
+{{--                                            </div>--}}
+{{--                                        </li>--}}
+{{--                                    </ul>--}}
+{{--                                    <div class="dropdown-cart-bottom">--}}
+{{--                                        <div class="dropdown-cart-total">--}}
+{{--                                            <span>مجموع</span>--}}
+{{--                                            <span class="total-amount">650.00 ریال</span>--}}
+{{--                                        </div>--}}
+{{--                                        <a href="#" class="theme-btn">تسویه حساب</a>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
                             </li>
                         </ul>
                     </div>
@@ -247,7 +253,7 @@
                             <a class="nav-link" href="{{route('site.home')}}">صفحه اصلی</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" href="">خرید آنلاین</a>
+                            <a class="nav-link" href="{{route('site.products')}}">خرید آنلاین</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="{{route('site.google_play')}}">خرید از گوگل پلی</a>
@@ -492,9 +498,12 @@
 <script src="{{asset('site/assets/js/jquery.nice-select.min.js')}}"></script>
 <script src="{{asset('site/assets/js/countdown.min.js')}}"></script>
 <script src="{{asset('site/assets/js/wow.min.js')}}"></script>
-<script src="{{asset('site/assets/js/main.js')}}"></script>
+<script src="{{asset('site/assets/js/flex-slider.js')}}"></script>
 <script src="{{asset('admin/assets/js/sweetalert.all.js')}}"></script>
+
+<script src="{{asset('site/assets/js/main.js')}}"></script>
 @include('sweetalert::alert')
-@yield('js')
+@yield('custom-js')
+
 </body>
 </html>

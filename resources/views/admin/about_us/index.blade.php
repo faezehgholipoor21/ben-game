@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="col-md-6 col-sm-12 text-right hidden-xs">
-                    <a href="{{route('admin.posts.index')}}" class="btn btn-sm btn-danger">
+                    <a href="{{route('admin.dashboard')}}" class="btn btn-sm btn-danger">
                         <i class="fa fa-angle-right mr-2"></i>
                         بازگشت
                     </a>

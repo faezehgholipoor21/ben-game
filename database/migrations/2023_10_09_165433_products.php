@@ -23,6 +23,7 @@ return new class extends Migration
             $table->integer('product_price');
             $table->integer('cat_id');
             $table->integer('game_account_id');
+            $table->integer('inventory')->default(1);
             $table->timestamps();
         });
     }

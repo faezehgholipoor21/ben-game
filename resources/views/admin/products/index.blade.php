@@ -8,7 +8,7 @@
     <style>
         .my_img {
             width: 80px;
-            height: 50px;
+            height: 80px;
         }
     </style>
 @endsection
@@ -61,7 +61,9 @@
                     <h1>محصولات</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">پنل مدیریت</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="{{route('admin.dashboard')}}">پنل مدیریت</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">محصولات</li>
                         </ol>
                     </nav>
@@ -87,7 +89,7 @@
                                 <th class="text-center">عنوان محصول</th>
                                 <th class="text-center">دسته محصول</th>
                                 <th class="text-center">اکانت بازی</th>
-                                <th class="text-center">قیمت</th>
+                                <th class="text-center">قیمت (تومان)</th>
                                 <th class="text-center">عملیات</th>
                             </tr>
                             </thead>

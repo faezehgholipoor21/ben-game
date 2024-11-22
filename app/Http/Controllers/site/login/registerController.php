@@ -39,6 +39,7 @@ class registerController extends Controller
             'mobile' => $input['mobile'],
             'national_code' => $input['national_code'],
             'email' => $input['email'],
+            'user_image' => 'site/assets/img/user_placeholder.png' ,
             'password' => password_hash($input['mobile'], PASSWORD_DEFAULT),
             'is_active' => 0,
         ]);

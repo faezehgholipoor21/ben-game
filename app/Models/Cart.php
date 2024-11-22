@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Cart extends Model
 {
     use HasFactory;
 
-    protected $table = 'products';
+    protected $table = 'cart';
     protected $guarded = [];
 
-    protected $casts = [
-        'id' => 'integer',
-        'inventory' => 'integer'
-    ];
+    function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

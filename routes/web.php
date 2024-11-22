@@ -37,10 +37,12 @@ use App\Http\Controllers\site\login\registerController;
 use App\Http\Controllers\site\login\forgotPasswordController;
 use App\Http\Controllers\site\google_play\googlePlayController;
 use App\Http\Controllers\site\foreign_payment\foreignPaymentController;
+use App\Http\Controllers\site\products\siteProductController;
 
 
 //user
 use App\Http\Controllers\user\dashboard\userDashboardController;
+use App\Http\Controllers\user\orders\userOrderController;
 
 //admin norm
 use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
@@ -245,6 +247,12 @@ Route::namespace('App\Http\Controllers\site')
         //foreign_payment
         Route::get('foreign_payment',[foreignPaymentController::class,'index'])->name('foreign_payment');
 
+        //products
+        Route::get('products',[siteProductController::class,'index'])->name('products');
+        Route::get('product_detail/{product_id}',[siteProductController::class,'detail'])->name('product_detail');
+        Route::get('cart',[siteProductController::class,'cart'])->name('cart');
+
+
         //category_post
 //        Route::get('category_post',)
 
@@ -260,6 +268,14 @@ Route::namespace('App\Http\Controllers\user')
     ->group(function () {
         //dashboard
         Route::get('dashboard', [userDashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile', [userDashboardController::class, 'profile'])->name('profile');
+        Route::post('profile/update', [userDashboardController::class, 'profile_update'])->name('profile_update');
+        Route::post('change-pass', [userDashboardController::class, 'changePass'])->name('changePass');
+
+
+        //orders
+        Route::get('orders',[userOrderController::class,'index'])->name('orders');
+        Route::get('order_detail',[userOrderController::class,'detail'])->name('order_detail');
     });
 
 // *************************  user **********************************
@@ -273,6 +289,7 @@ Route::namespace('App\Http\Controllers\admin-norm')
     ->group(function () {
         //dashboard
         Route::get('dashboard', [adminNormDashboardController::class, 'index'])->name('dashboard');
+        Route::get('profile', [adminNormDashboardController::class, 'profile'])->name('profile');
     });
 
 // *************************  admin norm **********************************
@@ -299,7 +316,7 @@ Route::middleware('site_login_middleware')
     ->post('site_login_do', [loginController::class, 'site_login_do'])
     ->name('site_login_do');
 
-Route::post('/site_logout', function () {
+Route::get('/site_logout', function () {
     auth()->logout();
     return redirect()->route('site.home');
 })->name('site_logout');

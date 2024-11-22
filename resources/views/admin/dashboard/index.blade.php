@@ -10,19 +10,23 @@
                     <h1>داشبورد</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">پنل مدیریت</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="{{route('admin.dashboard')}}">
+                                    پنل مدیریت
+                                </a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">داشبورد</li>
                         </ol>
                     </nav>
                 </div>
 
                 <div class="col-md-6 col-sm-12 text-right hidden-xs">
-                    <a href="javascript:void(0);" class="btn btn-sm btn-primary">
+                    <a href="#" class="btn btn-sm btn-primary">
                         <i class="icon-settings"></i>
                         دکمه یک
                     </a>
 
-                    <a href="javascript:void(0);" class="btn btn-sm btn-success">
+                    <a href="#" class="btn btn-sm btn-success">
                         <i class="icon-settings"></i>
                         دکمه دو
                     </a>

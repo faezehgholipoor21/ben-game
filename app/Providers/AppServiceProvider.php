@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -53,6 +54,18 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer(['*'], function ($view) {
+            if (isset($_COOKIE['cart'])) {
+                $cart_count = Cart::query()
+                    ->where('cookie', $_COOKIE['cart'])
+                    ->count();
+            } else {
+                $cart_count = 0;
+            }
+
+            $view->with('cart_count', $cart_count);
+        });
+
+        View::composer(['*'], function ($view) {
             if (auth()->check()) {
                 $user_info = User::query()
                     ->where('id', auth()->id())
@@ -70,7 +83,7 @@ class AppServiceProvider extends ServiceProvider
                     ->where('id', auth()->id())
                     ->firstOrFail();
                 $role_user_info = RoleUser::query()
-                    ->where('user_id' , $user_info['id'])
+                    ->where('user_id', $user_info['id'])
                     ->first();
 
                 $role_id = $role_user_info['role_id'];

@@ -26,7 +26,6 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password',255);
             $table->string('address',255)->nullable()->default(null);
-            $table->unsignedInteger('role')->default(1)->comment('0:admin, 1:user');
             $table->unsignedInteger('is_active')->default(1);
             $table->rememberToken();
             $table->timestamps();

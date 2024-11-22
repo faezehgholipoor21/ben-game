@@ -3,6 +3,11 @@
 @section('Title')
     پنل مدیریت | افزودن دسته بندی جدید محصولات
 @endsection
+@section('custom-css')
+@endsection
+@section('custom-js')
+
+@endsection
 
 @section('content')
     <div class="container-fluid">
