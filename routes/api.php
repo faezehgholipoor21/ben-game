@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\site\products\siteProductController;
+use App\Http\Controllers\site\cart\siteCartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,8 +19,8 @@ Route::namespace('App\Http\Controllers\api')
     ->group(function () {
         //general
 //        Route::post('get-car-models-with-brand', [generalApiController::class, 'get_car_models_with_brand'])->name('get_car_models_with_brand');
-        Route::post('/addToCart', [siteProductController::class, 'addToCart'])->name('addToCart');
-        Route::post('/updateCart', [siteProductController::class, 'updateCart'])->name('updateCart');
+        Route::post('/addToCart', [siteCartController::class, 'addToCart'])->name('addToCart');
+        Route::post('/updateCart', [siteCartController::class, 'updateCart'])->name('updateCart');
 //        Route::post('/removeFromCart', [generalApiController::class, 'removeFromCart'])->name('removeFromCart');
     });
 

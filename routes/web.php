@@ -38,6 +38,9 @@ use App\Http\Controllers\site\login\forgotPasswordController;
 use App\Http\Controllers\site\google_play\googlePlayController;
 use App\Http\Controllers\site\foreign_payment\foreignPaymentController;
 use App\Http\Controllers\site\products\siteProductController;
+use App\Http\Controllers\site\cart\siteCartController;
+use App\Http\Controllers\site\checkout\siteCheckoutController;
+use App\Http\Controllers\site\order\siteOrderController;
 
 
 //user
@@ -219,42 +222,48 @@ Route::namespace('App\Http\Controllers\site')
         Route::post('contact_store', [contactController::class, 'store'])->name('contact_store');
 
         //faq
-        Route::get('faq',[faqController::class,'index'])->name('faq');
+        Route::get('faq', [faqController::class, 'index'])->name('faq');
 
-        Route::get('get_faqs/{cat_id}',[faqController::class,'get_faqs'])->name('get_faqs');
+        Route::get('get_faqs/{cat_id}', [faqController::class, 'get_faqs'])->name('get_faqs');
 
         //rule
-        Route::get('rule',[ruleController::class,'index'])->name('rule');
-        Route::get('rule_detail/{id}',[ruleController::class,'detail'])->name('rule_detail');
+        Route::get('rule', [ruleController::class, 'index'])->name('rule');
+        Route::get('rule_detail/{id}', [ruleController::class, 'detail'])->name('rule_detail');
 
         //blog
-        Route::get('blog',[blogController::class,'index'])->name('blog');
+        Route::get('blog', [blogController::class, 'index'])->name('blog');
 
         //blog_single
-        Route::get('blog_single',[blogSingleController::class,'index'])->name('blog_single');
+        Route::get('blog_single', [blogSingleController::class, 'index'])->name('blog_single');
 
         //register
-        Route::get('register',[registerController::class,'index'])->name('register');
+        Route::get('register', [registerController::class, 'index'])->name('register');
 
-        Route::post('user_store',[registerController::class,'store'])->name('user_store');
+        Route::post('user_store', [registerController::class, 'store'])->name('user_store');
 
         //forgot-password
-        Route::get('forgot-password',[forgotPasswordController::class,'index'])->name('forgot-password');
+        Route::get('forgot-password', [forgotPasswordController::class, 'index'])->name('forgot-password');
 
         //google_play
-        Route::get('google_play',[googlePlayController::class,'index'])->name('google_play');
+        Route::get('google_play', [googlePlayController::class, 'index'])->name('google_play');
 
         //foreign_payment
-        Route::get('foreign_payment',[foreignPaymentController::class,'index'])->name('foreign_payment');
+        Route::get('foreign_payment', [foreignPaymentController::class, 'index'])->name('foreign_payment');
 
         //products
-        Route::get('products',[siteProductController::class,'index'])->name('products');
-        Route::get('product_detail/{product_id}',[siteProductController::class,'detail'])->name('product_detail');
-        Route::get('cart',[siteProductController::class,'cart'])->name('cart');
+        Route::get('products', [siteProductController::class, 'index'])->name('products');
+        Route::get('product_detail/{product_id}', [siteProductController::class, 'detail'])->name('product_detail');
 
+        //cart
+        Route::get('cart', [siteCartController::class, 'cart'])->name('cart');
 
-        //category_post
-//        Route::get('category_post',)
+        //checkout
+        Route::middleware(['userAuth'])->get('checkout', [siteCheckoutController::class, 'index'])->name('checkout');
+
+        //order
+        Route::middleware(['userAuth'])->post('order',[siteOrderController::class,'submitOrder'])->name('submitOrder');
+        Route::middleware(['userAuth'])->get('update-order-after-pay/{order_id}', [siteOrderController::class, 'update_order_after_pay'])->name('update_order_after_pay');
+
 
     });
 
@@ -274,8 +283,8 @@ Route::namespace('App\Http\Controllers\user')
 
 
         //orders
-        Route::get('orders',[userOrderController::class,'index'])->name('orders');
-        Route::get('order_detail',[userOrderController::class,'detail'])->name('order_detail');
+        Route::get('orders', [userOrderController::class, 'index'])->name('orders');
+        Route::get('order_detail', [userOrderController::class, 'detail'])->name('order_detail');
     });
 
 // *************************  user **********************************

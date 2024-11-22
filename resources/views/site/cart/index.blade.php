@@ -333,8 +333,8 @@
                                     </li>
                                 </ul>
                                 <div class="text-end mt-40">
-                                    <a href="#" class="theme-btn">
-                                        اکنون تسویه حساب کنید
+                                    <a href="{{route('site.checkout')}}" class="theme-btn w-100 d-block">
+                                        تسویه حساب
                                         <i class="fas fa-arrow-left-long"></i>
                                     </a>
                                 </div>

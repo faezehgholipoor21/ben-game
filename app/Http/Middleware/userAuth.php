@@ -21,7 +21,8 @@ class userAuth
             $user_info = User::query()
                 ->where('id', auth()->id())
                 ->whereRelation('roles', 'role_id', '=', 2)
-                ->firstOrFail();
+                ->first();
+
 
             if ($user_info) {
                 return $next($request);
