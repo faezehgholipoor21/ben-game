@@ -11,7 +11,7 @@ $(function () {
     drawMouseSpeedDemo();
 });
 
-//Taken from http://omnipotent.net/jquery.sparkline 
+//Taken from http://omnipotent.net/jquery.sparkline
 function drawDocSparklines() {
 
     // Bar + line composite charts
@@ -78,7 +78,7 @@ function drawDocSparklines() {
     $('.sparkboxplotraw').sparkline([1, 3, 5, 8, 10, 15, 18],
         { type: 'box', raw: true, showOutliers: true, target: 6 });
 
-    // Box plot with specific field order
+    // Box plot with specific field orders
     $('.boxfieldorder').sparkline('html', {
         type: 'box',
         tooltipFormatFieldlist: ['med', 'lq', 'uq'],

@@ -48,11 +48,13 @@ class siteOrderController extends Controller
         foreach ($cart['cart'] as $product) {
             OrderDetail::query()->create([
                 'order_id' => $order['id'],
-                'product_id' => $product['id'],
+                'product_id' => $product['product_id'],
                 'count' => $product['count'],
                 'bought_price' => $product['bought_price'],
             ]);
         }
+
+        $this->deleteCart();
 
         if (intval($input['gateway']) === 1) {
             $MerchantID = env('ZARINPAL_MERCHEND_CODE');
@@ -109,54 +111,19 @@ class siteOrderController extends Controller
         ];
     }
 
-    function getOrderInfo(Request $request): \Illuminate\Http\JsonResponse
+    function deleteCart(): void
     {
-        $user = request()->user();
-
-        $input = $request->all();
-
-        $validation = Validator::make($input, [
-            'order_id' => 'required|string|max:255|exists:orders,id',
-        ]);
-
-        if ($validation->fails()) {
-            return response()->json([
-                'error' => true,
-                'message' => 'صفحه مورد نظر یافت نشد'
-            ]);
+        if (isset($_COOKIE['cart'])) {
+            $cart = Cart::query()
+                ->with(['product'])
+                ->where('cookie', $_COOKIE['cart'])
+                ->get();
+        } else {
+            $cart = [];
         }
 
-        $order_info = Order::query()
-            ->where('user_id', '=', $user['id'])
-            ->where('id', '=', $input['order_id'])
-            ->first();
-
-        if (!$order_info) {
-            return response()->json([
-                'error' => true,
-                'message' => 'صفحه مورد نظر یافت نشد'
-            ]);
-        } else {
-            $order_detail = $order_info->orderDetail;
-
-            $total_price = 0;
-            foreach ($order_detail as $item) {
-                $total_price += $item['bought_price'];
-
-                $item['main_img'] = getProductMainImage($item['product_id']);
-                $item['product_info'] = $item->productInfo()->first(['title', 'nickname']);
-
-                $item['bought_price_seperated'] = @number_format($item['bought_price']);
-                $item['item_total_price_seperated'] = @number_format($item['bought_price'] * $item['count']);
-            }
-
-            return response()->json([
-                'error' => false,
-                'message' => '',
-                'order_info' => $order_info,
-                'order_detail' => $order_detail,
-                'total_price' => @number_format($total_price),
-            ]);
+        foreach ($cart as $item) {
+            $item->delete();
         }
     }
 
@@ -166,7 +133,13 @@ class siteOrderController extends Controller
 
         $order = Order::query()
             ->where('id', $order_id)
-            ->first();
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $products = OrderDetail::query()
+            ->with(['product'])
+            ->where('order_id', $order_id)
+            ->get();
 
         if ($order) {
             $verify_result = $this->verify(env("ZARINPAL_MERCHEND_CODE"), $order->total_price, $order->authority, true);
@@ -190,9 +163,7 @@ class siteOrderController extends Controller
             }
         }
 
-        $link = env('ZARINPAL_CALLBACK') . "/" . $order_id;
-
-        return view('pay.after_pay', compact('link'));
+        return view('site.verify.index', compact('order', 'products'));
     }
 
     function verify($MerchantID, $Amount, $authority, $SandBox = false, $ZarinGate = false): array

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('mobile',11)->nullable()->default(null);
             $table->unsignedTinyInteger('gender')->nullable()->default(null);
             $table->string('national_code',11)->nullable()->default(null);
-            $table->string('user_image',255)->nullable()->default(null);
+            $table->string('user_image',255)->nullable()->default('admin/assets/images/placeholders/user_placeholder.png');
             $table->date('birth_day')->nullable()->default(null);
             $table->string('email',255)->unique();
             $table->timestamp('email_verified_at')->nullable();

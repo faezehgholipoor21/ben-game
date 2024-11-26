@@ -2,11 +2,10 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 
-class adminNormAuth
+class checkIsLogin
 {
     /**
      * Handle an incoming request.
@@ -18,21 +17,9 @@ class adminNormAuth
     public function handle(Request $request, Closure $next)
     {
         if (auth()->check()) {
-            $user_info = User::query()
-                ->where('id', auth()->id())
-                ->whereRelation('roles', 'role_id', '=', 3)
-                ->first();
-
-
-            if ($user_info) {
-                return $next($request);
-            } else {
-                auth()->logout();
-                return redirect()->route('login.view');
-            }
+            return $next($request);
         } else {
-            auth()->logout();
-            return redirect()->route('login.view');
+            return redirect()->route('site_login', ['redirect' => 'checkout']);
         }
     }
 }

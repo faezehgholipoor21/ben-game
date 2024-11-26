@@ -1066,7 +1066,7 @@ Markdown.dialects.Gruber.inline["*"]  = strong_em("em", "*");
 Markdown.dialects.Gruber.inline["_"]  = strong_em("em", "_");
 
 
-// Build default order from insertion order.
+// Build default orders from insertion orders.
 Markdown.buildBlockOrder = function(d) {
   var ord = [];
   for ( var i in d ) {

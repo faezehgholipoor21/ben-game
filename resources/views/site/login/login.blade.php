@@ -43,8 +43,8 @@
                         <form action="{{route('site_login_do')}}" method="post">
                             @csrf
                             <div class="form-group">
-                                <label>شناسه کاربری</label>
-                                <input type="text" class="form-control" name="national_code" placeholder="شناسه کاربری">
+                                <label>نام کاربری</label>
+                                <input type="text" class="form-control" name="username" placeholder="نام کاربری">
                             </div>
                             <div class="form-group">
                                 <label>رمز عبور</label>

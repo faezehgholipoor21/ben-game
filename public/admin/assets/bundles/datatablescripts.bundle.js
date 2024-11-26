@@ -2163,16 +2163,16 @@
 		var e = this.context,
 			n = this[0];
 		return t === j ? e.length && n.length ? R(e[0], n[0].row, n[0].column) : j : (a(e[0], n[0].row, n[0].column, t), r(e[0], n[0].row, "data", n[0].column), this)
-	}), Xt("order()", function (e, t) {
+	}), Xt("orders()", function (e, t) {
 		var n = this.context;
 		return e === j ? 0 !== n.length ? n[0].aaSorting : j : ("number" == typeof e ? e = [[e, t]] : e.length && !P.isArray(e[0]) && (e = Array.prototype.slice.call(arguments)), this.iterator("table", function (t) {
 			t.aaSorting = e.slice()
 		}))
-	}), Xt("order.listener()", function (e, n, a) {
+	}), Xt("orders.listener()", function (e, n, a) {
 		return this.iterator("table", function (t) {
 			Ct(t, e, n, a)
 		})
-	}), Xt("order.fixed()", function (e) {
+	}), Xt("orders.fixed()", function (e) {
 		if (!e) {
 			var t = (t = this.context).length ? t[0].aaSortingFixed : j;
 			return P.isArray(t) ? {
@@ -2182,7 +2182,7 @@
 		return this.iterator("table", function (t) {
 			t.aaSortingFixed = P.extend(!0, {}, e)
 		})
-	}), Xt(["columns().order()", "column().order()"], function (a) {
+	}), Xt(["columns().orders()", "column().orders()"], function (a) {
 		var r = this;
 		return this.iterator("table", function (t, e) {
 			var n = [];
@@ -2780,12 +2780,12 @@
 	}), Bt(""), P.extend(!0, qt.ext.renderer, {
 		header: {
 			_: function (r, o, i, l) {
-				P(r.nTable).on("order.dt.DT", function (t, e, n, a) {
+				P(r.nTable).on("orders.dt.DT", function (t, e, n, a) {
 					r === e && (t = i.idx, o.removeClass(i.sSortingClass + " " + l.sSortAsc + " " + l.sSortDesc).addClass("asc" == a[t] ? l.sSortAsc : "desc" == a[t] ? l.sSortDesc : i.sSortingClass))
 				})
 			},
 			jqueryui: function (r, o, i, l) {
-				P("<div/>").addClass(l.sSortJUIWrapper).append(o.contents()).append(P("<span/>").addClass(l.sSortIcon + " " + i.sSortingClassJUI)).appendTo(o), P(r.nTable).on("order.dt.DT", function (t, e, n, a) {
+				P("<div/>").addClass(l.sSortJUIWrapper).append(o.contents()).append(P("<span/>").addClass(l.sSortIcon + " " + i.sSortingClassJUI)).appendTo(o), P(r.nTable).on("orders.dt.DT", function (t, e, n, a) {
 					r === e && (t = i.idx, o.removeClass(l.sSortAsc + " " + l.sSortDesc).addClass("asc" == a[t] ? l.sSortAsc : "desc" == a[t] ? l.sSortDesc : i.sSortingClass), o.find("span." + l.sSortIcon).removeClass(l.sSortJUIAsc + " " + l.sSortJUIDesc + " " + l.sSortJUI + " " + l.sSortJUIAscAllowed + " " + l.sSortJUIDescAllowed).addClass("asc" == a[t] ? l.sSortJUIAsc : "desc" == a[t] ? l.sSortJUIDesc : i.sSortingClassJUI))
 				})
 			}

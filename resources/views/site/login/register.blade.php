@@ -3,18 +3,24 @@
     سایت بازی
 @endsection
 
-@section('css')
+@section('custom-css')
 
 @endsection
 
-@section('js')
+@section('custom-js')
     <script>
+        // اطمینان از لود کامل جاوااسکریپت
         document.addEventListener('DOMContentLoaded', function () {
-            const termsCheckbox = document.getElementById('agree');
-            const registerButton = document.getElementById('registerBtn');
+            const checkbox = document.getElementById('agree');
+            const registerBtn = document.getElementById('registerBtn');
 
-            termsCheckbox.addEventListener('change', function () {
-                registerButton.disabled = !termsCheckbox.checked;
+            // افزودن رویداد به چک‌باکس
+            checkbox.addEventListener('change', function () {
+                if (this.checked) {
+                    registerBtn.disabled = false; // فعال کردن دکمه
+                } else {
+                    registerBtn.disabled = true; // غیرفعال کردن دکمه
+                }
             });
         });
     </script>
@@ -78,7 +84,7 @@
                                     <input type="text" class="form-control" name="email" placeholder="ایمیل شما">
                                 </div>
                                 <div class="col-12 mt-3">
-                                    <input class="form-check-input" type="checkbox" value id="agree">
+                                    <input class="form-check-input" type="checkbox" id="agree">
                                     <label class="form-check-label" for="agree">
                                         من با
                                         <a href="#">

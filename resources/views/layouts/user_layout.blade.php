@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="{{asset('site/assets/css/jquery-ui.min.css')}}">
     <link rel="stylesheet" href="{{asset('site/assets/css/nice-select.min.css')}}">
     <link rel="stylesheet" href="{{asset('site/assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('admin/assets/vendor/dropify/css/dropify.min.css')}}">
+
 
     <style>
         .header-top{
@@ -587,5 +589,9 @@
 <script src="{{asset('site/assets/js/apexcharts.min.js')}}"></script>
 <script src="{{asset('site/assets/js/apexchart-custom.js')}}"></script>
 <script src="{{asset('site/assets/js/main.js')}}"></script>
+<script src="{{asset('admin/assets/vendor/dropify/js/dropify.js')}}"></script>
+<script src="{{asset('/vendor/sweetalert/sweetalert.all.js')}}"></script>
+@include('sweetalert::alert')
+@yield('custom-js')
 </body>
 </html>

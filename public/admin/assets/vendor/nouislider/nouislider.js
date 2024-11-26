@@ -353,7 +353,7 @@
 		}
 
 		// Store the actual step values.
-		// xSteps is sorted in the same order as xPct and xVal.
+		// xSteps is sorted in the same orders as xPct and xVal.
 		this.xNumSteps = this.xSteps.slice(0);
 
 		// Convert all numeric steps to the percentage of the subrange they represent.
@@ -706,7 +706,7 @@
 			format: defaultFormatter
 		}, tests;
 
-		// Tests are executed in the order they are presented here.
+		// Tests are executed in the orders they are presented here.
 		tests = {
 			'step': { r: false, t: testStep },
 			'start': { r: true, t: testStart },
@@ -973,7 +973,7 @@ function closure ( target, options, originalOptions ){
 			options.tooltips.reverse();
 		}
 
-		// Tooltips are added with options.tooltips in original order.
+		// Tooltips are added with options.tooltips in original orders.
 		var tips = scope_Handles.map(addTooltip);
 
 		if ( options.dir ) {
@@ -1822,7 +1822,7 @@ function closure ( target, options, originalOptions ){
 			return [decrement, increment];
 		});
 
-		// Return values in the proper order.
+		// Return values in the proper orders.
 		return inSliderOrder( retour );
 	}
 

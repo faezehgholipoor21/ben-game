@@ -18,12 +18,15 @@ class adminAuth
     public function handle(Request $request, Closure $next)
     {
         if (auth()->check()) {
+
             $user_info = User::query()
                 ->where('id', auth()->id())
                 ->firstOrFail();
+
             $roles = $user_info->roles;
 
             $hasRole = false;
+
             foreach ($roles as $role) {
                 if ($role->id == 1) {
                     $hasRole = true;

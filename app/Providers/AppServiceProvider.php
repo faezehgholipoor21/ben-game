@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\Order;
 use App\Models\RoleUser;
 use App\Models\User;
 use Illuminate\Pagination\Paginator;
@@ -51,6 +52,13 @@ class AppServiceProvider extends ServiceProvider
                 ->get();
 
             $view->with('category_info', $category_info);
+        });
+
+        View::composer(['*'], function ($view) {
+            $full_order_count = Order::query()
+                ->count();
+
+            $view->with('full_order_count', $full_order_count);
         });
 
         View::composer(['*'], function ($view) {

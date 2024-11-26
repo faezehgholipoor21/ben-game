@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\RoleUser;
 use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
@@ -11,8 +12,8 @@ class userAuth
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
@@ -20,19 +21,25 @@ class userAuth
         if (auth()->check()) {
             $user_info = User::query()
                 ->where('id', auth()->id())
-                ->whereRelation('roles', 'role_id', '=', 2)
                 ->first();
 
-
             if ($user_info) {
-                return $next($request);
-            } else {
-                auth()->logout();
-                return redirect()->route('login.view');
+
+                $role_user_info = RoleUser::query()
+                    ->where('user_id', $user_info['id'])
+                    ->first();
+
+                if ($role_user_info['role_id'] == 2) {
+                    return redirect()->route('user.dashboard');
+                } elseif ($role_user_info['role_id'] == 3) {
+                    return redirect()->route('admin_norm.dashboard');
+                } else {
+                    auth()->logout();
+                    return redirect()->route('user.login');
+                }
             }
         } else {
-            auth()->logout();
-            return redirect()->route('login.view');
+            return redirect()->route('user.login');
         }
     }
 }

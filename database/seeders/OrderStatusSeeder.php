@@ -18,35 +18,35 @@ class OrderStatusSeeder extends Seeder
         DB::table('order_status')->insert([
             [
                 'title' => 'در حال بررسی',
-                'order_class' => 'badge-info',
+                'order_class' => 'new_under_review',
             ],
             [
                 'title' => 'تکمیل شده',
-                'order_class' => 'badge-info',
+                'order_class' => 'far fa-check-circle',
             ],
             [
                 'title' => 'اطلاعات اشتباه',
-                'order_class' => 'badge-danger',
+                'order_class' => 'badge badge-danger',
             ],
             [
                 'title' => 'عدم پاسخ',
-                'order_class' => 'badge-danger',
+                'order_class' => 'no_response',
             ],
             [
                 'title' => 'نیاز به احراز هویت',
-                'order_class' => 'badge-danger',
+                'order_class' => 'badge badge-primary',
             ],
             [
                 'title' => 'مغایرت محصول یا موجود نبودن',
-                'order_class' => 'badge-danger',
+                'order_class' => 'not_available',
             ],
             [
                 'title' => 'در حال استرداد مبلغ',
-                'order_class' => 'badge-danger',
+                'order_class' => 'refunding_the_amount',
             ],
             [
                 'title' => 'مسترد شده',
-                'order_class' => 'badge-danger',
+                'order_class' => 'refunded',
             ],
         ]);
     }

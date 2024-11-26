@@ -49,6 +49,7 @@ use App\Http\Controllers\user\orders\userOrderController;
 
 //admin norm
 use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
+use App\Http\Controllers\admin_norm\orders\admin_normOrderController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -258,12 +259,11 @@ Route::namespace('App\Http\Controllers\site')
         Route::get('cart', [siteCartController::class, 'cart'])->name('cart');
 
         //checkout
-        Route::middleware(['userAuth'])->get('checkout', [siteCheckoutController::class, 'index'])->name('checkout');
+        Route::middleware(['checkIsLogin'])->get('checkout', [siteCheckoutController::class, 'index'])->name('checkout');
 
-        //order
-        Route::middleware(['userAuth'])->post('order',[siteOrderController::class,'submitOrder'])->name('submitOrder');
-        Route::middleware(['userAuth'])->get('update-order-after-pay/{order_id}', [siteOrderController::class, 'update_order_after_pay'])->name('update_order_after_pay');
-
+        //orders
+        Route::middleware(['checkIsLogin'])->post('submitOrder', [siteOrderController::class, 'submitOrder'])->name('submitOrder');
+        Route::middleware(['checkIsLogin'])->get('update-orders-after-pay/{order_id}', [siteOrderController::class, 'update_order_after_pay'])->name('update_order_after_pay');
 
     });
 
@@ -271,7 +271,7 @@ Route::namespace('App\Http\Controllers\site')
 // *************************  user **********************************
 
 Route::namespace('App\Http\Controllers\user')
-    ->middleware('userAuth')
+//    ->middleware('userAuth')
     ->name('user.')
     ->prefix('/user-panel')
     ->group(function () {
@@ -292,19 +292,27 @@ Route::namespace('App\Http\Controllers\user')
 // *************************  admin norm **********************************
 
 Route::namespace('App\Http\Controllers\admin-norm')
-    ->middleware('admin_norm_middleware')
+//    ->middleware('userAuth')
     ->name('admin_norm.')
     ->prefix('/admin-norm-panel')
     ->group(function () {
-        //dashboard
+        //dashboard & profile
         Route::get('dashboard', [adminNormDashboardController::class, 'index'])->name('dashboard');
         Route::get('profile', [adminNormDashboardController::class, 'profile'])->name('profile');
+        Route::post('update', [adminNormDashboardController::class, 'update'])->name('update');
+
+        //orders
+        Route::get('orders', [admin_normOrderController::class, 'index'])->name('orders');
+        Route::get('order_detail/{order_id}', [admin_normOrderController::class, 'detail'])->name('order_detail');
+        Route::post('change_order_status', [admin_normOrderController::class, 'change_order_status'])->name('change_order_status');
+        Route::get('order_allocation/{order_id}', [admin_normOrderController::class, 'order_allocation'])->name('order_allocation');
+
     });
 
 // *************************  admin norm **********************************
 
 //login & logout
-Route::middleware('loginMiddleware')
+Route::middleware('checkAdminLoginMiddleware')
     ->get('/admin-login', [adminLoginController::class, 'index'])->name('login.view');
 
 Route::post('/login/do', [adminLoginController::class, 'do_login'])->name('login.do');
@@ -317,11 +325,11 @@ Route::post('/logout', function () {
 
 //site login and logout
 
-Route::middleware('site_login_middleware')
+Route::middleware('checkIsGuest')
     ->get('site_login', [loginController::class, 'index'])
     ->name('site_login');
 
-Route::middleware('site_login_middleware')
+Route::middleware('checkIsGuest')
     ->post('site_login_do', [loginController::class, 'site_login_do'])
     ->name('site_login_do');
 

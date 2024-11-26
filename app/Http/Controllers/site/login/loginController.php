@@ -14,30 +14,41 @@ class loginController extends Controller
         return view('site.login.login');
     }
 
-    public function site_login_do(Request $request){
+    public function site_login_do(Request $request)
+    {
         $input = $request->all();
 
-        $national_code = $input['national_code'];
+        $username = $input['username'];
         $password = $input['password'];
 
         $user_info = User::query()
-            ->where('national_code' , $national_code)
+            ->where('national_code', $username)
             ->first();
 
-        $user_role_info = RoleUser::query()
-            ->where('user_id' , $user_info['id'])
-            ->first();
+        if (!$user_info) {
+            alert()->error('', 'کلمه عبور یا نام کاربری اشتباه است.');
+            return back()->withErrors(['auth' => 'کلمه عبور یا نام کاربری اشتباه است.']);
+        }
 
-        if (auth()->attempt(['national_code' => $national_code, 'password' => $password])) {
-                if ($user_role_info['role_id'] == 2){
+        if (password_verify($password, $user_info['password'])) {
+            $roles = $user_info->roles;
+
+            foreach ($roles as $role) {
+                if ($role['id'] === 2) {
+                    auth()->login($user_info);
+                    toast()->success('', 'با موفقیت وارد شدید');
                     return redirect()->route('user.dashboard');
-                }
-                elseif($user_role_info['role_id'] == 3){
+                } elseif ($role['id'] === 3) {
+                    auth()->login($user_info);
+                    toast()->success('', 'با موفقیت وارد شدید');
                     return redirect()->route('admin_norm.dashboard');
                 }
+            }
 
+            alert()->error('', 'حساب کاربری شما مشکل دارد، لطفا با پشتیبانی تماس بگیرید.');
+            return back()->withErrors(['auth' => 'حساب کاربری شما مشکل دارد، لطفا با پشتیبانی تماس بگیرید.']);
         } else {
-            alert()->error('','کلمه عبور یا نام کاربری اشتباه است.');
+            alert()->error('', 'کلمه عبور یا نام کاربری اشتباه است.');
             return back()->withErrors(['auth' => 'کلمه عبور یا نام کاربری اشتباه است.']);
         }
     }

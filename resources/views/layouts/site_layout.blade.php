@@ -219,9 +219,9 @@
                                         <div class="col-lg-3">
                                             <div class="category-single">
                                                 <div class="category-link">
-                                                    <a href="#"><img
-                                                            src="{{asset('site/assets/img/category_post/05.jpg')}}"
-                                                            alt></a>
+                                                    <a href="#">
+                                                        <img src="{{asset('site/assets/img/category_post/05.jpg')}}" alt>
+                                                    </a>
                                                     <a href="#">اسباب‌بازی‌های کودکان</a>
                                                 </div>
                                             </div>

@@ -267,7 +267,7 @@ var ui = {
 /**
  * @class core.func
  *
- * func utils (for high-order func's arg)
+ * func utils (for high-orders func's arg)
  *
  * @singleton
  * @alternateClassName func
@@ -6865,7 +6865,7 @@ var Context = /** @class */ (function () {
     };
     Context.prototype._destroy = function () {
         var _this = this;
-        // destroy modules with reversed order
+        // destroy modules with reversed orders
         Object.keys(this.modules).reverse().forEach(function (key) {
             _this.removeModule(key);
         });

@@ -12,6 +12,11 @@ class Role extends Model
     protected $table = 'roles';
     protected $guarded = [];
 
+    protected $casts = [
+      'role_id' => 'integer',
+      'user_id' => 'integer',
+    ];
+
     function users() {
         return $this->belongsToMany(User::class);
     }
