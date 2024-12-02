@@ -74,6 +74,8 @@ class adminProductController extends Controller
         }
 
         $price = str_replace(",", "", $input['product_price']);
+        $force_price = str_replace(",", "", $input['product_force_price']);
+
 
         $product_info = Product::query()->create([
             'product_name' => $input['product_name'],
@@ -82,6 +84,7 @@ class adminProductController extends Controller
             'product_meta_keywords' => $input['product_meta_keywords'],
             'product_content' => $input['product_content'],
             'product_price' => $price,
+            'product_force_price' => $force_price,
             'inventory' =>  $input['inventory'],
             'cat_id' => $input['cat_id'],
             'game_account_id' => $input['account_name'],
@@ -163,6 +166,7 @@ class adminProductController extends Controller
         }
 
         $price = str_replace(",", "", $input['product_price']);
+        $force_price = str_replace(",", "", $input['product_force_price']);
 
         $product_info->update([
             'product_name' => $input['product_name'],
@@ -171,6 +175,7 @@ class adminProductController extends Controller
             'product_meta_keywords' => $input['product_meta_keywords'],
             'product_content' => $input['product_content'],
             'product_price' => $price,
+            'product_force_price' => $force_price,
             'inventory' =>  $input['inventory'],
         ]);
 

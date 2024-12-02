@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('product_meta_keywords', 500);
             $table->string('product_meta_description', 500);
             $table->integer('product_price');
+            $table->integer('product_force_price')->default(0);
             $table->integer('cat_id');
             $table->integer('game_account_id');
             $table->integer('inventory')->default(1);

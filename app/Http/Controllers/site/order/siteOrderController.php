@@ -35,6 +35,7 @@ class siteOrderController extends Controller
             'order_status' => 1,
             'payment_status_id' => 1,
             'total_price' => $cart['total_price'],
+            'is_force' => $cart['cart'][0]['is_force'],
             'user_id' => $user->id,
             'gateway' => $input['gateway'],
         ]);
@@ -101,8 +102,13 @@ class siteOrderController extends Controller
         $total_price = 0;
 
         foreach ($cart as $item) {
-            $total_price += ($item['product']['product_price']) * $item['count'];
-            $item['bought_price'] = $item['product']['product_price'];
+            if ($item['is_force'] == 1) {
+                $total_price += ($item['product']['product_force_price']) * $item['count'];
+                $item['bought_price'] = $item['product']['product_force_price'];
+            } else {
+                $total_price += ($item['product']['product_price']) * $item['count'];
+                $item['bought_price'] = $item['product']['product_price'];
+            }
         }
 
         return [

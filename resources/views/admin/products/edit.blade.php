@@ -93,6 +93,15 @@
                                                class="form-control text-right" name="product_price"
                                                oninput="formatNumber(this)">
                                     </div>
+                                    <div class="col-12 mt-4">
+                                        <label>قیمت فوری محصول(تومان)</label>
+                                        @error('product_force_price')
+                                        <span class="validation_label_error">{{$message}}</span>
+                                        @enderror
+                                        <input value="{{number_format($product_info['product_force_price'])}}" type="text"
+                                               class="form-control text-right" name="product_force_price"
+                                               oninput="formatNumber(this)">
+                                    </div>
                                 </div>
                             </div>
 

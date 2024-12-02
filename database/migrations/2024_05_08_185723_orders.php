@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('total_price', 250);
+            $table->boolean('is_force')->default(0);
             $table->string('order_status', 250);
             $table->string('discount_price', 250);
             $table->string('payment_type', 250);

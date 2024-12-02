@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('cookie', 100);
             $table->unsignedBigInteger('count');
+            $table->boolean('is_force')->default(0);
             $table->timestamps();
         });
     }

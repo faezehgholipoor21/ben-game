@@ -509,10 +509,10 @@
                                                         </div>
                                                         <div class="col-lg-12">
                                                             <button type="button" class="theme-btn theme-btn2"><span
-                                                                    class="fas fa-arrow-right"></span>قبلی
+                                                                        class="fas fa-arrow-right"></span>قبلی
                                                             </button>
                                                             <button type="submit" class="theme-btn">مرحله بعدی<i
-                                                                    class="fas fa-arrow-left"></i></button>
+                                                                        class="fas fa-arrow-left"></i></button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -582,8 +582,8 @@
                                                            aria-controls="pills-4" aria-selected="false">
                                                             <div class="checkout-payment-img cod">
                                                                 <img
-                                                                    src="{{asset('site/assets/img/payment/zarinpal-logo-min.png')}}"
-                                                                    alt>
+                                                                        src="{{asset('site/assets/img/payment/zarinpal-logo-min.png')}}"
+                                                                        alt>
                                                             </div>
                                                             <span>پرداخت زرین پال</span>
                                                         </a>
@@ -724,11 +724,14 @@
                     @endphp
                     @foreach($cart as $item)
                         @php
-
-                            $price = $item->product->product_price ;
-                            $count = $item['count'] ;
-                            $inventory = $item->product->inventory ;
-                            $total_price += $price * $count ;
+                            if ($item->is_force == 1){
+                                $price = $item->product->product_force_price ;
+                            }else{
+                                 $price = $item->product->product_price ;
+                                 }
+                             $count = $item['count'] ;
+                             $inventory = $item->product->inventory ;
+                             $total_price += $price * $count ;
                         @endphp
                     @endforeach
                     <div class="col-lg-4">

@@ -13,6 +13,64 @@
             border-radius: 10px;
             box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, .5);
         }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        /* خود چک‌باکس */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        /* ظاهر سوئیچ */
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 25px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 19px;
+            width: 19px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        /* تغییر رنگ در حالت روشن */
+        input:checked + .slider {
+            background-color: #ce0414;
+        }
+
+        /* جابجایی دایره در حالت روشن */
+        input:checked + .slider:before {
+            transform: translateX(25px);
+        }
+        .force_div{
+            background-color: #f27b91;
+            display: inline-block;
+            padding: 5px;
+            border-radius: 10px;
+            border-color: red;
+            color: #000;
+            font-size: 10px;
+            line-height: 30px;
+        }
     </style>
 @endsection
 
@@ -21,6 +79,20 @@
     <script>
         let product_quantity = $("#product_quantity");
         let cart_count_span = $("#cart_count_span");
+
+        const toggleSwitch = document.getElementById('toggleSwitch');
+        const force_value = document.getElementById('force_value');
+
+        // تغییر مقدار input مخفی بر اساس وضعیت سوئیچ
+        toggleSwitch.addEventListener('change', () => {
+            if (toggleSwitch.checked) {
+                force_value.value = "1";
+            } else {
+                force_value.value = "0";
+            }
+        });
+
+
 
         function show_sweetalert_msg(msg, icon) {
             new swal({
@@ -86,6 +158,7 @@
                 product_id: '{{$product_info['id']}}',
                 count: product_quantity.val(),
                 cookie: cart_cookie.toString(),
+                force_value: force_value.value,
             };
 
             $.ajax({
@@ -285,14 +358,24 @@
                             <div class="row align-items-center">
                                 <div class="col-md-6 col-lg-12 col-xl-6">
                                     <div class="shop-single-btn">
+                                        <div class="force_div mb-3">
+                                            <span>خرید فوری ({{@number_format($product_info['product_force_price']) . 'تومان'}})</span>
+                                            <label class="switch">
+                                                <input type="checkbox" id="toggleSwitch">
+                                                <span class="slider"></span>
+                                            </label>
+                                            <input type="hidden" id="force_value" name="force_value" value="0">
+
+                                        </div>
                                         <button onclick="addToCart(this)" type="submit" class="theme-btn">
                                             <span class="far fa-shopping-bag"></span>
                                             افزودن به سبد خرید
                                         </button>
-                                        {{--                                        <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip"--}}
-                                        {{--                                           title="اضافه کردن به علاقه مندی ها"><span class="far fa-heart"></span></a>--}}
-                                        {{--                                        <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip"--}}
-                                        {{--                                           title="افزودن به مقایسه"><span class="far fa-arrows-repeat"></span></a>--}}
+
+
+
+{{--                                        <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip"--}}
+{{--                                           title="افزودن به مقایسه"><span class="far fa-arrows-repeat"></span></a>--}}
                                     </div>
                                 </div>
                                 {{--                                <div class="col-md-6 col-lg-12 col-xl-6">--}}
@@ -392,142 +475,142 @@
                             </div>
                         </div>
                     </div>
-{{--                    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="nav-tab3">--}}
-{{--                        <div class="shop-single-review">--}}
-{{--                            <div class="blog-comments mb-0">--}}
-{{--                                <h5>نظرات (05)</h5>--}}
-{{--                                <div class="blog-comments-wrapper">--}}
-{{--                                    <div class="blog-comments-single mt-0">--}}
-{{--                                        <img src="assets/img/blog/com-1.jpg" alt="thumb">--}}
-{{--                                        <div class="blog-comments-content">--}}
-{{--                                            <h5>سینکلر دنولا</h5>--}}
-{{--                                            <span><i class="far fa-clock"></i> 31 مهر 1402</span>--}}
-{{--                                            <p>لورم اپسیوم به سادگی متن ساختگی چاپ و حروفچینی است--}}
-{{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
-{{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
-{{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
-{{--                                                بلکه حروفچینی الکترونیکی جهشی اساساً باقی مانده است--}}
-{{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
-{{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
-{{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
-{{--                                                اپسیوم.</p>--}}
-{{--                                            <a href="#"><i class="far fa-reply"></i> پاسخ</a>--}}
-{{--                                            <div class="review-rating">--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="blog-comments-single ms-md-5">--}}
-{{--                                        <img src="assets/img/blog/com-2.jpg" alt="thumb">--}}
-{{--                                        <div class="blog-comments-content">--}}
-{{--                                            <h5>دانیل ولمن</h5>--}}
-{{--                                            <span><i class="far fa-clock"></i> 31 مهر 1402</span>--}}
-{{--                                            <p>لورم اپسیوم به سادگی متن ساختگی چاپ و حروفچینی است--}}
-{{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
-{{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
-{{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
-{{--                                                بلکه حروفچینی الکترونیکی جهشی اساساً باقی مانده است--}}
-{{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
-{{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
-{{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
-{{--                                                اپسیوم.</p>--}}
-{{--                                            <a href="#"><i class="far fa-reply"></i> پاسخ</a>--}}
-{{--                                            <div class="review-rating">--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="blog-comments-single">--}}
-{{--                                        <img src="assets/img/blog/com-3.jpg" alt="thumb">--}}
-{{--                                        <div class="blog-comments-content">--}}
-{{--                                            <h5>کنت ایوانز</h5>--}}
-{{--                                            <span><i class="far fa-clock"></i> 31 مهر 1402</span>--}}
-{{--                                            <p> لورم اپسیوم به ساده متن ساختگی چاپ و حروفچینی است--}}
-{{--                                                صنعت لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
-{{--                                                زمانی که یک چاپگر ناشناس یک گالری از نوعی را برداشت و آن را درهم ریخت--}}
-{{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
-{{--                                                بلکه حروفچینی الکترونیکی جهشی اساساً باقی مانده است--}}
-{{--                                                صنعت لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
-{{--                                                زمانی که یک چاپگر ناشناس یک گالری از نوعی را برداشت و آن را درهم ریخت--}}
-{{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
-{{--                                                اپسیوم.</p>--}}
-{{--                                            <a href="#"><i class="far fa-reply"></i> پاسخ</a>--}}
-{{--                                            <div class="review-rating">--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                                <i class="fas fa-star"></i>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="blog-comments-form">--}}
-{{--                                    <h4 class="mb-4">نظر بدهید</h4>--}}
-{{--                                    <form action="#">--}}
-{{--                                        <div class="row">--}}
-{{--                                            <div class="col-md-12">--}}
-{{--                                                <div class="form-group review-rating">--}}
-{{--                                                    <label>رتبه‌بندی شما</label>--}}
-{{--                                                    <div>--}}
-{{--                                                        <i class="fas fa-star"></i>--}}
-{{--                                                        <i class="fas fa-star"></i>--}}
-{{--                                                        <i class="fas fa-star"></i>--}}
-{{--                                                        <i class="fas fa-star"></i>--}}
-{{--                                                        <i class="fas fa-star"></i>--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-md-6">--}}
-{{--                                                <div class="form-group">--}}
-{{--                                                    <input type="text" class="form-control" placeholder="نام شما*">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-md-6">--}}
-{{--                                                <div class="form-group">--}}
-{{--                                                    <input type="email" class="form-control" placeholder="ایمیل شما*">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-md-6">--}}
-{{--                                                <div class="form-group">--}}
-{{--                                                    <input type="text" class="form-control" placeholder="موضوع شما*">--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-md-6">--}}
-{{--                                                <div class="form-group">--}}
-{{--                                                    <select class="form-control form-select">--}}
-{{--                                                        <option value>رتبه شما</option>--}}
-{{--                                                        <option value="5">5 ستاره</option>--}}
-{{--                                                        <option value="4">4 ستاره</option>--}}
-{{--                                                        <option value="3">3 ستاره</option>--}}
-{{--                                                        <option value="2">2 ستاره</option>--}}
-{{--                                                        <option value="1">1 ستاره</option>--}}
-{{--                                                    </select>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="col-md-12">--}}
-{{--                                                <div class="form-group">--}}
-{{--                                                     <textarea class="form-control" rows="5"--}}
-{{--                                                               placeholder="نظر شما*"></textarea>--}}
-{{--                                                </div>--}}
-{{--                                                <button type="submit" class="theme-btn"><span--}}
-{{--                                                        class="far fa-paper-plane"></span> ارسال نظر--}}
-{{--                                                </button>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </form>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="tab-pane fade" id="tab3" role="tabpanel" aria-labelledby="nav-tab3">--}}
+                    {{--                        <div class="shop-single-review">--}}
+                    {{--                            <div class="blog-comments mb-0">--}}
+                    {{--                                <h5>نظرات (05)</h5>--}}
+                    {{--                                <div class="blog-comments-wrapper">--}}
+                    {{--                                    <div class="blog-comments-single mt-0">--}}
+                    {{--                                        <img src="assets/img/blog/com-1.jpg" alt="thumb">--}}
+                    {{--                                        <div class="blog-comments-content">--}}
+                    {{--                                            <h5>سینکلر دنولا</h5>--}}
+                    {{--                                            <span><i class="far fa-clock"></i> 31 مهر 1402</span>--}}
+                    {{--                                            <p>لورم اپسیوم به سادگی متن ساختگی چاپ و حروفچینی است--}}
+                    {{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
+                    {{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
+                    {{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
+                    {{--                                                بلکه حروفچینی الکترونیکی جهشی اساساً باقی مانده است--}}
+                    {{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
+                    {{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
+                    {{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
+                    {{--                                                اپسیوم.</p>--}}
+                    {{--                                            <a href="#"><i class="far fa-reply"></i> پاسخ</a>--}}
+                    {{--                                            <div class="review-rating">--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                            </div>--}}
+                    {{--                                        </div>--}}
+                    {{--                                    </div>--}}
+                    {{--                                    <div class="blog-comments-single ms-md-5">--}}
+                    {{--                                        <img src="assets/img/blog/com-2.jpg" alt="thumb">--}}
+                    {{--                                        <div class="blog-comments-content">--}}
+                    {{--                                            <h5>دانیل ولمن</h5>--}}
+                    {{--                                            <span><i class="far fa-clock"></i> 31 مهر 1402</span>--}}
+                    {{--                                            <p>لورم اپسیوم به سادگی متن ساختگی چاپ و حروفچینی است--}}
+                    {{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
+                    {{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
+                    {{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
+                    {{--                                                بلکه حروفچینی الکترونیکی جهشی اساساً باقی مانده است--}}
+                    {{--                                                صنعت. لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
+                    {{--                                                از زمانی که یک چاپگر ناشناس یک گالری از نوع را برداشت و آن را درهم ریخت--}}
+                    {{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
+                    {{--                                                اپسیوم.</p>--}}
+                    {{--                                            <a href="#"><i class="far fa-reply"></i> پاسخ</a>--}}
+                    {{--                                            <div class="review-rating">--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                            </div>--}}
+                    {{--                                        </div>--}}
+                    {{--                                    </div>--}}
+                    {{--                                    <div class="blog-comments-single">--}}
+                    {{--                                        <img src="assets/img/blog/com-3.jpg" alt="thumb">--}}
+                    {{--                                        <div class="blog-comments-content">--}}
+                    {{--                                            <h5>کنت ایوانز</h5>--}}
+                    {{--                                            <span><i class="far fa-clock"></i> 31 مهر 1402</span>--}}
+                    {{--                                            <p> لورم اپسیوم به ساده متن ساختگی چاپ و حروفچینی است--}}
+                    {{--                                                صنعت لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
+                    {{--                                                زمانی که یک چاپگر ناشناس یک گالری از نوعی را برداشت و آن را درهم ریخت--}}
+                    {{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
+                    {{--                                                بلکه حروفچینی الکترونیکی جهشی اساساً باقی مانده است--}}
+                    {{--                                                صنعت لورم اپسیوم متن ساختگی استاندارد این صنعت بوده است--}}
+                    {{--                                                زمانی که یک چاپگر ناشناس یک گالری از نوعی را برداشت و آن را درهم ریخت--}}
+                    {{--                                                برای ساختن یک کتاب نمونه نوع این نه تنها پنج قرن زنده مانده است--}}
+                    {{--                                                اپسیوم.</p>--}}
+                    {{--                                            <a href="#"><i class="far fa-reply"></i> پاسخ</a>--}}
+                    {{--                                            <div class="review-rating">--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                                <i class="fas fa-star"></i>--}}
+                    {{--                                            </div>--}}
+                    {{--                                        </div>--}}
+                    {{--                                    </div>--}}
+                    {{--                                </div>--}}
+                    {{--                                <div class="blog-comments-form">--}}
+                    {{--                                    <h4 class="mb-4">نظر بدهید</h4>--}}
+                    {{--                                    <form action="#">--}}
+                    {{--                                        <div class="row">--}}
+                    {{--                                            <div class="col-md-12">--}}
+                    {{--                                                <div class="form-group review-rating">--}}
+                    {{--                                                    <label>رتبه‌بندی شما</label>--}}
+                    {{--                                                    <div>--}}
+                    {{--                                                        <i class="fas fa-star"></i>--}}
+                    {{--                                                        <i class="fas fa-star"></i>--}}
+                    {{--                                                        <i class="fas fa-star"></i>--}}
+                    {{--                                                        <i class="fas fa-star"></i>--}}
+                    {{--                                                        <i class="fas fa-star"></i>--}}
+                    {{--                                                    </div>--}}
+                    {{--                                                </div>--}}
+                    {{--                                            </div>--}}
+                    {{--                                            <div class="col-md-6">--}}
+                    {{--                                                <div class="form-group">--}}
+                    {{--                                                    <input type="text" class="form-control" placeholder="نام شما*">--}}
+                    {{--                                                </div>--}}
+                    {{--                                            </div>--}}
+                    {{--                                            <div class="col-md-6">--}}
+                    {{--                                                <div class="form-group">--}}
+                    {{--                                                    <input type="email" class="form-control" placeholder="ایمیل شما*">--}}
+                    {{--                                                </div>--}}
+                    {{--                                            </div>--}}
+                    {{--                                            <div class="col-md-6">--}}
+                    {{--                                                <div class="form-group">--}}
+                    {{--                                                    <input type="text" class="form-control" placeholder="موضوع شما*">--}}
+                    {{--                                                </div>--}}
+                    {{--                                            </div>--}}
+                    {{--                                            <div class="col-md-6">--}}
+                    {{--                                                <div class="form-group">--}}
+                    {{--                                                    <select class="form-control form-select">--}}
+                    {{--                                                        <option value>رتبه شما</option>--}}
+                    {{--                                                        <option value="5">5 ستاره</option>--}}
+                    {{--                                                        <option value="4">4 ستاره</option>--}}
+                    {{--                                                        <option value="3">3 ستاره</option>--}}
+                    {{--                                                        <option value="2">2 ستاره</option>--}}
+                    {{--                                                        <option value="1">1 ستاره</option>--}}
+                    {{--                                                    </select>--}}
+                    {{--                                                </div>--}}
+                    {{--                                            </div>--}}
+                    {{--                                            <div class="col-md-12">--}}
+                    {{--                                                <div class="form-group">--}}
+                    {{--                                                     <textarea class="form-control" rows="5"--}}
+                    {{--                                                               placeholder="نظر شما*"></textarea>--}}
+                    {{--                                                </div>--}}
+                    {{--                                                <button type="submit" class="theme-btn"><span--}}
+                    {{--                                                        class="far fa-paper-plane"></span> ارسال نظر--}}
+                    {{--                                                </button>--}}
+                    {{--                                            </div>--}}
+                    {{--                                        </div>--}}
+                    {{--                                    </form>--}}
+                    {{--                                </div>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
                 </div>
             </div>
 
@@ -542,241 +625,241 @@
                             </div>
                         </div>
                     </div>
-{{--                    <div class="row">--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/01.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه سریع</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/02.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">خرید بورسلا</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/03.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه فرادل</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/04.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه لوریکا</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/05.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه مد</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/06.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه سریع</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/07.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه سباستین</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col">--}}
-{{--                            <div class="seller-item">--}}
-{{--                                <div class="seller-img">--}}
-{{--                                    <a href="#"><img src="assets/img/seller/08.png" alt></a>--}}
-{{--                                </div>--}}
-{{--                                <a href="#" class="seller-title">فروشگاه جیوروکس</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
+                    {{--                    <div class="row">--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/01.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه سریع</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/02.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">خرید بورسلا</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/03.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه فرادل</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/04.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه لوریکا</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/05.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه مد</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/06.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه سریع</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/07.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه سباستین</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                        <div class="col">--}}
+                    {{--                            <div class="seller-item">--}}
+                    {{--                                <div class="seller-img">--}}
+                    {{--                                    <a href="#"><img src="assets/img/seller/08.png" alt></a>--}}
+                    {{--                                </div>--}}
+                    {{--                                <a href="#" class="seller-title">فروشگاه جیوروکس</a>--}}
+                    {{--                            </div>--}}
+                    {{--                        </div>--}}
+                    {{--                    </div>--}}
                 </div>
             </div>
 
 
-{{--            <div class="product-area related-item">--}}
-{{--                <div class="container">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-12">--}}
-{{--                            <div class="site-heading-inline">--}}
-{{--                                <h2 class="site-title">موارد مرتبط</h2>--}}
-{{--                                <a href="#">مشاهده بیشتر <i class="fas fa-arrow-left"></i></a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-6 col-lg-3">--}}
-{{--                            <div class="product-item">--}}
-{{--                                <div class="product-img">--}}
-{{--                                    <span class="type new">جدید</span>--}}
-{{--                                    <a href="shop-single.html"><img src="assets/img/product/p7.png" alt></a>--}}
-{{--                                    <div class="product-action-wrap">--}}
-{{--                                        <div class="product-action">--}}
-{{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
-{{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
-{{--                                                    class="far fa-heart"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
-{{--                                                    class="far fa-arrows-repeat"></i></a>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="product-content">--}}
-{{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
-{{--                                    <div class="product-rate">--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="product-bottom">--}}
-{{--                                        <div class="product-price">--}}
-{{--                                            <span>100.00 ریال</span>--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
-{{--                                                data-tooltip="tooltip" title="افزودن به سبد خرید">--}}
-{{--                                            <i class="far fa-shopping-bag"></i>--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-6 col-lg-3">--}}
-{{--                            <div class="product-item">--}}
-{{--                                <div class="product-img">--}}
-{{--                                    <span class="type hot">داغ</span>--}}
-{{--                                    <a href="shop-single.html"><img src="assets/img/product/p8.png" alt></a>--}}
-{{--                                    <div class="product-action-wrap">--}}
-{{--                                        <div class="product-action">--}}
-{{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
-{{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
-{{--                                                    class="far fa-heart"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
-{{--                                                    class="far fa-arrows-repeat"></i></a>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="product-content">--}}
-{{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
-{{--                                    <div class="product-rate">--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="product-bottom">--}}
-{{--                                        <div class="product-price">--}}
-{{--                                            <span>100.00 ریال</span>--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
-{{--                                                data-tooltip="tooltip" title="اضافه کردت به سبد خرید">--}}
-{{--                                            <i class="far fa-shopping-bag"></i>--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-6 col-lg-3">--}}
-{{--                            <div class="product-item">--}}
-{{--                                <div class="product-img">--}}
-{{--                                    <span class="type oos">در انبار موجود نیست</span>--}}
-{{--                                    <a href="shop-single.html"><img src="assets/img/product/p12.png" alt></a>--}}
-{{--                                    <div class="product-action-wrap">--}}
-{{--                                        <div class="product-action">--}}
-{{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
-{{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
-{{--                                                    class="far fa-heart"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
-{{--                                                    class="far fa-arrows-repeat"></i></a>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="product-content">--}}
-{{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
-{{--                                    <div class="product-rate">--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="product-bottom">--}}
-{{--                                        <div class="product-price">--}}
-{{--                                            <span>100.00 ریال</span>--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
-{{--                                                data-bs-placement="right"--}}
-{{--                                                data-tooltip="tooltip" title="افزودن به سبد خرید">--}}
-{{--                                            <i class="far fa-shopping-bag"></i>--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-6 col-lg-3">--}}
-{{--                            <div class="product-item">--}}
-{{--                                <div class="product-img">--}}
-{{--                                    <span class="type discount">10% تخفیف</span>--}}
-{{--                                    <a href="shop-single.html"><img src="assets/img/product/p14.png" alt></a>--}}
-{{--                                    <div class="product-action-wrap">--}}
-{{--                                        <div class="product-action">--}}
-{{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
-{{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
-{{--                                                    class="far fa-heart"></i></a>--}}
-{{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
-{{--                                                    class="far fa-arrows-repeat"></i></a>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                                <div class="product-content">--}}
-{{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
-{{--                                    <div class="product-rate">--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                        <i class="fas fa-star"></i>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="product-bottom">--}}
-{{--                                        <div class="product-price">--}}
-{{--                                            <del>120 ریال</del>--}}
-{{--                                            <span>100.00 ریال</span>--}}
-{{--                                        </div>--}}
-{{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
-{{--                                                data-bs-placement="right"--}}
-{{--                                                data-tooltip="tooltip" title="افزودن به سبد خرید">--}}
-{{--                                            <i class="far fa-shopping-bag"></i>--}}
-{{--                                        </button>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--            <div class="product-area related-item">--}}
+            {{--                <div class="container">--}}
+            {{--                    <div class="row">--}}
+            {{--                        <div class="col-12">--}}
+            {{--                            <div class="site-heading-inline">--}}
+            {{--                                <h2 class="site-title">موارد مرتبط</h2>--}}
+            {{--                                <a href="#">مشاهده بیشتر <i class="fas fa-arrow-left"></i></a>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                    </div>--}}
+            {{--                    <div class="row">--}}
+            {{--                        <div class="col-md-6 col-lg-3">--}}
+            {{--                            <div class="product-item">--}}
+            {{--                                <div class="product-img">--}}
+            {{--                                    <span class="type new">جدید</span>--}}
+            {{--                                    <a href="shop-single.html"><img src="assets/img/product/p7.png" alt></a>--}}
+            {{--                                    <div class="product-action-wrap">--}}
+            {{--                                        <div class="product-action">--}}
+            {{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
+            {{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
+            {{--                                                    class="far fa-heart"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
+            {{--                                                    class="far fa-arrows-repeat"></i></a>--}}
+            {{--                                        </div>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                                <div class="product-content">--}}
+            {{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
+            {{--                                    <div class="product-rate">--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                    </div>--}}
+            {{--                                    <div class="product-bottom">--}}
+            {{--                                        <div class="product-price">--}}
+            {{--                                            <span>100.00 ریال</span>--}}
+            {{--                                        </div>--}}
+            {{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
+            {{--                                                data-tooltip="tooltip" title="افزودن به سبد خرید">--}}
+            {{--                                            <i class="far fa-shopping-bag"></i>--}}
+            {{--                                        </button>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-md-6 col-lg-3">--}}
+            {{--                            <div class="product-item">--}}
+            {{--                                <div class="product-img">--}}
+            {{--                                    <span class="type hot">داغ</span>--}}
+            {{--                                    <a href="shop-single.html"><img src="assets/img/product/p8.png" alt></a>--}}
+            {{--                                    <div class="product-action-wrap">--}}
+            {{--                                        <div class="product-action">--}}
+            {{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
+            {{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
+            {{--                                                    class="far fa-heart"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
+            {{--                                                    class="far fa-arrows-repeat"></i></a>--}}
+            {{--                                        </div>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                                <div class="product-content">--}}
+            {{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
+            {{--                                    <div class="product-rate">--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                    </div>--}}
+            {{--                                    <div class="product-bottom">--}}
+            {{--                                        <div class="product-price">--}}
+            {{--                                            <span>100.00 ریال</span>--}}
+            {{--                                        </div>--}}
+            {{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
+            {{--                                                data-tooltip="tooltip" title="اضافه کردت به سبد خرید">--}}
+            {{--                                            <i class="far fa-shopping-bag"></i>--}}
+            {{--                                        </button>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-md-6 col-lg-3">--}}
+            {{--                            <div class="product-item">--}}
+            {{--                                <div class="product-img">--}}
+            {{--                                    <span class="type oos">در انبار موجود نیست</span>--}}
+            {{--                                    <a href="shop-single.html"><img src="assets/img/product/p12.png" alt></a>--}}
+            {{--                                    <div class="product-action-wrap">--}}
+            {{--                                        <div class="product-action">--}}
+            {{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
+            {{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
+            {{--                                                    class="far fa-heart"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
+            {{--                                                    class="far fa-arrows-repeat"></i></a>--}}
+            {{--                                        </div>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                                <div class="product-content">--}}
+            {{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
+            {{--                                    <div class="product-rate">--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                    </div>--}}
+            {{--                                    <div class="product-bottom">--}}
+            {{--                                        <div class="product-price">--}}
+            {{--                                            <span>100.00 ریال</span>--}}
+            {{--                                        </div>--}}
+            {{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
+            {{--                                                data-bs-placement="right"--}}
+            {{--                                                data-tooltip="tooltip" title="افزودن به سبد خرید">--}}
+            {{--                                            <i class="far fa-shopping-bag"></i>--}}
+            {{--                                        </button>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                        <div class="col-md-6 col-lg-3">--}}
+            {{--                            <div class="product-item">--}}
+            {{--                                <div class="product-img">--}}
+            {{--                                    <span class="type discount">10% تخفیف</span>--}}
+            {{--                                    <a href="shop-single.html"><img src="assets/img/product/p14.png" alt></a>--}}
+            {{--                                    <div class="product-action-wrap">--}}
+            {{--                                        <div class="product-action">--}}
+            {{--                                            <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"--}}
+            {{--                                               data-tooltip="tooltip" title="نمایش سریع"><i class="far fa-eye"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i--}}
+            {{--                                                    class="far fa-heart"></i></a>--}}
+            {{--                                            <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i--}}
+            {{--                                                    class="far fa-arrows-repeat"></i></a>--}}
+            {{--                                        </div>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                                <div class="product-content">--}}
+            {{--                                    <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>--}}
+            {{--                                    <div class="product-rate">--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                        <i class="fas fa-star"></i>--}}
+            {{--                                    </div>--}}
+            {{--                                    <div class="product-bottom">--}}
+            {{--                                        <div class="product-price">--}}
+            {{--                                            <del>120 ریال</del>--}}
+            {{--                                            <span>100.00 ریال</span>--}}
+            {{--                                        </div>--}}
+            {{--                                        <button type="button" class="product-cart-btn" data-bs-placement="right"--}}
+            {{--                                                data-bs-placement="right"--}}
+            {{--                                                data-tooltip="tooltip" title="افزودن به سبد خرید">--}}
+            {{--                                            <i class="far fa-shopping-bag"></i>--}}
+            {{--                                        </button>--}}
+            {{--                                    </div>--}}
+            {{--                                </div>--}}
+            {{--                            </div>--}}
+            {{--                        </div>--}}
+            {{--                    </div>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
 
         </div>
     </div>
@@ -801,11 +884,11 @@
                 </div>
             </div>
         </div>
-{{--        <div class="newsletter-img-1">--}}
-{{--            <img src="assets/img/newsletter/01.png" alt>--}}
-{{--        </div>--}}
-{{--        <div class="newsletter-img-2">--}}
-{{--            <img src="assets/img/newsletter/02.png" alt>--}}
-{{--        </div>--}}
+        {{--        <div class="newsletter-img-1">--}}
+        {{--            <img src="assets/img/newsletter/01.png" alt>--}}
+        {{--        </div>--}}
+        {{--        <div class="newsletter-img-2">--}}
+        {{--            <img src="assets/img/newsletter/02.png" alt>--}}
+        {{--        </div>--}}
     </div>
 @endsection

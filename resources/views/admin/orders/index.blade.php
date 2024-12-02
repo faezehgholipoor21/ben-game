@@ -4,6 +4,14 @@
     پنل مدیریت | سفارشات
 @endsection
 
+@section('custom-css')
+    <style>
+        tr.is_force_tr, tr.is_force_tr td {
+            background: #ffdfdf !important;
+        }
+    </style>
+@endsection
+
 @section('content')
     <div class="container-fluid">
         <div class="block-header">
@@ -81,6 +89,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>خرید فوری</th>
                                 <th>شماره سفارش</th>
                                 <th>نام و نام خانوادگی</th>
                                 <th>تاریخ</th>
@@ -101,10 +110,19 @@
                                 @endphp
                             @endif
                             @foreach($orders as $order)
-                                <tr>
+                                <tr @if($order['is_force'] == 1) class="is_force_tr" @endif>
                                     <td class="w60">
                                         <span>{{$row}}</span>
                                     </td>
+
+                                    <td class="w60">
+                                        @if($order['is_force'] == 1)
+                                            <i class="fa fa-check text-success"></i>
+                                        @else
+                                            <i class="fa fa-times text-danger"></i>
+                                        @endif
+                                    </td>
+
                                     <td class="w60">
                                         <span>{{$order['order_code']}}</span>
                                     </td>

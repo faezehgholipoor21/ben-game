@@ -54,18 +54,32 @@ class siteCartController extends Controller
                     'message' => 'موجودی محصول کافی نیست'
                 ]);
             }
-
-            $exist->update([
-                'count' => 1 + $exist['count'],
-            ]);
-
+            if ($input['force_value'] == 1) {
+                $exist->update([
+                    'count' => 1 + $exist['count'],
+                    'is_force' => 1
+                ]);
+            } else {
+                $exist->update([
+                    'count' => 1 + $exist['count'],
+                ]);
+            }
         } else {
 
-            Cart::query()->create([
-                'product_id' => $input['product_id'],
-                'count' => 1,
-                'cookie' => $cookie,
-            ]);
+            if ($input['force_value'] == 1) {
+                Cart::query()->create([
+                    'product_id' => $input['product_id'],
+                    'count' => 1,
+                    'is_force' => 1,
+                    'cookie' => $cookie,
+                ]);
+            } else {
+                Cart::query()->create([
+                    'product_id' => $input['product_id'],
+                    'count' => 1,
+                    'cookie' => $cookie,
+                ]);
+            }
         }
 
         $cart_count = Cart::query()
@@ -122,6 +136,7 @@ class siteCartController extends Controller
             if (auth()->check()) {
                 auth()->logout();
             }
+
             return response()->json([
                 'error' => true,
                 'message' => 'خطایی رخ داده است',
@@ -142,7 +157,5 @@ class siteCartController extends Controller
             'pure_total_price' => @number_format($total_price),
             'tax' => @number_format($total_price * 0.1),
         ]);
-
-
     }
 }

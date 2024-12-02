@@ -49,7 +49,7 @@
             x = Number.split('.');
             y = x[0];
             z = x.length > 1 ? '.' + x[1] : '';
-            var rgx = /(\d+)(\d{3})/;
+            let rgx = /(\d+)(\d{3})/;
             while (rgx.test(y))
                 y = y.replace(rgx, '$1' + ',' + '$2');
             return y + z;
@@ -68,12 +68,12 @@
         }
 
         function getCookie(name) {
-            var cookieName = name + "=";
-            var decodedCookie = decodeURIComponent(document.cookie);
-            var cookieArray = decodedCookie.split(';');
+            let cookieName = name + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let cookieArray = decodedCookie.split(';');
 
-            for (var i = 0; i < cookieArray.length; i++) {
-                var cookie = cookieArray[i];
+            for (let i = 0; i < cookieArray.length; i++) {
+                let cookie = cookieArray[i];
                 while (cookie.charAt(0) === ' ') {
                     cookie = cookie.substring(1);
                 }
@@ -85,16 +85,14 @@
             return null;
         }
 
-        function updateCart(count, product_id) {
+        function updateCart(count, product_id, tag) {
             my_fullscreen_loader.slideDown();
 
-            var cart_cookie = getCookie('cart');
-            var show_total_price_with_tax = $('.show_total_price_with_tax');
-            var show_total_price_without_tax = $('.show_total_price_without_tax');
-            var show_total_price = $('.show_total_price');
-            var show_tax_price = $('.show_tax_price');
-            var tbl_total_price = $('.tbl_total_price');
-            var cart_table_tr = $('.cart_table').find('tr');
+            let cart_cookie = getCookie('cart');
+            let show_total_price_with_tax = $('.show_total_price_with_tax');
+            let show_total_price_without_tax = $('.show_total_price_without_tax');
+            let show_tax_price = $('.show_tax_price');
+            let cart_table_tr = $('.cart_table').find('tr');
             let tr_price = 0;
             let tr_count = 0;
 
@@ -103,14 +101,13 @@
                 tr_count = parseInt(cart_table_tr.eq(i).find('.quantity').val());
                 console.log(tr_price);
                 cart_table_tr.eq(i).find('.tbl_total_price').text(putComma(tr_price * tr_count));
-
             }
 
             if (cart_cookie === null) {
                 location.reload();
             }
 
-            var data = {
+            let data = {
                 product_id: product_id ?? '0',
                 count: count.toString(),
                 cookie: cart_cookie.toString(),
@@ -135,6 +132,11 @@
                         show_total_price_with_tax.text(response.total_price);
                         show_total_price_without_tax.text(response.pure_total_price);
                         show_tax_price.text(response.tax);
+
+                        let price = remove_comma($(tag).parents('tr').find('.tr_price').text())
+
+                        $(tag).parents('tr').find('.tbl_total_price').text(putComma(price * parseInt(count)))
+
                         my_fullscreen_loader.slideUp();
                     }
                 },
@@ -154,7 +156,7 @@
                     quantity.val(quantity_value - 1)
                 }
             } else {
-                if (quantity_value + 1 >= parseInt(max)) {
+                if (quantity_value + 1 > parseInt(max)) {
                     $(tag).val(parseInt(max));
                     show_sweetalert_msg(' موجودی انبار  ' + max + ' عدد است ', 'error')
                 } else {
@@ -163,7 +165,7 @@
             }
 
             if (parseInt(quantity.val()) !== quantity_value) {
-                updateCart(quantity.val(), product_id)
+                updateCart(quantity.val(), product_id, tag)
             }
         }
     </script>
@@ -218,10 +220,15 @@
                                         @endphp
                                         @foreach($cart as $item)
                                             @php
-                                                $price = $item->product->product_price ;
-                                                $count = $item['count'] ;
-                                                $inventory = $item->product->inventory ;
-                                                $total_price += $price * $count ;
+                                                if ($item->is_force == 1){
+                                                    $price = $item->product->product_force_price ;
+
+                                                }else{
+                                                    $price = $item->product->product_price ;
+                                                }
+                                                    $count = $item['count'] ;
+                                                    $inventory = $item->product->inventory ;
+                                                    $total_price += $price * $count ;
                                             @endphp
                                             <tr>
                                                 <td>
@@ -314,10 +321,10 @@
                                             {{number_format($total_price)}} ریال
                                         </span>
                                     </li>
-                                    <li>
-                                        <strong>تخفیف:</strong>
-                                        <span>5.00 ریال</span>
-                                    </li>
+{{--                                    <li>--}}
+{{--                                        <strong>تخفیف:</strong>--}}
+{{--                                        <span>5.00 ریال</span>--}}
+{{--                                    </li>--}}
                                     {{--                                <li><strong>ارسال:</strong> <span>رایگان</span></li>--}}
                                     <li>
                                         <strong>مالیات:</strong>

@@ -15,6 +15,7 @@ class adminOrderController extends Controller
     {
         $orders = Order::query()
             ->with(['expertInfo', 'userInfo', 'statusInfo'])
+            ->latest()
             ->paginate();
 
         foreach ($orders as $order) {
