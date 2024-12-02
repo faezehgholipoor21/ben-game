@@ -30,6 +30,11 @@ class siteOrderController extends Controller
 
         $cart = $this->getCart();
 
+        if ($cart['total_price'] > 1000000 and $user['status_id'] !== 3) {
+            alert()->error('', "حساب کاربری شما نیاز به احراز هویت دارد، لطفا از طریق پنل کاربری خود اقدام به احراز هویت نمایید");
+            return back();
+        }
+
         $order = Order::query()->create([
             'order_code' => 0,
             'order_status' => 1,
