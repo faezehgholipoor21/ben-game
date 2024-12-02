@@ -23,6 +23,7 @@ use App\Http\Controllers\admin\faq\adminFaqController;
 use App\Http\Controllers\admin\contact\adminContactController;
 use App\Http\Controllers\admin\contact\adminContactSettingController;
 use App\Http\Controllers\admin\rules\adminRulesController;
+use App\Http\Controllers\admin\orders\adminOrderController;
 
 //site
 use App\Http\Controllers\site\home\homeController;
@@ -201,6 +202,12 @@ Route::namespace('App\Http\Controllers\admin')
         Route::get('rule_edit/{id}', [adminRulesController::class, 'edit'])->name('rule_edit_panel');
         Route::post('rule_update/{id}', [adminRulesController::class, 'update'])->name('rule_update_panel');
         Route::post('rule_delete/{id}', [adminRulesController::class, 'delete'])->name('rule_delete_panel');
+
+        //orders
+        Route::get('orders',[adminOrderController::class, 'index'])->name('orders');
+        Route::get('order_detail/{order_id}', [adminOrderController::class, 'detail'])->name('order_detail');
+        Route::post('change_order_status', [adminOrderController::class, 'change_order_status'])->name('change_order_status');
+        Route::get('order_allocation/{order_id}', [adminOrderController::class, 'order_allocation'])->name('order_allocation');
     });
 
 //site
@@ -303,6 +310,7 @@ Route::namespace('App\Http\Controllers\admin-norm')
 
         //orders
         Route::get('orders', [admin_normOrderController::class, 'index'])->name('orders');
+        Route::get('my_orders', [admin_normOrderController::class, 'my_orders'])->name('my_orders');
         Route::get('order_detail/{order_id}', [admin_normOrderController::class, 'detail'])->name('order_detail');
         Route::post('change_order_status', [admin_normOrderController::class, 'change_order_status'])->name('change_order_status');
         Route::get('order_allocation/{order_id}', [admin_normOrderController::class, 'order_allocation'])->name('order_allocation');

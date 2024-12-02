@@ -9,7 +9,6 @@ class GameAccountField extends Model
 {
     use HasFactory;
 
-    protected $table = 'account_game_field';
+    protected $table = 'game_account_field';
     protected $guarded = [];
-
 }

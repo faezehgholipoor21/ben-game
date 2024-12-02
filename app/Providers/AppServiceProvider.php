@@ -54,11 +54,21 @@ class AppServiceProvider extends ServiceProvider
             $view->with('category_info', $category_info);
         });
 
-        View::composer(['*'], function ($view) {
+        View::composer(['admin_norm.*'], function ($view) {
             $full_order_count = Order::query()
                 ->count();
 
             $view->with('full_order_count', $full_order_count);
+        });
+
+        View::composer(['admin_norm.*'], function ($view) {
+            $full_my_order_count = 0;
+            if (auth()->check() and auth()->user()?->id === 1) {
+                $full_my_order_count = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->count();
+            }
+            $view->with('full_my_order_count', $full_my_order_count);
         });
 
         View::composer(['*'], function ($view) {

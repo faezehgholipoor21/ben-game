@@ -4,12 +4,13 @@ namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class adminLoginController extends Controller
 {
-    function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    function index(): View
     {
         return view('login.login');
     }
@@ -35,13 +36,14 @@ class adminLoginController extends Controller
 
             if (auth()->attempt(['email' => $email, 'password' => $password])) {
 
-              return redirect()->route('admin.dashboard');
+                return redirect()->route('admin.dashboard');
 
             } else {
                 alert()->error('کلمه عبور یا نام کاربری اشتباه است.', 'خطا');
                 return back()->withInput()->withErrors(['auth' => 'کلمه عبور یا نام کاربری اشتباه است.']);
             }
-        } else {;
+        } else {
+            ;
             alert()->error('کد امنیتی صحیح نیست', 'خطا');
             return back()->withInput()->withErrors(['auth' => 'کد امنیتی صحیح نیست']);
         }

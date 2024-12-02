@@ -33,6 +33,23 @@ class admin_normOrderController extends Controller
         return view('admin_norm.orders.index', compact('order_list'));
     }
 
+    public function my_orders()
+    {
+        $my_order_list = Order::query()
+            ->where('review_expert_id' , auth()->user()->id)
+            ->paginate();
+
+        foreach ($my_order_list as $my_order) {
+            $my_order['jalali_date'] = verta($my_order['created_at'])->format('j/%B/Y');
+            $my_order['total_price'] = CalculateOrderPrice::calculate_order_price($my_order['id']);
+            $order_status = GetOrderStatusTitleCss::get_order_status_title_css($my_order['id']);
+            $my_order['order_status_css'] = $order_status[1];
+            $my_order['order_status_title'] = $order_status[0];
+        }
+
+        return view('admin_norm.orders.my_orders', compact('my_order_list'));
+    }
+
     public function detail($order_id)
     {
         $order_info = Order::query()

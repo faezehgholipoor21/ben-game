@@ -261,6 +261,13 @@
                     </li>
 
                     <li>
+                        <a href="{{route('admin.orders')}}">
+                            <i class="icon-basket"></i>
+                            <span>مدیریت سفارشات</span>
+                        </a>
+                    </li>
+
+                    <li>
                         <a href="#" class="has-arrow">
                             <i class="fa fa-money"></i>
                             <span>محصولات</span>

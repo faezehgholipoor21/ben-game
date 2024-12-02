@@ -22,7 +22,7 @@ class OrderStatusSeeder extends Seeder
             ],
             [
                 'title' => 'تکمیل شده',
-                'order_class' => 'far fa-check-circle',
+                'order_class' => 'completed',
             ],
             [
                 'title' => 'اطلاعات اشتباه',

@@ -14,6 +14,14 @@
     margin-top: -15px;
 }
 
+.w-100px {
+    width: 100px;
+}
+
+.w-125px {
+    width: 125px;
+}
+
 .menu_count_alert {
     position: absolute;
     right: -3px;

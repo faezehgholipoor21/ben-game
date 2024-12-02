@@ -354,6 +354,13 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{route('admin_norm.my_orders')}}">
+                                    <i class="far fa-shopping-bag"></i>
+                                    سفارشات من
+                                    <span class="badge badge-danger">{{$full_my_order_count}}</span>
+                                </a>
+                            </li>
+                            <li>
                                 <a href="#">
                                     <i class="far fa-credit-card"></i>
                                     تراکنش

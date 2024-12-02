@@ -1,7 +1,7 @@
 @extends('layouts.admin_norm_layout')
 
 @section('title')
-    سایت بازی | همه سفارش ها
+    سایت بازی | سفارشات من
 @endsection
 
 @section('custom-css')
@@ -63,7 +63,7 @@
         <div class="col-lg-12">
             <div class="user-card">
                 <div class="user-card-header">
-                    <h4 class="user-card-title">همه سفارش ها</h4>
+                    <h4 class="user-card-title">سفارشات</h4>
                     {{--                    <div class="user-card-header-right">--}}
                     {{--                        <a href="#" class="theme-btn">مشاهده همه سفارش‌ها</a>--}}
                     {{--                    </div>--}}
@@ -81,7 +81,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($order_list as $order)
+                        @foreach($my_order_list as $order)
                             <tr>
                                 <td>
                                 <span class="table-list-code">
@@ -123,11 +123,11 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li>
                                                 @if($order['review_expert_id'] == 0)
-                                                <a class="dropdown-item"
-                                                   href="{{route('admin_norm.order_detail' , ['order_id' => $order['id']])}}">
-                                                    <i class="far fa-eye"></i>
-                                                    جزئیات سفارش
-                                                </a>
+                                                    <a class="dropdown-item"
+                                                       href="{{route('admin_norm.order_detail' , ['order_id' => $order['id']])}}">
+                                                        <i class="far fa-eye"></i>
+                                                        جزئیات سفارش
+                                                    </a>
                                                 @elseif($order['review_expert_id'] == auth()->user()->id)
                                                     <a class="dropdown-item"
                                                        href="{{route('admin_norm.order_detail' , ['order_id' => $order['id']])}}">
@@ -153,3 +153,4 @@
         </div>
     </div>
 @endsection
+

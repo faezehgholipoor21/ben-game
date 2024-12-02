@@ -12,8 +12,8 @@ class checkAdminLoginMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse) $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
     public function handle(Request $request, Closure $next)
@@ -22,7 +22,7 @@ class checkAdminLoginMiddleware
             return $next($request);
         } else {
             $user_info = User::query()
-                ->where('id', auth()->id())
+                ->where('id')
                 ->first();
 
             if ($user_info) {
@@ -32,7 +32,12 @@ class checkAdminLoginMiddleware
 
                 if ($role_user_info['role_id'] == 1) {
                     return redirect()->route('admin.dashboard');
+                } else {
+                    return $next($request);
                 }
+
+            } else {
+                return redirect()->route('admin.dashboard');
             }
         }
     }

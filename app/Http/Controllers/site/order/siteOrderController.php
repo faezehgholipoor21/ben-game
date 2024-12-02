@@ -265,7 +265,6 @@ class siteOrderController extends Controller
         }
     }
 
-    private
     function zarinpal_node()
     {
         if ($this->curl_check() === true) {

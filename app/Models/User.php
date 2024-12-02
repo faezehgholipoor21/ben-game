@@ -47,15 +47,17 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
+        'id' => 'integer',
         'email_verified_at' => 'datetime',
     ];
 
-    function roles() {
+    function roles()
+    {
         return $this->belongsToMany(Role::class);
     }
 
     function images()
     {
-        return $this->belongsToMany(Images::class,'image_user', 'user_id', 'image_id', 'id', 'image_id')->withPivot('image_src');
+        return $this->belongsToMany(Images::class, 'image_user', 'user_id', 'image_id', 'id', 'image_id')->withPivot('image_src');
     }
 }
