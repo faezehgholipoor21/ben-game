@@ -31,7 +31,7 @@ class loginController extends Controller
         }
 
         if (password_verify($password, $user_info['password'])) {
-            $roles = $user_info->roles;
+                $roles = $user_info->roles;
 
             foreach ($roles as $role) {
                 if ($role['id'] === 2) {

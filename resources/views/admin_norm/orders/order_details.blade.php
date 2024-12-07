@@ -1,4 +1,4 @@
-@extends('layouts.user_layout')
+@extends('layouts.admin_norm_layout')
 
 @section('title')
     پنل مشتری سایت بازی | جزئیات سفارش
@@ -70,7 +70,7 @@
                         <div class="row alert alert-warning">
                             <div class="col-12 col-md-6 mb-3">
                                 <p>
-                                    {{$order_status_title}}
+                                    {{$order_info['statusInfo']['title']}}
                                 </p>
                             </div>
                             <div class="col-12 col-md-6 mb-3">

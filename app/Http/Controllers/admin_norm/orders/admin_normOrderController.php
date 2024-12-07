@@ -5,7 +5,6 @@ namespace App\Http\Controllers\admin_norm\orders;
 use App\Helper\CalculateOrderPrice;
 use App\Helper\GetCategoryTitle;
 use App\Helper\GetGameAccountTitle;
-use App\Helper\GetOrderStatusTitleCss;
 use App\Helper\GetProductMainImage;
 use App\Helper\GetProductTitleWithProId;
 use App\Http\Controllers\Controller;
@@ -14,51 +13,46 @@ use App\Models\OrderDetail;
 use App\Models\OrderStatus;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class admin_normOrderController extends Controller
 {
-    public function index()
+    public function index():View
     {
         $order_list = Order::query()
+            ->with(['expertInfo', 'userInfo', 'statusInfo'])
+            ->latest()
             ->paginate();
 
         foreach ($order_list as $order) {
-            $order['jalali_date'] = verta($order['created_at'])->format('j/%B/Y');
-            $order['total_price'] = CalculateOrderPrice::calculate_order_price($order['id']);
-            $order_status = GetOrderStatusTitleCss::get_order_status_title_css($order['id']);
-            $order['order_status_css'] = $order_status[1];
-            $order['order_status_title'] = $order_status[0];
+            $order['jalali_date'] = verta($order['created_at'])->format('%d %B %Y');
         }
-
         return view('admin_norm.orders.index', compact('order_list'));
     }
 
-    public function my_orders()
+    public function my_orders():View
     {
         $my_order_list = Order::query()
+            ->with(['expertInfo', 'userInfo', 'statusInfo'])
             ->where('review_expert_id' , auth()->user()->id)
+            ->latest()
             ->paginate();
 
         foreach ($my_order_list as $my_order) {
             $my_order['jalali_date'] = verta($my_order['created_at'])->format('j/%B/Y');
             $my_order['total_price'] = CalculateOrderPrice::calculate_order_price($my_order['id']);
-            $order_status = GetOrderStatusTitleCss::get_order_status_title_css($my_order['id']);
-            $my_order['order_status_css'] = $order_status[1];
-            $my_order['order_status_title'] = $order_status[0];
         }
 
         return view('admin_norm.orders.my_orders', compact('my_order_list'));
     }
 
-    public function detail($order_id)
+    public function detail($order_id):View
     {
         $order_info = Order::query()
+            ->with(['expertInfo', 'userInfo', 'statusInfo'])
             ->where('id', $order_id)
             ->first();
 
-        $order_status = GetOrderStatusTitleCss::get_order_status_title_css($order_info['id']);
-        $order_status_css = $order_status[1];
-        $order_status_title = $order_status[0];
         $total_order_price = CalculateOrderPrice::calculate_order_price($order_info['id']);
 
         $order_detail_infos = OrderDetail::query()
@@ -79,11 +73,11 @@ class admin_normOrderController extends Controller
         $order_status_list = OrderStatus::query()
             ->get();
 
-        return view('admin_norm.orders.order_details', compact('order_detail_infos', 'order_info', 'order_status_css', 'order_status_title', 'total_order_price', 'order_status_list'));
+        return view('admin_norm.orders.order_details', compact('order_detail_infos', 'order_info', 'total_order_price', 'order_status_list'));
 
     }
 
-    public function change_order_status(Request $request)
+    public function change_order_status(Request $request): \Illuminate\Http\RedirectResponse
     {
         $input = $request->all();
 
@@ -100,7 +94,7 @@ class admin_normOrderController extends Controller
 
     }
 
-    public function order_allocation($order_id)
+    public function order_allocation($order_id): \Illuminate\Http\RedirectResponse
     {
         $user_id = auth()->user()->id;
 

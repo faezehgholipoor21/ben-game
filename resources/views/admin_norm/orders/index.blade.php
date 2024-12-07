@@ -95,8 +95,8 @@
                                     {{@number_format($order['total_price'])}} ریال
                                 </td>
                                 <td>
-                                <span class="{{$order['order_status_css']}}">
-                                    {{$order['order_status_title']}}
+                                <span class="{{$order['statusInfo']['order_class']}}">
+                                     {{$order['statusInfo']['title']}}
                                 </span>
                                 </td>
                                 <td>

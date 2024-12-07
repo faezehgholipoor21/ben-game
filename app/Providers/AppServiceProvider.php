@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer(['admin_norm.*'], function ($view) {
             $full_my_order_count = 0;
-            if (auth()->check() and auth()->user()?->id === 1) {
+            if (auth()->check()) {
                 $full_my_order_count = Order::query()
                     ->where('review_expert_id', auth()->user()->id)
                     ->count();
