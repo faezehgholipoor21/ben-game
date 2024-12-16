@@ -30,11 +30,12 @@ class admin_normOrderController extends Controller
         return view('admin_norm.orders.index', compact('order_list'));
     }
 
-    public function my_orders():View
+    public function my_orders($order_status):View
     {
         $my_order_list = Order::query()
             ->with(['expertInfo', 'userInfo', 'statusInfo'])
             ->where('review_expert_id' , auth()->user()->id)
+            ->where('order_status', $order_status)
             ->latest()
             ->paginate();
 
@@ -74,7 +75,6 @@ class admin_normOrderController extends Controller
             ->get();
 
         return view('admin_norm.orders.order_details', compact('order_detail_infos', 'order_info', 'total_order_price', 'order_status_list'));
-
     }
 
     public function change_order_status(Request $request): \Illuminate\Http\RedirectResponse

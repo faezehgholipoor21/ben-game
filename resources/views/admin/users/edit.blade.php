@@ -159,6 +159,21 @@
                                         </select>
                                     </div>
                                     <div class="col-12 col-sm-6 col-md-4 mb-4">
+                                        <label>وضعیت احراز هویت</label>
+                                        @error('auth_status')
+                                        <span class="validation_label_error">{{$message}}</span>
+                                        @enderror
+                                        <select class="form-control" name="auth_status">
+                                            @foreach($user_status as $status)
+                                                <option @if($status['id'] == $this_user_info['user_status_id']) selected="selected" @endif
+                                                value="{{$status['id']}}">
+                                                    {{$status['title']}}
+                                                </option>
+                                            @endforeach
+
+                                        </select>
+                                    </div>
+                                    <div class="col-12 col-sm-6 col-md-4 mb-4">
                                         <label>سمت</label>
                                         @error('role')
                                         <span class="validation_label_error">{{$message}}</span>

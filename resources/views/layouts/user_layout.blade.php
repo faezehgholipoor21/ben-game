@@ -113,7 +113,7 @@
             <div class="row align-items-center">
                 <div class="col-5 col-lg-3 col-xl-3">
                     <div class="header-middle-logo">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="{{route('site.home')}}">
                             <img src="{{asset('site/assets/img/logo/logo.png')}}" alt="logo">
                         </a>
                     </div>
@@ -132,71 +132,10 @@
                     <div class="header-middle-right">
                         <ul class="header-middle-list">
                             <li class="dropdown-cart">
-                                <a href="#" class="shop-cart list-item">
+                                <a href="{{route('site.cart')}}" class="shop-cart list-item">
                                     <i class="far fa-shopping-bag"></i>
-                                    <span>5</span>
+                                    <span>{{$cart_count}}</span>
                                 </a>
-                                <div class="dropdown-cart-menu">
-                                    <div class="dropdown-cart-header">
-                                        <span>03 مورد</span>
-                                        <a href="#">مشاهده سبد خرید</a>
-                                    </div>
-                                    <ul class="dropdown-cart-list">
-                                        <li>
-                                            <div class="dropdown-cart-item">
-                                                <div class="cart-img">
-                                                    <a href="#">
-                                                        <img src="{{asset('site/assets/img/product/p47.png')}}" alt="#">
-                                                    </a>
-                                                </div>
-                                                <div class="cart-info">
-                                                    <h4><a href="#">ایکسا ها ای 15 قرمز</a></h4>
-                                                    <p class="cart-qty">1x - <span
-                                                            class="cart-amount">200.00 ریال</span>
-                                                    </p>
-                                                </div>
-                                                <a href="#" class="cart-remove" title="حذف این مورد"><i
-                                                        class="far fa-times-circle"></i></a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-cart-item">
-                                                <div class="cart-img">
-                                                    <a href="#">
-                                                        <img src="{{asset('site/assets/img/product/p12.png')}}" alt="#">
-                                                    </a>
-                                                </div>
-                                                <div class="cart-info">
-                                                    <h4><a href="#">ساعت آبی اپل</a></h4>
-                                                    <p class="cart-qty">1x - <span class="cart-amount">120$</span></p>
-                                                </div>
-                                                <a href="#" class="cart-remove" title="حذف این مورد"><i
-                                                        class="far fa-times-circle"></i></a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="dropdown-cart-item">
-                                                <div class="cart-img">
-                                                    <a href="#"><img src="{{asset('site/assets/img/product/p32.png')}}" alt="#"></a>
-                                                </div>
-                                                <div class="cart-info">
-                                                    <h4><a href="#">ژاکت نارنجی</a></h4>
-                                                    <p class="cart-qty">1x - <span class="cart-amount">330.00$</span>
-                                                    </p>
-                                                </div>
-                                                <a href="#" class="cart-remove" title="حذف این مورد"><i
-                                                        class="far fa-times-circle"></i></a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                    <div class="dropdown-cart-bottom">
-                                        <div class="dropdown-cart-total">
-                                            <span>مجموع</span>
-                                            <span class="total-amount">650.00 ریال</span>
-                                        </div>
-                                        <a href="#" class="theme-btn">تسویه حساب</a>
-                                    </div>
-                                </div>
                             </li>
                         </ul>
                     </div>
@@ -208,7 +147,7 @@
     <div class="main-navigation">
         <nav class="navbar navbar-expand-lg">
             <div class="container position-relative">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{route('site.home')}}">
                     <img src="{{asset('site/assets/img/logo/logo.png')}}" class="logo-scrolled" alt="logo">
                 </a>
                 <div class="mobile-menu-right">
@@ -332,23 +271,17 @@
                                     نمایه من
                                 </a>
                             </li>
-                            {{--                            <li>--}}
-                            {{--                                <a href="#">--}}
-                            {{--                                    <i class="far fa-layer-group"></i>--}}
-                            {{--                                    محصولات--}}
-                            {{--                                </a>--}}
-                            {{--                            </li>--}}
-                            {{--                            <li>--}}
-                            {{--                                <a href="#">--}}
-                            {{--                                    <i class="far fa-upload"></i>--}}
-                            {{--                                    افزودن محصول جدید--}}
-                            {{--                                </a>--}}
-                            {{--                            </li>--}}
+                            <li>
+                                <a href="{{route('user.authentication')}}">
+                                    <i class="far fa-user-alien"></i>
+                                    احراز هویت
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{route('user.orders')}}">
                                     <i class="far fa-shopping-bag"></i>
                                     همه سفارش‌ها
-                                    <span class="badge badge-danger">02</span>
+                                    <span class="badge badge-danger">{{$user_order_count}}</span>
                                 </a>
                             </li>
                             <li>

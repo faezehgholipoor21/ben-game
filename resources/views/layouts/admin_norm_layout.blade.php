@@ -41,6 +41,15 @@
             width: 90px;
             height: 90px;
         }
+
+        .submenu {
+            display: none; /* مخفی کردن زیرمنو در حالت عادی */
+            font-size: 12px;
+        }
+
+        .toggle-submenu.active + .submenu {
+            display: block; /* نمایش زیرمنو هنگام کلیک روی منو */
+        }
     </style>
     @yield('custom-css')
 </head>
@@ -115,7 +124,7 @@
             <div class="row align-items-center">
                 <div class="col-5 col-lg-3 col-xl-3">
                     <div class="header-middle-logo">
-                        <a class="navbar-brand" href="#">
+                        <a class="navbar-brand" href="{{route('site.home')}}">
                             <img src="{{asset('site/assets/img/logo/logo.png')}}" alt="logo">
                         </a>
                     </div>
@@ -211,7 +220,7 @@
     <div class="main-navigation">
         <nav class="navbar navbar-expand-lg">
             <div class="container position-relative">
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{route('site.home')}}">
                     <img src="{{asset('site/assets/img/logo/logo.png')}}" class="logo-scrolled" alt="logo">
                 </a>
                 <div class="mobile-menu-right">
@@ -308,9 +317,9 @@
 
 
     <div class="user-area bg py-100">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-2">
                     <div class="sidebar">
                         <div class="sidebar-top">
                             <div class="sidebar-profile-img">
@@ -334,18 +343,6 @@
                                     نمایه من
                                 </a>
                             </li>
-                            {{--                            <li>--}}
-                            {{--                                <a href="#">--}}
-                            {{--                                    <i class="far fa-layer-group"></i>--}}
-                            {{--                                    محصولات--}}
-                            {{--                                </a>--}}
-                            {{--                            </li>--}}
-                            {{--                            <li>--}}
-                            {{--                                <a href="#">--}}
-                            {{--                                    <i class="far fa-upload"></i>--}}
-                            {{--                                    افزودن محصول جدید--}}
-                            {{--                                </a>--}}
-                            {{--                            </li>--}}
                             <li>
                                 <a href="{{route('admin_norm.orders')}}">
                                     <i class="far fa-shopping-bag"></i>
@@ -354,11 +351,70 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('admin_norm.my_orders')}}">
+                                <a href="#" class="toggle-submenu">
                                     <i class="far fa-shopping-bag"></i>
                                     سفارشات من
                                     <span class="badge badge-danger">{{$full_my_order_count}}</span>
                                 </a>
+                                <ul class="submenu">
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 1])}}">
+                                            <i class="far fa-dash"></i>
+                                            در حال بررسی
+                                            <span class="badge badge-danger">{{ $my_order_status_count_first }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 2])}}">
+                                            <i class="far fa-dash"></i>
+                                            تکمیل شده
+                                            <span class="badge badge-danger">{{ $my_order_status_count_second }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 3])}}">
+                                            <i class="far fa-dash"></i>
+                                            اطلاعات اشتباه
+                                            <span class="badge badge-danger">{{ $my_order_status_count_third }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 4])}}">
+                                            <i class="far fa-dash"></i>
+                                            عدم پاسخ
+                                            <span class="badge badge-danger">{{ $my_order_status_count_forth }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 5])}}">
+                                            <i class="far fa-dash"></i>
+                                            نیاز به احراز هویت
+                                            <span class="badge badge-danger">{{ $my_order_status_count_five }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 6])}}">
+                                            <i class="far fa-dash"></i>
+                                            مغایرت محصول
+                                            <span class="badge badge-danger">{{ $my_order_status_count_six }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 7])}}">
+                                            <i class="far fa-dash"></i>
+                                            در حال استرداد مبلغ
+                                            <span class="badge badge-danger">{{ $my_order_status_count_seven }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{route('admin_norm.my_orders',['order_status' => 8])}}">
+                                            <i class="far fa-dash"></i>
+                                            مسترد شده
+                                            <span class="badge badge-danger">{{ $my_order_status_count_eight }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+
                             </li>
                             <li>
                                 <a href="#">
@@ -395,7 +451,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-10">
                     <div class="user-wrapper">
                         @yield('content')
                     </div>
@@ -573,7 +629,6 @@
 
 <a href="#" id="scroll-top"><i class="far fa-arrow-up-from-arc"></i></a>
 
-
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="{{asset('site/assets/js/jquery-3.6.0.min.js')}}"></script>
 <script src="{{asset('site/assets/js/modernizr.min.js')}}"></script>
@@ -595,6 +650,15 @@
 <script src="{{asset('admin/assets/vendor/dropify/js/dropify.js')}}"></script>
 
 <script src="{{asset('/vendor/sweetalert/sweetalert.all.js')}}"></script>
+
+<script>
+    document.querySelectorAll('.toggle-submenu').forEach(function (menu) {
+        menu.addEventListener('click', function (e) {
+            e.preventDefault(); // جلوگیری از رفتن به بالا
+            this.classList.toggle('active');
+        });
+    });
+</script>
 @yield('custom-js')
 @include('sweetalert::alert')
 </body>

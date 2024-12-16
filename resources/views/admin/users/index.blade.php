@@ -92,6 +92,7 @@
                                 <th>نام و نام خانوادگی</th>
                                 <th>موبایل</th>
                                 <th>سمت</th>
+                                <th>وضعیت احراز هویت</th>
                                 <th>عملیات</th>
                             </tr>
                             </thead>
@@ -126,7 +127,11 @@
                                             {{$user['user_role_info'][0]}}
                                         </span>
                                     </td>
-
+                                    <td>
+                                        <span class="{{$user['status']['user_status_class']}}">
+                                            {{$user['status']['title']}}
+                                        </span>
+                                    </td>
                                     <td>
                                         @if($user['id'] == auth()->id())
                                             <a href="{{route('admin.users.edit' , ['user_id' => $user['id']])}}" disabled="disabled">

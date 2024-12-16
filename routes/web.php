@@ -14,7 +14,7 @@ use App\Http\Controllers\admin\images\adminImageTypeController;
 use App\Http\Controllers\admin\images\adminImagesController;
 use App\Http\Controllers\admin\images\adminProductImagesController;
 use App\Http\Controllers\admin\sliders\adminSliderController;
-use App\Http\Controllers\admin\top_banners\adminTopBannerController;
+use App\Http\Controllers\admin\banners\adminBannerController;
 use App\Http\Controllers\admin\accounts\adminGameAccountController;
 use App\Http\Controllers\admin\accounts\adminGameAccountFieldController;
 use App\Http\Controllers\admin\about_us\adminAboutUsController;
@@ -24,6 +24,7 @@ use App\Http\Controllers\admin\contact\adminContactController;
 use App\Http\Controllers\admin\contact\adminContactSettingController;
 use App\Http\Controllers\admin\rules\adminRulesController;
 use App\Http\Controllers\admin\orders\adminOrderController;
+use App\Http\Controllers\admin\authentication_price\adminAuthenticationPriceController;
 
 //site
 use App\Http\Controllers\site\home\homeController;
@@ -47,6 +48,7 @@ use App\Http\Controllers\site\order\siteOrderController;
 //user
 use App\Http\Controllers\user\dashboard\userDashboardController;
 use App\Http\Controllers\user\orders\userOrderController;
+use App\Http\Controllers\user\customer_authentication\userAuthenticationController;
 
 //admin norm
 use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
@@ -136,13 +138,15 @@ Route::namespace('App\Http\Controllers\admin')
         Route::get('slider_images', [adminSliderController::class, 'index'])->name('slider_images_panel');
         Route::post('slider_images_store', [adminSliderController::class, 'store'])->name('slider_images_store');
         Route::post('slider_images_delete/{slider_id}', [adminSliderController::class, 'delete'])->name('slider_images_delete');
+        Route::get('slider_images_active/{slider_id}', [adminSliderController::class, 'active'])->name('slider_images_active');
 
-        //top banner
-        Route::get('top_banner_images', [adminTopBannerController::class, 'index'])->name('top_banner_images_panel');
-        Route::post('top_banner_images_store', [adminTopBannerController::class, 'store'])->name('top_banner_images_store');
-        Route::post('top_banner_images_delete/{top_banner_id}', [adminTopBannerController::class, 'delete'])->name('top_banner_images_delete');
-        Route::post('show_banner', [adminTopBannerController::class, 'show_banner'])->name('show_banner');
-        Route::post('deactive_banner', [adminTopBannerController::class, 'deactive_banners'])->name('deactive_banner');
+        //banner
+        Route::get('banner_images', [adminBannerController::class, 'index'])->name('banner_images_panel');
+        Route::post('banner_images_store', [adminBannerController::class, 'store'])->name('banner_images_store');
+        Route::post('banner_images_delete/{banner_id}', [adminBannerController::class, 'delete'])->name('banner_images_delete');
+        Route::get('banner_images_active/{banner_id}', [adminBannerController::class, 'active'])->name('banner_images_active');
+        Route::get('banner_images_de_active/{banner_id}', [adminBannerController::class, 'de_active'])->name('banner_images_de_active');
+
 
         //inquiry site
         Route::get('inquiry_panel', [adminInquiryController::class, 'index'])->name('inquiry_panel');
@@ -204,10 +208,15 @@ Route::namespace('App\Http\Controllers\admin')
         Route::post('rule_delete/{id}', [adminRulesController::class, 'delete'])->name('rule_delete_panel');
 
         //orders
-        Route::get('orders',[adminOrderController::class, 'index'])->name('orders');
+        Route::get('orders', [adminOrderController::class, 'index'])->name('orders');
         Route::get('order_detail/{order_id}', [adminOrderController::class, 'detail'])->name('order_detail');
         Route::post('change_order_status', [adminOrderController::class, 'change_order_status'])->name('change_order_status');
         Route::get('order_allocation/{order_id}', [adminOrderController::class, 'order_allocation'])->name('order_allocation');
+
+        //authentication price
+        Route::get('authentication_price', [adminAuthenticationPriceController::class, 'index'])->name('authentication_price');
+        Route::post('authentication_price_update', [adminAuthenticationPriceController::class, 'update'])->name('authentication_price_update');
+
     });
 
 //site
@@ -292,6 +301,10 @@ Route::namespace('App\Http\Controllers\user')
         //orders
         Route::get('orders', [userOrderController::class, 'index'])->name('orders');
         Route::get('order_detail', [userOrderController::class, 'detail'])->name('order_detail');
+
+        //user authentication
+        Route::get('authentication', [userAuthenticationController::class, 'index'])->name('authentication');
+        Route::post('authentication_store', [userAuthenticationController::class, 'store'])->name('authentication_store');
     });
 
 // *************************  user **********************************
@@ -310,7 +323,7 @@ Route::namespace('App\Http\Controllers\admin-norm')
 
         //orders
         Route::get('orders', [admin_normOrderController::class, 'index'])->name('orders');
-        Route::get('my_orders', [admin_normOrderController::class, 'my_orders'])->name('my_orders');
+        Route::get('my_orders/{order_status}', [admin_normOrderController::class, 'my_orders'])->name('my_orders');
         Route::get('order_detail/{order_id}', [admin_normOrderController::class, 'detail'])->name('order_detail');
         Route::post('change_order_status', [admin_normOrderController::class, 'change_order_status'])->name('change_order_status');
         Route::get('order_allocation/{order_id}', [admin_normOrderController::class, 'order_allocation'])->name('order_allocation');

@@ -242,6 +242,11 @@ return [
         'new_password' => 'رمز جدید',
         'confirm_new_password' => 'تکرار رمز جدید',
         'inventory' => 'موجودی انبار',
+        'national_card_image' => 'عکس روی کارت ملی',
+        'bank_card_image' => 'عکس کارت بانکی صاحب حساب',
+        'account_bank_name' => 'نام صاحب حساب',
+        'account_bank_family' => 'نام خانوادگی صاحب حساب',
+        'bank_card_number' => 'شماره کارت بانکی',
     ],
 
 ];

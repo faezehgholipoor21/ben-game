@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\order;
 
 use App\Http\Controllers\Controller;
+use App\Models\AuthenticationPrice;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
@@ -30,10 +31,17 @@ class siteOrderController extends Controller
 
         $cart = $this->getCart();
 
-        if ($cart['total_price'] > 1000000 and $user['status_id'] !== 3) {
-            alert()->error('', "حساب کاربری شما نیاز به احراز هویت دارد، لطفا از طریق پنل کاربری خود اقدام به احراز هویت نمایید");
-            return back();
-        }
+        // Authentication Price Condition  **********************************************************
+
+//        $authentication_price_info = AuthenticationPrice::query()
+//            ->first();
+
+//        if ($cart['total_price'] > $authentication_price_info['authentication_price'] and $user['status_id'] !== 2) {
+//            alert()->error('', "حساب کاربری شما نیاز به احراز هویت دارد، لطفا از طریق پنل کاربری خود اقدام به احراز هویت نمایید");
+//            return back();
+//        }
+
+        // Authentication Price Condition  **********************************************************
 
         $order = Order::query()->create([
             'order_code' => 0,

@@ -51,13 +51,23 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    function roles()
+    function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Role::class);
     }
 
-    function images()
+    function images(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Images::class, 'image_user', 'user_id', 'image_id', 'id', 'image_id')->withPivot('image_src');
+    }
+
+    public function status(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(UserStatus::class, 'user_status_id');
+    }
+
+    public function user_ank_info(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserBankInfo::class);
     }
 }

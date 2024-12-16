@@ -91,6 +91,7 @@
                                 <th>#</th>
                                 <th>خرید فوری</th>
                                 <th>شماره سفارش</th>
+                                <th>تعداد محصول</th>
                                 <th>نام و نام خانوادگی</th>
                                 <th>تاریخ</th>
                                 <th>وضعیت</th>
@@ -126,7 +127,9 @@
                                     <td class="w60">
                                         <span>{{$order['order_code']}}</span>
                                     </td>
-
+                                    <td>
+                                        {{\App\Helper\GetOrderDetailCount::get_order_detail_count($order['id']). ' ' . 'محصول'}}
+                                    </td>
                                     <td>
                                         <p class="mb-0">
                                             {{$order['userInfo']['first_name'] . ' ' . $order['userInfo']['last_name']}}

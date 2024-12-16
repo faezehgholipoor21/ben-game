@@ -10,6 +10,7 @@ use App\Models\Images;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
+use App\Models\UserStatus;
 use App\Rules\national_code;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -87,6 +88,7 @@ class adminUserController extends Controller
 
     function edit($user_id)
     {
+
         $this_user_info = User::query()
             ->select('*', 'users.id as user_id')
             ->leftJoin('genders', 'genders.gender_id', '=', 'users.gender')
@@ -110,7 +112,9 @@ class adminUserController extends Controller
 
         $genders = Gender::all();
 
-        return view('admin.users.edit', compact('this_user_info', 'genders', 'role_info', 'role_id', 'user_role_info'));
+        $user_status = UserStatus::query()->get();
+
+        return view('admin.users.edit', compact('this_user_info', 'genders','user_status', 'role_info', 'role_id', 'user_role_info'));
     }
 
     function update(Request $request, $user_id)
@@ -144,6 +148,7 @@ class adminUserController extends Controller
             'last_name' => $input['last_name'],
             'national_code' => $input['national_code'],
             'gender' => $input['gender'],
+            'user_status_id' => intval($input['auth_status']),
             'birth_day' => $input['birth_day'] != '' ? $this->convertDateToGregorian($input['birth_day']) : $user['birth_day'],
         ]);
 

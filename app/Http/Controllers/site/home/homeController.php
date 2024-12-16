@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\site\home;
 
 use App\Http\Controllers\Controller;
+use App\Models\Banner;
 use App\Models\ImageProduct;
 use App\Models\Post;
 use App\Models\Product;
+use App\Models\Slider;
 use Illuminate\Http\Request;
 
 class homeController extends Controller
@@ -15,18 +17,25 @@ class homeController extends Controller
         $product_info = Product::query()
             ->get();
 
-        foreach ($product_info as $product){
+        foreach ($product_info as $product) {
             $image_product_info = ImageProduct::query()
-                ->where('product_id' , $product['id'])
-                ->where('is_main' , 1)
-                ->where('image_id' , 5)
+                ->where('product_id', $product['id'])
+                ->where('is_main', 1)
+                ->where('image_id', 5)
                 ->first();
 
             $product['image_product'] = $image_product_info['image_src'];
 
         }
+        $slider_info = Slider::query()
+            ->where('is_active', 1)
+            ->get();
 
-        return view('site.home.index',compact('product_info'));
+        $banner_info = Banner::query()
+            ->where('is_active', 1)
+            ->get();
+
+        return view('site.home.index', compact('product_info', 'slider_info', 'banner_info'));
     }
 
     public function search(Request $request)

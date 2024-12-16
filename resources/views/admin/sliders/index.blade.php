@@ -6,9 +6,8 @@
 
 @section('custom-css')
     <style>
-        .my_img
-        {
-            width: 170px;
+        .my_img {
+            width: 70px;
             height: 70px;
         }
     </style>
@@ -36,7 +35,9 @@
                     <h1>افزودن عکس اسلایدر</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">پنل مدیریت</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="{{route('admin.dashboard')}}">پنل مدیریت</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">
                                 افزودن تصویر
                             </li>
@@ -48,28 +49,64 @@
         {{--        body--}}
         <div class="row clearfix">
 
-                <div class="col-12 col-md-3">
-                    <form action="{{route('admin.slider_images_store')}}" method="post" enctype="multipart/form-data">
-                        @csrf
+            <div class="col-12 col-md-3">
+                <form action="{{route('admin.slider_images_store')}}" method="post" enctype="multipart/form-data">
+                    @csrf
                     <div class="card">
-                        <div class="card-body text-center">
-                            <label>
-                                تصویر اسلاید
-                            </label>
-                            @error('image_src')
-                            <span class="validation_label_error">{{$message}}</span>
-                            @enderror
-                            <input type="file" name="image_src" id="image_src" class="dropify">
-                            <button type="submit" class="btn btn-success mt-3 ">
-                                <i class="fa fa-plus"></i>
-                                افزودن اسلاید
-                            </button>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 mb-3">
+                                    <label>
+                                        تصویر اسلاید
+                                    </label>
+                                    @error('src')
+                                    <span class="validation_label_error">{{$message}}</span>
+                                    @enderror
+                                    <input type="file" name="src" id="src" class="dropify">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label>
+                                        جمله تخفیف
+                                    </label>
+                                    @error('discount_text')
+                                    <span class="validation_label_error">{{$message}}</span>
+                                    @enderror
+                                    <input type="text" name="discount_text" id="discount_text" class="form-control"
+                                           placeholder="به طور مثال : تخفیف ویژه">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label>
+                                        تیتر اسلاید
+                                    </label>
+                                    @error('bold_text')
+                                    <span class="validation_label_error">{{$message}}</span>
+                                    @enderror
+                                    <input type="text" name="bold_text" id="bold_text" class="form-control"
+                                           placeholder="به طور مثال : نام بازی">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label>
+                                        توضیح کوتاه اسلاید
+                                    </label>
+                                    @error('description')
+                                    <span class="validation_label_error">{{$message}}</span>
+                                    @enderror
+                                    <textarea type="text" name="description" rows="4" id="description"
+                                              class="form-control"></textarea>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <button type="submit" class="btn btn-success mt-3 w-100">
+                                        <i class="fa fa-plus"></i>
+                                        افزودن اسلاید
+                                    </button>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
-                    </form>
+                </form>
 
-                </div>
+            </div>
             <div class="col-12 col-md-9">
                 @if(!empty($slider_info->all()))
                     <div class="row clearfix">
@@ -80,6 +117,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>تصویر محصول</th>
+                                        <th>تیتر اسلاید</th>
                                         <th class="text-center">عملیات</th>
                                     </tr>
                                     </thead>
@@ -96,9 +134,17 @@
                                                 <span>{{$row}}</span>
                                             </td>
                                             <td>
-                                                <img class="my_img" src="{{asset($slider['image_src'])}}">
+                                                <img class="my_img" src="{{asset($slider['src'])}}">
+                                            </td>
+                                            <td>
+                                                {{$slider['bold_text']}}
                                             </td>
                                             <td class="text-center">
+                                                <a href="{{route('admin.slider_images_active' , ['slider_id' => $slider['id']])}}"
+                                                   class="{{$slider['css_style']}}">
+                                                    <i class="fa fa-image"></i>
+                                                    {{$slider['status_text']}}
+                                                </a>
                                                 <button onclick="removeImage({{$slider['id']}})"
                                                         class="btn btn-danger"
                                                         data-toggle="tooltip" title="حذف تصویر">

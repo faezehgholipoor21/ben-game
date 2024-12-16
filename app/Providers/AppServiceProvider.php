@@ -71,6 +71,97 @@ class AppServiceProvider extends ServiceProvider
             $view->with('full_my_order_count', $full_my_order_count);
         });
 
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_first = 0;
+            if (auth()->check()) {
+                $my_order_status_count_first = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 1)
+                    ->count();
+            }
+            $view->with('my_order_status_count_first', $my_order_status_count_first);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_second = 0;
+            if (auth()->check()) {
+                $my_order_status_count_second = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 2)
+                    ->count();
+            }
+            $view->with('my_order_status_count_second', $my_order_status_count_second);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_third = 0;
+            if (auth()->check()) {
+                $my_order_status_count_third = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 3)
+                    ->count();
+            }
+            $view->with('my_order_status_count_third', $my_order_status_count_third);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_forth = 0;
+            if (auth()->check()) {
+                $my_order_status_count_forth = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 4)
+                    ->count();
+            }
+            $view->with('my_order_status_count_forth', $my_order_status_count_forth);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_five = 0;
+            if (auth()->check()) {
+                $my_order_status_count_five = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 5)
+                    ->count();
+            }
+            $view->with('my_order_status_count_five', $my_order_status_count_five);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_six = 0;
+            if (auth()->check()) {
+                $my_order_status_count_six = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 6)
+                    ->count();
+            }
+            $view->with('my_order_status_count_six', $my_order_status_count_six);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_seven = 0;
+            if (auth()->check()) {
+                $my_order_status_count_seven = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 7)
+                    ->count();
+            }
+            $view->with('my_order_status_count_seven', $my_order_status_count_seven);
+        });
+        View::composer(['admin_norm.*'], function ($view) {
+            $my_order_status_count_eight = 0;
+            if (auth()->check()) {
+                $my_order_status_count_eight = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->where('order_status', 8)
+                    ->count();
+            }
+            $view->with('my_order_status_count_eight', $my_order_status_count_eight);
+        });
+
+        View::composer(['user.*'], function ($view) {
+            $user_order_count = 0;
+            if (auth()->check()) {
+                $user_order_count = Order::query()
+                    ->where('review_expert_id', auth()->user()->id)
+                    ->count();
+            }
+            $view->with('user_order_count', $user_order_count);
+        });
+
         View::composer(['*'], function ($view) {
             if (isset($_COOKIE['cart'])) {
                 $cart_count = Cart::query()

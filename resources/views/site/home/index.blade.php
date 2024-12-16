@@ -16,130 +16,43 @@
                 <div class="col-lg-8">
                     <div class="hero-slider-wrap">
                         <div class="hero-slider owl-carousel owl-theme">
-                            <div class="hero-single">
-                                <div class="container">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12 col-lg-7">
-                                            <div class="hero-content">
-                                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">
-                                                    تا 50% تخفیف</h6>
-                                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                                    برای اولین خرید <br><span>گومارت</span>
-                                                </h1>
-                                                <p data-animation="fadeInLeft" data-delay=".75s">
-                                                    تنوع بسیاری از معابر لورم اپیسوم در دسترس است اما وجود دارد
-                                                    اکثر آنها به نوعی توسط شوخ طبعی تزریقی دچار تغییر شده اند.
-                                                </p>
-                                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                                    <a href="#" class="theme-btn">اکنون خرید کنید<i
-                                                            class="fas fa-arrow-left"></i></a>
+                            @foreach($slider_info as $slider)
+                                <div class="hero-single">
+                                    <div class="container">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-12 col-lg-7">
+                                                <div class="hero-content">
+                                                    <h6 class="hero-sub-title" data-animation="fadeInUp"
+                                                        data-delay=".25s">
+                                                        {{$slider['discount_text']}}
+                                                    </h6>
+                                                    <h1 class="hero-title" data-animation="fadeInRight"
+                                                        data-delay=".50s">
+                                                        {{$slider['bold_text']}}
+                                                    </h1>
+                                                    <p data-animation="fadeInLeft" data-delay=".75s">
+                                                        {{$slider['description']}}
+                                                    </p>
+                                                    <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
+                                                        <a href="#" class="theme-btn">
+                                                            اکنون خرید کنید
+                                                            <i class="fas fa-arrow-left"></i>
+                                                        </a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12 col-lg-5">
-                                            <div class="hero-right">
-                                                <div class="hero-img">
-                                                    <img src="{{asset('site/assets/img/slider/hero-1.png')}}" alt
-                                                         data-animation="fadeInRight" data-delay=".25s">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="hero-single">
-                                <div class="container">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12 col-lg-7">
-                                            <div class="hero-content">
-                                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">
-                                                    تا 50% تخفیف</h6>
-                                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                                    برای اولین خرید <br><span>گومارت</span>
-                                                </h1>
-                                                <p data-animation="fadeInLeft" data-delay=".75s">
-                                                    تنوع بسیاری از معابر لورم اپیسوم در دسترس است اما وجود دارد
-                                                    اکثر آنها به نوعی توسط شوخ طبعی تزریقی دچار تغییر شده اند.
-                                                </p>
-                                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                                    <a href="#" class="theme-btn">اکنون خرید کنید<i
-                                                            class="fas fa-arrow-left"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-lg-5">
-                                            <div class="hero-right">
-                                                <div class="hero-img">
-                                                    <img src="{{asset('site/assets/img/slider/hero-2.png')}}" alt
-                                                         data-animation="fadeInRight" data-delay=".25s">
+                                            <div class="col-md-12 col-lg-5">
+                                                <div class="hero-right">
+                                                    <div class="hero-img">
+                                                        <img src="{{asset($slider['src'])}}" alt
+                                                             data-animation="fadeInRight" data-delay=".25s">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="hero-single">
-                                <div class="container">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12 col-lg-7">
-                                            <div class="hero-content">
-                                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">
-                                                    تا 50% تخفیف</h6>
-                                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                                    برای اولین خرید <br><span>گومارت</span>
-                                                </h1>
-                                                <p data-animation="fadeInLeft" data-delay=".75s">
-                                                    تنوع بسیاری از معابر لورم اپیسوم در دسترس است اما وجود دارد
-                                                    اکثر آنها به نوعی توسط شوخ طبعی تزریقی دچار تغییر شده اند.
-                                                </p>
-                                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                                    <a href="#" class="theme-btn">اکنون خرید کنید<i
-                                                            class="fas fa-arrow-left"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-lg-5">
-                                            <div class="hero-right">
-                                                <div class="hero-img">
-                                                    <img src="{{asset('site/assets/img/slider/hero-3.png')}}" alt
-                                                         data-animation="fadeInRight" data-delay=".25s">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="hero-single">
-                                <div class="container">
-                                    <div class="row align-items-center">
-                                        <div class="col-md-12 col-lg-7">
-                                            <div class="hero-content">
-                                                <h6 class="hero-sub-title" data-animation="fadeInUp" data-delay=".25s">
-                                                    تا 50% تخفیف</h6>
-                                                <h1 class="hero-title" data-animation="fadeInRight" data-delay=".50s">
-                                                    برای اولین خرید <br><span>گومارت</span>
-                                                </h1>
-                                                <p data-animation="fadeInLeft" data-delay=".75s">
-                                                    تنوع بسیاری از معابر لورم اپیسوم در دسترس است اما وجود دارد
-                                                    اکثر آنها به نوعی توسط شوخ طبعی تزریقی دچار تغییر شده اند.
-                                                </p>
-                                                <div class="hero-btn" data-animation="fadeInUp" data-delay="1s">
-                                                    <a href="#" class="theme-btn">اکنون خرید کنید<i
-                                                            class="fas fa-arrow-left"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 col-lg-5">
-                                            <div class="hero-right">
-                                                <div class="hero-img">
-                                                    <img src="{{asset('site/assets/img/slider/hero-4.png')}}" alt
-                                                         data-animation="fadeInRight" data-delay=".25s">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -147,26 +60,22 @@
                     <div class="small-banner">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-6 col-lg-12 px-lg-0">
-                                    <div class="banner-item">
-                                        <img src="{{asset('site/assets/img/banner/mini-banner-1.jpg')}}" alt>
-                                        <div class="banner-content">
-                                            <p>مجموعه های داغ</p>
-                                            <h3>مجموعه‌های <br>پرندگان خشمگین</h3>
-                                            <a href="#">بازی کنید</a>
+                                @foreach($banner_info as $banner)
+                                    <div class="col-md-6 col-lg-12 px-lg-0">
+                                        <div class="banner-item">
+                                            <img src="{{asset($banner['src'])}}" alt="{{$banner['tiny_text']}}">
+                                            <div class="banner-content">
+                                                <p>
+                                                    {{$banner['tiny_text']}}
+                                                </p>
+                                                <h3>
+                                                    {{$banner['bold_text']}}
+                                                </h3>
+                                                <a href="#">خرید کنید</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 col-lg-12 px-lg-0">
-                                    <div class="banner-item">
-                                        <img src="{{asset('site/assets/img/banner/mini-banner-2.jpg')}}" alt>
-                                        <div class="banner-content">
-                                            <p>بازیای موبایل</p>
-                                            <h3>ساده<br>جذاب</h3>
-                                            <a href="#">از ما بخر</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -174,7 +83,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="feature-area2 mt-20">
         <div class="container">
@@ -469,53 +377,56 @@
             <div class="row">
                 <div class="col-12">
                     <div class="site-heading-inline">
-                        <h2 class="site-title"><img src="{{asset('site/assets/img/icon/trending.svg')}}" alt>موارد پرطرفدار</h2>
+                        <h2 class="site-title"><img src="{{asset('site/assets/img/icon/trending.svg')}}" alt>موارد
+                            پرطرفدار</h2>
                         <a href="#">مشاهده بیشتر <i class="fas fa-arrow-left"></i></a>
                     </div>
                 </div>
             </div>
             <div class="product-slider owl-carousel owl-theme">
                 @foreach($product_info as $product)
-                <div class="product-item">
-                    <div class="product-img">
-                        <span class="type new">جدید</span>
-                        <a href="{{route('site.product_detail',['product_id' => $product['id']])}}">
-                            <img src="{{asset($product['image_product'])}}" alt>
-                        </a>
-                        <div class="product-action-wrap">
-                            <div class="product-action">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                   title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                        class="far fa-arrows-repeat"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title">
-                            <a href="#">
-                                {{$product['product_name']}}
+                    <div class="product-item">
+                        <div class="product-img">
+                            <span class="type new">جدید</span>
+                            <a href="{{route('site.product_detail',['product_id' => $product['id']])}}">
+                                <img src="{{asset($product['image_product'])}}" alt>
                             </a>
-                        </h3>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="product-price">
-                                <span>{{$product['product_price']}}  تومان</span>
+                            <div class="product-action-wrap">
+                                <div class="product-action">
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
+                                       data-tooltip="tooltip"
+                                       title="نمایش سریع"><i class="far fa-eye"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                            class="far fa-heart"></i></a>
+                                    <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
+                                            class="far fa-arrows-repeat"></i></a>
+                                </div>
                             </div>
-                            <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                    data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                <i class="far fa-shopping-bag"></i>
-                            </button>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">
+                                <a href="#">
+                                    {{$product['product_name']}}
+                                </a>
+                            </h3>
+                            <div class="product-rate">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="product-bottom">
+                                <div class="product-price">
+                                    <span>{{$product['product_price']}}  تومان</span>
+                                </div>
+                                <button type="button" class="product-cart-btn" data-bs-placement="right"
+                                        data-tooltip="tooltip" title="افزودن به سبد خرید">
+                                    <i class="far fa-shopping-bag"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                </div>
                 @endforeach
             </div>
         </div>
@@ -536,12 +447,14 @@
                 <div class="product-item">
                     <div class="product-img">
                         <span class="type new">جدید</span>
-                        <a href="shop-single.html"><img src="http://127.0.0.1:8000/site/assets/products/product_1718302676.png" alt></a>
+                        <a href="shop-single.html"><img
+                                src="http://127.0.0.1:8000/site/assets/products/product_1718302676.png" alt></a>
                         <div class="product-action-wrap">
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -570,12 +483,14 @@
                 <div class="product-item">
                     <div class="product-img">
                         <span class="type hot">داغ</span>
-                        <a href="shop-single.html"><img src="http://127.0.0.1:8000/site/assets/products/product_1718303796.png" alt></a>
+                        <a href="shop-single.html"><img
+                                src="http://127.0.0.1:8000/site/assets/products/product_1718303796.png" alt></a>
                         <div class="product-action-wrap">
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -604,12 +519,14 @@
                 <div class="product-item">
                     <div class="product-img">
                         <span class="type oos">در انبار موجود نیست</span>
-                        <a href="shop-single.html"><img src="http://127.0.0.1:8000/site/assets/products/product_1718303450.png" alt></a>
+                        <a href="shop-single.html"><img
+                                src="http://127.0.0.1:8000/site/assets/products/product_1718303450.png" alt></a>
                         <div class="product-action-wrap">
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -638,12 +555,14 @@
                 <div class="product-item">
                     <div class="product-img">
                         <span class="type discount">10% تخفیف</span>
-                        <a href="shop-single.html"><img src="http://127.0.0.1:8000/site/assets/products/product_1718302676.png" alt></a>
+                        <a href="shop-single.html"><img
+                                src="http://127.0.0.1:8000/site/assets/products/product_1718302676.png" alt></a>
                         <div class="product-action-wrap">
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -677,7 +596,8 @@
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -758,7 +678,8 @@
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -792,7 +713,8 @@
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -826,7 +748,8 @@
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -860,7 +783,8 @@
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -895,7 +819,8 @@
                             <div class="product-action">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
                                    title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i class="far fa-heart"></i></a>
+                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
+                                        class="far fa-heart"></i></a>
                                 <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
                                         class="far fa-arrows-repeat"></i></a>
                             </div>
@@ -953,7 +878,8 @@
                         <h2 class="product-list-title">در فروش</h2>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p39.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p39.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -974,7 +900,8 @@
                         </div>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p2.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p2.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -995,7 +922,8 @@
                         </div>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p3.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p3.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1021,7 +949,8 @@
                         <h2 class="product-list-title">پرفروش ترین</h2>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p4.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p4.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1042,7 +971,8 @@
                         </div>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p5.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p5.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1063,7 +993,8 @@
                         </div>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p6.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p6.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1089,7 +1020,8 @@
                         <h2 class="product-list-title">برترین رتبه</h2>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p7.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p7.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1110,7 +1042,8 @@
                         </div>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p8.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p8.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1131,7 +1064,8 @@
                         </div>
                         <div class="product-list-item">
                             <div class="product-list-img">
-                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p26.png')}}" alt="#"></a>
+                                <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p26.png')}}"
+                                                                alt="#"></a>
                             </div>
                             <div class="product-list-content">
                                 <h4><a href="shop-single.html">عینک پلیسی عالی</a></h4>
@@ -1181,7 +1115,8 @@
                                 </ul>
                             </div>
                             <h4 class="blog-title">
-                                <a href="#">تغییرهای زیادی از قسمت‌های موجود وجود دارد که اکثر آنها دچار مشکل شده‌اند.</a>
+                                <a href="#">تغییرهای زیادی از قسمت‌های موجود وجود دارد که اکثر آنها دچار مشکل
+                                    شده‌اند.</a>
                             </h4>
                             <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییرات تصادفی شده‌اند
                                 کلمات.</p>
@@ -1202,7 +1137,8 @@
                                 </ul>
                             </div>
                             <h4 class="blog-title">
-                                <a href="#">تغییرهای زیادی از قسمت‌های موجود وجود دارد که اکثر آنها دچار مشکل شده‌اند.</a>
+                                <a href="#">تغییرهای زیادی از قسمت‌های موجود وجود دارد که اکثر آنها دچار مشکل
+                                    شده‌اند.</a>
                             </h4>
                             <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییرات تصادفی شده‌اند
                                 کلمات.</p>
@@ -1223,7 +1159,8 @@
                                 </ul>
                             </div>
                             <h4 class="blog-title">
-                                <a href="#">تغییرهای زیادی از قسمت‌های موجود وجود دارد که اکثر آنها دچار مشکل شده‌اند.</a>
+                                <a href="#">تغییرهای زیادی از قسمت‌های موجود وجود دارد که اکثر آنها دچار مشکل
+                                    شده‌اند.</a>
                             </h4>
                             <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییرات تصادفی شده‌اند
                                 کلمات.</p>

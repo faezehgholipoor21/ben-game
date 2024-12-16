@@ -198,7 +198,8 @@
                 <span>پنل مدیریت</span>
             </a>
             <button type="button" class="btn-toggle-offcanvas btn btn-sm float-right"><i
-                    class="lnr lnr-menu icon-close"></i></button>
+                    class="lnr lnr-menu icon-close"></i>
+            </button>
         </div>
 
         <div class="sidebar-scroll">
@@ -330,6 +331,9 @@
                         </a>
                         <ul>
                             <li>
+                                <a href="{{route('admin.authentication_price')}}">تعیین مبلغ احراز هویت</a>
+                            </li>
+                            <li>
                                 <a href="{{route('admin.about_us_panel')}}">درباره ما</a>
                             </li>
                             <li>
@@ -351,7 +355,7 @@
                                 <a href="{{route('admin.slider_images_panel')}}">اسلایدر</a>
                             </li>
                             <li>
-                                <a href="{{route('admin.top_banner_images_panel')}}">بنرهای بالای سایت</a>
+                                <a href="{{route('admin.banner_images_panel')}}">بنرها</a>
                             </li>
                         </ul>
                     </li>

@@ -6,6 +6,9 @@
 
 @section('custom-css')
     <style>
+        tr.is_force_tr, tr.is_force_tr td {
+            background: #ffdfdf !important;
+        }
         .not_available {
             color: orangered !important;
             background-color: #f3cebe;
@@ -72,7 +75,10 @@
                     <table class="table table-borderless text-nowrap">
                         <thead>
                         <tr>
+                            <th>خرید فوری</th>
                             <th>شماره سفارش</th>
+                            <th>تعداد محصول</th>
+                            <th>نام مشتری</th>
                             <th>تاریخ خرید</th>
                             <th>مجموع</th>
                             <th>وضعیت</th>
@@ -82,11 +88,24 @@
                         </thead>
                         <tbody>
                         @foreach($order_list as $order)
-                            <tr>
+                            <tr @if($order['is_force'] == 1) class="is_force_tr" @endif>
+                                <td class="w60">
+                                    @if($order['is_force'] == 1)
+                                        <i class="fa fa-check text-success"></i>
+                                    @else
+                                        <i class="fa fa-times text-danger"></i>
+                                    @endif
+                                </td>
                                 <td>
                                 <span class="table-list-code">
                                     #{{$order['order_code']}}
                                 </span>
+                                </td>
+                                <td>
+                                    {{\App\Helper\GetOrderDetailCount::get_order_detail_count($order['id']). ' ' . 'محصول'}}
+                                </td>
+                                <td>
+                                    {{$order['userInfo']['first_name'].' '.$order['userInfo']['last_name']}}
                                 </td>
                                 <td>
                                     {{$order['jalali_date']}}
@@ -104,7 +123,9 @@
                                         <a href="#" disabled="disabled"
                                            class="btn btn-dark">
                                             <i class="fa fa-check"></i>
-                                            اختصاص داده شد
+                                            اختصاص داده شد به
+                                            <br>
+                                            {{$order['expertInfo']['first_name'].' '.$order['expertInfo']['last_name']}}
                                         </a>
                                     @else
                                         <a href="{{route('admin_norm.order_allocation' , ['order_id' => $order['id']])}}"
