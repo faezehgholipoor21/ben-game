@@ -4,6 +4,15 @@
     پنل مدیریت | دسته بندی محصولات
 @endsection
 
+@section('custom-css')
+    <style>
+        .cat_image_css{
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+@endsection
+
 @section('custom-js')
     <script>
         function removeCategory(id) {
@@ -47,6 +56,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>تصویر دسته</th>
                                 <th>عنوان دسته بندی</th>
                                 <th>نامک دسته بندی</th>
                                 <th>عملیات</th>
@@ -62,6 +72,9 @@
                                 <tr>
                                     <td class="w60">
                                         <span>{{$row}}</span>
+                                    </td>
+                                    <td>
+                                        <img src="{{asset($category_product['cat_image'])}}" class="cat_image_css">
                                     </td>
                                     <td>
                                         <p class="mb-0">

@@ -99,7 +99,7 @@ Route::namespace('App\Http\Controllers\admin')
         //category_product
         Route::get('category_product', [adminCategoryController::class, 'index'])->name('category_product_panel');
         Route::get('category_product_create', [adminCategoryController::class, 'create'])->name('category_product_create_panel');
-        Route::get('category_product_store', [adminCategoryController::class, 'store'])->name('category_product_store_panel');
+        Route::post('category_product_store', [adminCategoryController::class, 'store'])->name('category_product_store_panel');
         Route::get('category_product_edit/{id}', [adminCategoryController::class, 'edit'])->name('category_product_edit_panel');
         Route::post('category_product_update/{id}', [adminCategoryController::class, 'update'])->name('category_product_update_panel');
         Route::post('category_product_delete/{id}', [adminCategoryController::class, 'delete'])->name('category_product_delete_panel');

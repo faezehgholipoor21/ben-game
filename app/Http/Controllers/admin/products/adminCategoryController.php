@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin\products;
 
+use App\Helper\RepairFileSrc;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -24,41 +25,57 @@ class adminCategoryController extends Controller
 
     public function create(): Factory|View|Application
     {
-
         $category_info = Category::query()
             ->paginate(10);
 
         return view('admin.products.category.create',compact('category_info'));
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $input = $request->all();
 
-        $validation = Validator::make($input, [
-            'cat_title' => 'required|string|max:255',
-            'cat_slug' => 'required|string|max:255',
+        $validation = validator::make($input, [
+            'cat_title' => 'required',
+            'cat_slug' => 'required',
+            'cat_image' => 'required|mimes:jpg,png,jpeg|max:1024', //1MB
         ]);
 
         if ($validation->fails()) {
-            alert()->error($validation->errors()->first(), 'خطا !');
-            return back()->withErrors($validation->errors())->withInput();
+            alert()->error('', $validation->errors()->first());
+            return back()->withErrors($validation->errors());
         }
 
-       $categories= Category::create([
+        $category_info = Category::query()->create([
             'cat_title' => $input['cat_title'],
+            'cat_meta_description' => $input['cat_meta_description'],
             'cat_slug' => str_replace(' ', '-', $input['cat_slug']),
+            'cat_meta_keywords' => $input['cat_meta_keywords'],
+            'cat_content' => $input['cat_content'],
+            'parent' => $input['parent'],
         ]);
 
-        alert()->success('', 'دسته بندی با موفقیت افزوده شد.');
-        return redirect()->route('admin.category_product_panel',compact('categories'));
+        $file = $request->file('cat_image');
+        $file_ext = $file->getClientOriginalExtension();
+        $file_name = 'product_' . time() . '.' . $file_ext;
+        $cat_image = $file->move('site\assets\products', $file_name);
+
+        $category_info->update([
+           'cat_image' => RepairFileSrc::repair_file_src($cat_image),
+        ]);
+
+        alert()->success('', 'دسته جدید با موفقیت افزوده شد.');
+        return redirect()->route('admin.category_product_panel');
     }
 
     public function edit($id): Factory|View|Application
     {
         $category_product_edit = Category::query()->findOrFail($id);
 
-        return view('admin.products.category.edit', compact('category_product_edit'));
+        $category_info = Category::query()
+            ->paginate(10);
+
+        return view('admin.products.category.edit', compact('category_product_edit','category_info'));
     }
 
     public function update(Request $request,$id): RedirectResponse
@@ -76,9 +93,31 @@ class adminCategoryController extends Controller
             return back()->withErrors($validation->errors())->withInput();
         }
 
+        if ($request->has('cat_image')) {
+            //get posts image and delete old profile
+            $old = $category_product_info->cat_image;
+
+            if (file_exists($old) and !is_dir($old)) {
+                unlink($old);
+            }
+
+            $file = $request->file('cat_image');
+            $file_ext = $file->getClientOriginalExtension();
+            $file_name = 'product_' . time() . '.' . $file_ext;
+            $cat_image = $file->move('site\assets\products', $file_name);
+
+            $category_product_info->update([
+                'cat_image' => RepairFileSrc::repair_file_src($cat_image),
+            ]);
+        }
+
         $category_product_info->update([
             'cat_title' => $input['cat_title'],
-            'cat_slug' => str_replace(' ', '-', $input['cat_slug'])
+            'cat_meta_description' => $input['cat_meta_description'],
+            'cat_slug' => str_replace(' ', '-', $input['cat_slug']),
+            'cat_meta_keywords' => $input['cat_meta_keywords'],
+            'cat_content' => $input['cat_content'],
+            'parent' => $input['parent'],
         ]);
 
         alert()->success('', 'دسته بندی با موفقیت ویرایش شد.');
