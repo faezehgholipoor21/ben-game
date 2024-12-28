@@ -143,10 +143,10 @@
                                         @error('cat_meta_keywords')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <div class="input-group demo-tags input-area">
+                                        <div class="input-group demo-tagsinput-area">
                                             <input name="cat_meta_keywords" type="text" class="form-control"
                                                    value="{{$category_product_edit['cat_meta_keywords']}}"
-                                                   data-role="tags input">
+                                                   data-role="tagsinput">
                                         </div>
                                     </div>
                                 </div>

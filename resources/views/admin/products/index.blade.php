@@ -85,7 +85,6 @@
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th class="text-center">تصویر محصول</th>
                                 <th class="text-center">عنوان محصول</th>
                                 <th class="text-center">دسته محصول</th>
                                 <th class="text-center">اکانت بازی</th>
@@ -105,9 +104,6 @@
                                     <td class="w60">
                                         <span>{{$row}}</span>
                                     </td>
-                                    <td>
-                                        <img class="my_img" src="{{asset($product['image_src'])}}">
-                                    </td>
                                     <td class="text-center">
                                         <p class="mb-0">
                                             {{$product['product_name']}}
@@ -119,9 +115,11 @@
                                         </p>
                                     </td>
                                     <td class="text-center">
-                                        <p class="mb-0">
-                                            {{$product['game_account']}}
-                                        </p>
+                                        @foreach($product->accounts as $account)
+                                            <p class="badge badge-info">
+                                                {{ $account->account_name }}
+                                            </p>
+                                        @endforeach
                                     </td>
                                     <td class="text-center">
                                         <p class="mb-0">
@@ -129,12 +127,7 @@
                                         </p>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{route('admin.product_images_panel',['id'=>$product['id']])}}">
-                                            <button class="btn btn-success" data-toggle="tooltip"
-                                                    title="افزودن تصویر محصول">
-                                                <i class="icon-picture"></i>
-                                            </button>
-                                        </a>
+
 
                                         <a href="{{route('admin.product_edit_panel',['id'=>$product['id']])}}">
                                             <button class="btn btn-primary" data-toggle="tooltip"

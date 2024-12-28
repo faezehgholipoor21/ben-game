@@ -87,6 +87,13 @@
                                         </p>
                                     </td>
                                     <td>
+                                        <a href="{{route('admin.cat_product_images_panel',['id'=>$category_product['id']])}}">
+                                            <button class="btn btn-success" data-toggle="tooltip"
+                                                    title="افزودن تصویر محصول">
+                                                <i class="icon-picture"></i>
+                                            </button>
+                                        </a>
+
                                         <a href="{{route('admin.category_product_edit_panel', ['id' => $category_product['id']])}}">
                                             <button class="btn btn-primary">
                                                 <i class="icon-pencil"></i>

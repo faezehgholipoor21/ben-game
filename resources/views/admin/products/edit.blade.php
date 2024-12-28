@@ -15,16 +15,19 @@
     <script src="{{asset('admin/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script>
-        $(".dropify").dropify();
 
-        $('#category_select').multiselect({
-            enableFiltering: true,
-            enableCaseInsensitiveFiltering: true,
-            maxHeight: 200,
-            selectAll: true,
-            nonSelectedText: 'دسته بندی (ها) را انتخاب کنید',
-            filterPlaceholder: 'جستجو کنید',
-            allSelectedText: 'همه انتخاب شدند',
+        $(document).ready(function() {
+            $('#game_account_ids').multiselect({
+                includeSelectAllOption: true,
+                nonSelectedText: 'انتخاب اکانت',
+                buttonWidth: '100%',
+                enableFiltering: true,
+                enableCaseInsensitiveFiltering: true,
+                filterPlaceholder: 'جستجو کنید',
+                allSelectedText: 'همه انتخاب شدند',
+                numberDisplayed: 2 ,
+                selectAllText: 'انتخاب همه' // متن فارسی برای انتخاب همه
+            });
         });
 
         function formatNumber(input) {
@@ -73,39 +76,7 @@
                               method="post"
                               class="row">
                             @csrf
-                            <div class="col-12 col-sm-5 col-md-3">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <label>تصویر محصول</label>
-                                        @error('product_image')
-                                        <span class="validation_label_error">{{$message}}</span>
-                                        @enderror
-                                        <input data-default-file="{{asset($product_info['product_image'])}}"
-                                               name="product_image"
-                                               type="file" class="form-control dropify">
-                                    </div>
-                                    <div class="col-12 mt-4">
-                                        <label>قیمت محصول(تومان)</label>
-                                        @error('product_price')
-                                        <span class="validation_label_error">{{$message}}</span>
-                                        @enderror
-                                        <input value="{{number_format($product_info['product_price'])}}" type="text"
-                                               class="form-control text-right" name="product_price"
-                                               oninput="formatNumber(this)">
-                                    </div>
-                                    <div class="col-12 mt-4">
-                                        <label>قیمت فوری محصول(تومان)</label>
-                                        @error('product_force_price')
-                                        <span class="validation_label_error">{{$message}}</span>
-                                        @enderror
-                                        <input value="{{number_format($product_info['product_force_price'])}}" type="text"
-                                               class="form-control text-right" name="product_force_price"
-                                               oninput="formatNumber(this)">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-12 col-sm-7 col-md-9">
+                            <div class="col-12">
                                 <div class="row">
                                     <div class="col-12 col-md-8 mb-4">
                                         <label>عنوان محصول</label>
@@ -122,7 +93,7 @@
                                         @error('product_nickname')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input value="{{$product_info['product_nickname']}}" type="text"
+                                        <input value="{{$product_info['product_nickname']}}" dir="ltr" type="text"
                                                class="form-control"
                                                name="product_nickname">
                                     </div>
@@ -139,7 +110,7 @@
                                                     class=" form-control"
                                                     name="cat_id">
                                                 @foreach($categories as $category)
-                                                    <option
+                                                    <option @if($category['id'] == $product_info['cat_id']) selected="selected" @endif
                                                         value="{{$category['id']}}">
                                                         {{$category['cat_title']}}
                                                     </option>
@@ -153,13 +124,13 @@
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
                                         <div class="multiselect_div">
-                                            <select id="game_account_id"
+                                            <select id="game_account_ids"
                                                     class=" form-control"
-                                                    name="game_account_id">
-                                                @foreach($game_account_id as $game_account)
-                                                    <option
-                                                        value="{{$game_account['id']}}">
-                                                        {{$game_account['account_name']}}
+                                                    name="game_account_ids[]" multiple>
+                                                @foreach($all_accounts  as $account)
+                                                    <option value="{{ $account->id }}"
+                                                        {{ $product_info->accounts->contains($account->id) ? 'selected' : '' }}>
+                                                        {{ $account->account_name }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -175,43 +146,26 @@
                                                name="inventory">
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-12 col-md-12 mb-4">
-                                        <label>محتوای محصول</label>
-                                        @error('product_content')
+                                <div class="row mb-4">
+                                    <div class="col-12 col-md-6 mt-4">
+                                        <label>قیمت محصول(تومان)</label>
+                                        @error('product_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <textarea name="product_content"
-                                                  class="summernote">{{$product_info['product_content']}}</textarea>
+                                        <input value="{{number_format($product_info['product_price'])}}" dir="ltr" type="text"
+                                               class="form-control text-right" name="product_price"
+                                               oninput="formatNumber(this)">
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-12 mb-4">
-                                        <label>کلمات کلیدی متا (با enter جدا شود)</label>
-                                        @error('product_meta_keywords')
+                                    <div class="col-12 col-md-6 mt-4">
+                                        <label>قیمت فوری محصول(تومان)</label>
+                                        @error('product_force_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <div class="input-group demo-tagsinput-area">
-                                            <input name="product_meta_keywords" type="text" class="form-control"
-                                                   value="{{$product_info['product_meta_keywords']}}"
-                                                   data-role="tagsinput">
-                                        </div>
+                                        <input value="{{number_format($product_info['product_force_price'])}}" dir="ltr" type="text"
+                                               class="form-control text-right" name="product_force_price"
+                                               oninput="formatNumber(this)">
                                     </div>
                                 </div>
-
-                                <div class="row">
-                                    <div class="col-12 mb-4">
-                                        <label>توضیحات متا</label>
-                                        @error('product_meta_description')
-                                        <span class="validation_label_error">{{$message}}</span>
-                                        @enderror
-                                        <input value="{{$product_info['product_meta_description']}}" type="text"
-                                               class="form-control" name="product_meta_description">
-                                    </div>
-                                </div>
-
                                 <div class="row justify-content-end">
                                     <div class="col-12 col-sm-6 col-md-4">
                                         <button class="btn btn-success w-100">

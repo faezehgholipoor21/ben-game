@@ -43,6 +43,7 @@ use App\Http\Controllers\site\products\siteProductController;
 use App\Http\Controllers\site\cart\siteCartController;
 use App\Http\Controllers\site\checkout\siteCheckoutController;
 use App\Http\Controllers\site\order\siteOrderController;
+use App\Http\Controllers\site\categories\siteCategoryController;
 
 
 //user
@@ -129,10 +130,10 @@ Route::namespace('App\Http\Controllers\admin')
         Route::post('images_delete/{id}', [adminImagesController::class, 'delete'])->name('images_delete_panel');
         Route::post('image_activate_panel', [adminImagesController::class, 'activate'])->name('image_activate_panel');
 
-        //product image
-        Route::get('product_images/{id}', [adminProductImagesController::class, 'index'])->name('product_images_panel');
-        Route::post('product_images_store/{product_id}', [adminProductImagesController::class, 'store'])->name('product_images_store');
-        Route::post('product_images_delete/{product_image_id}', [adminProductImagesController::class, 'delete'])->name('product_images_delete');
+        //category product image
+        Route::get('cat_product_images/{id}', [adminProductImagesController::class, 'index'])->name('cat_product_images_panel');
+        Route::post('cat_product_images_store/{cat_product_id}', [adminProductImagesController::class, 'store'])->name('cat_product_images_store');
+        Route::post('cat_product_images_delete/{product_image_id}', [adminProductImagesController::class, 'delete'])->name('cat_product_images_delete');
 
         //slider
         Route::get('slider_images', [adminSliderController::class, 'index'])->name('slider_images_panel');
@@ -270,6 +271,9 @@ Route::namespace('App\Http\Controllers\site')
         //products
         Route::get('products', [siteProductController::class, 'index'])->name('products');
         Route::get('product_detail/{product_id}', [siteProductController::class, 'detail'])->name('product_detail');
+
+        //categories
+        Route::get('category_detail/{cat_id}', [siteCategoryController::class, 'detail'])->name('category_detail');
 
         //cart
         Route::get('cart', [siteCartController::class, 'cart'])->name('cart');

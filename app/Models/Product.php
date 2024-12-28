@@ -27,4 +27,9 @@ class Product extends Model
     {
         return $this->belongsTo(GameAccount::class, 'game_account_id', 'id');
     }
+
+    public function accounts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Account::class, 'account_product', 'product_id', 'account_id');
+    }
 }

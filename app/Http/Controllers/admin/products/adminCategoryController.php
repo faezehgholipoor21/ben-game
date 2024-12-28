@@ -18,6 +18,7 @@ class adminCategoryController extends Controller
     public function index(): Factory|View|Application
     {
         $category_product_info = Category::query()
+            ->where('id' , '!=' , 1)
             ->paginate(10);
 
         return view('admin.products.category.index', compact('category_product_info'));

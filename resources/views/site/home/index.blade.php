@@ -148,191 +148,29 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/dress.svg')}}" alt>
+            <div class="row g-4 justify-content-center">
+                @foreach($categories as $category)
+                    <div class="col-6 col-md-4 col-lg-2 text-center">
+                        <div class="category-item">
+                            <a href="#">
+                                <div class="category-info">
+                                    <div class="icon">
+                                        <img src="{{asset($category['cat_image'])}}" alt>
+                                    </div>
+                                    <div class="content">
+                                        <h4>{{$category['cat_title']}}</h4>
+                                        <p>{{\App\Helper\CalculateSubCatCount::calculate_sub_cat_count($category['id'])}}
+                                            مورد</p>
+                                    </div>
                                 </div>
-                                <div class="content">
-                                    <h4>لوازم جانبی</h4>
-                                    <p>30 مورد</p>
-                                </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/laptop.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>الکترونیک</h4>
-                                    <p>25 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/grocery.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4> خواربارفروشی و بازار</h4>
-                                    <p>15 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/music.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>موسیقی و صدا</h4>
-                                    <p>05 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/furniture.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>مبلمان</h4>
-                                    <p>30 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/toy.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>اسباب بازی </h4>
-                                    <p>12 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/gifts.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>هدایا</h4>
-                                    <p>08 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/mother.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>کودکان و مادران</h4>
-                                    <p>14 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/beauty.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>سلامتی و زیبایی</h4>
-                                    <p>19 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/sports.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>ورزش و فضای باز</h4>
-                                    <p>24 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/garden.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>خانه و باغ</h4>
-                                    <p>09 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-6 col-md-4 col-lg-2">
-                    <div class="category-item">
-                        <a href="#">
-                            <div class="category-info">
-                                <div class="icon">
-                                    <img src="{{asset('site/assets/img/icon/automotive.svg')}}" alt>
-                                </div>
-                                <div class="content">
-                                    <h4>خودرو</h4>
-                                    <p>16 مورد</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
+
         </div>
     </div>
-
 
     <div class="small-banner">
         <div class="container">
@@ -371,259 +209,50 @@
         </div>
     </div>
 
-
-    <div class="product-area pt-70">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="site-heading-inline">
-                        <h2 class="site-title"><img src="{{asset('site/assets/img/icon/trending.svg')}}" alt>موارد
-                            پرطرفدار</h2>
-                        <a href="#">مشاهده بیشتر <i class="fas fa-arrow-left"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="product-slider owl-carousel owl-theme">
-                @foreach($product_info as $product)
-                    <div class="product-item">
-                        <div class="product-img">
-                            <span class="type new">جدید</span>
-                            <a href="{{route('site.product_detail',['product_id' => $product['id']])}}">
-                                <img src="{{asset($product['image_product'])}}" alt>
-                            </a>
-                            <div class="product-action-wrap">
-                                <div class="product-action">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#quickview"
-                                       data-tooltip="tooltip"
-                                       title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                    <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
-                                            class="far fa-heart"></i></a>
-                                    <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                            class="far fa-arrows-repeat"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="product-content">
-                            <h3 class="product-title">
-                                <a href="#">
-                                    {{$product['product_name']}}
-                                </a>
-                            </h3>
-                            <div class="product-rate">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <div class="product-bottom">
-                                <div class="product-price">
-                                    <span>{{$product['product_price']}}  تومان</span>
-                                </div>
-                                <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                        data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                    <i class="far fa-shopping-bag"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div>
-
-
     <div class="product-area pt-80 pb-100">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="site-heading-inline">
-                        <h2 class="site-title"><img src="{{asset('site/assets/img/icon/hot.svg')}}" alt>موارد داغ</h2>
-                        <a href="#">مشاهده بیشتر <i class="fas fa-arrow-left"></i></a>
+                        <h2 class="site-title">
+                            <img src="{{asset('site/assets/img/icon/hot.svg')}}" alt>
+                            بازی های موبایل
+                        </h2>
                     </div>
                 </div>
             </div>
-            <div class="product-slider owl-carousel owl-theme">
-                <div class="product-item">
-                    <div class="product-img">
-                        <span class="type new">جدید</span>
-                        <a href="shop-single.html"><img
-                                src="http://127.0.0.1:8000/site/assets/products/product_1718302676.png" alt></a>
-                        <div class="product-action-wrap">
-                            <div class="product-action">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                   title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
-                                        class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                        class="far fa-arrows-repeat"></i></a>
+            @if(!empty($category_mobile->all()))
+                <div class="product-slider owl-carousel owl-theme">
+                    @foreach($category_mobile as $category)
+                        <div class="product-item">
+                            <div class="product-img">
+                                <span class="type new">جدید</span>
+                                <a href="{{route('site.category_detail' , ['cat_id' => $category['id']])}}">
+                                    <img src="{{asset($category['cat_image'])}}" alt>
+                                </a>
+                            </div>
+                            <div class="product-content">
+                                <h3 class="product-title">
+                                    <a href="{{route('site.category_detail' , ['cat_id' => $category['id']])}}">
+                                        {{$category['cat_title']}}
+                                    </a>
+                                </h3>
+                                <div class="product-rate">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="product-price">
-                                <span>100.00 ریال</span>
-                            </div>
-                            <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                    data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                <i class="far fa-shopping-bag"></i>
-                            </button>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
-                <div class="product-item">
-                    <div class="product-img">
-                        <span class="type hot">داغ</span>
-                        <a href="shop-single.html"><img
-                                src="http://127.0.0.1:8000/site/assets/products/product_1718303796.png" alt></a>
-                        <div class="product-action-wrap">
-                            <div class="product-action">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                   title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
-                                        class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                        class="far fa-arrows-repeat"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="product-price">
-                                <span>100.00 ریال</span>
-                            </div>
-                            <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                    data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                <i class="far fa-shopping-bag"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item">
-                    <div class="product-img">
-                        <span class="type oos">در انبار موجود نیست</span>
-                        <a href="shop-single.html"><img
-                                src="http://127.0.0.1:8000/site/assets/products/product_1718303450.png" alt></a>
-                        <div class="product-action-wrap">
-                            <div class="product-action">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                   title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
-                                        class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                        class="far fa-arrows-repeat"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="product-price">
-                                <span>100.00 ریال</span>
-                            </div>
-                            <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                    data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                <i class="far fa-shopping-bag"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item">
-                    <div class="product-img">
-                        <span class="type discount">10% تخفیف</span>
-                        <a href="shop-single.html"><img
-                                src="http://127.0.0.1:8000/site/assets/products/product_1718302676.png" alt></a>
-                        <div class="product-action-wrap">
-                            <div class="product-action">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                   title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
-                                        class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                        class="far fa-arrows-repeat"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="product-price">
-                                <del>120 ریال</del>
-                                <span>100.00 ریال</span>
-                            </div>
-                            <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                    data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                <i class="far fa-shopping-bag"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-item">
-                    <div class="product-img">
-                        <a href="shop-single.html"><img src="{{asset('site/assets/img/product/p11.png')}}" alt></a>
-                        <div class="product-action-wrap">
-                            <div class="product-action">
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#quickview" data-tooltip="tooltip"
-                                   title="نمایش سریع"><i class="far fa-eye"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="اضافه کردن به علاقه مندی ها"><i
-                                        class="far fa-heart"></i></a>
-                                <a href="#" data-tooltip="tooltip" title="افزودن برای مقایسه"><i
-                                        class="far fa-arrows-repeat"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-title"><a href="shop-single.html">ایرفون بلوتوث</a></h3>
-                        <div class="product-rate">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="product-bottom">
-                            <div class="product-price">
-                                <span>100.00 ریال</span>
-                            </div>
-                            <button type="button" class="product-cart-btn" data-bs-placement="right"
-                                    data-tooltip="tooltip" title="افزودن به سبد خرید">
-                                <i class="far fa-shopping-bag"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @else
+                <p class="alert alert-warning">
+                    هنوز بازی ای ثبت نشده است
+                </p>
+            @endif
         </div>
     </div>
 

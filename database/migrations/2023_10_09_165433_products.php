@@ -17,13 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('product_name', 500);
             $table->string('product_nickname', 500);
-            $table->longText('product_content');
-            $table->string('product_meta_keywords', 500);
-            $table->string('product_meta_description', 500);
             $table->integer('product_price');
             $table->integer('product_force_price')->default(0);
             $table->integer('cat_id');
-            $table->integer('game_account_id');
             $table->integer('inventory')->default(1);
             $table->timestamps();
         });

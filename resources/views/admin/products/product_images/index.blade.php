@@ -1,7 +1,7 @@
 @extends('layouts.admin_layout')
 
 @section('Title')
-    پنل مدیریت | افزودن عکس محصول {{$product_title}}
+    پنل مدیریت | افزودن عکس محصول {{$cat_product_title}}
 @endsection
 
 @section('custom-css')
@@ -33,18 +33,20 @@
         <div class="block-header">
             <div class="row clearfix">
                 <div class="col-md-6 col-sm-12">
-                    <h1>افزودن عکس محصول {{$product_title}}</h1>
+                    <h1>افزودن عکس محصول {{$cat_product_title}}</h1>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="{{route('admin.dashboard')}}">پنل مدیریت</a></li>
+                            <li class="breadcrumb-item">
+                                <a href="{{route('admin.dashboard')}}">پنل مدیریت</a>
+                            </li>
                             <li class="breadcrumb-item active" aria-current="page">افزودن عکس
-                                محصول {{$product_title}}</li>
+                                محصول {{$cat_product_title}}</li>
                         </ol>
                     </nav>
                 </div>
 
                 <div class="col-md-6 col-sm-12 text-right hidden-xs">
-                    <a href="{{route('admin.product_panel')}}" class="btn btn-sm btn-danger">
+                    <a href="{{route('admin.category_product_panel')}}" class="btn btn-sm btn-danger">
                         <i class="fa align-right mr-2"></i>
                         بازگشت به لیست محصولات
                     </a>
@@ -55,7 +57,7 @@
         <div class="row clearfix">
 
                 <div class="col-12 col-md-3">
-                    <form action="{{route('admin.product_images_store',['product_id'=>$product_id])}}" method="post" enctype="multipart/form-data">
+                    <form action="{{route('admin.cat_product_images_store',['cat_product_id'=>$cat_product_id])}}" method="post" enctype="multipart/form-data">
                         @csrf
                     <div class="card">
                         <div class="card-body text-center">

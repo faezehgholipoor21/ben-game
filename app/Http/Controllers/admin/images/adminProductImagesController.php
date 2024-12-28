@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin\images;
 
 use App\Helper\RepairFileSrc;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\ImageProduct;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -12,25 +13,25 @@ use JetBrains\PhpStorm\NoReturn;
 
 class adminProductImagesController extends Controller
 {
-    public function index($product_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function index($cat_product_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        $product_info=Product::query()
-            ->where('id',$product_id)
+        $cat_product_info = Category::query()
+            ->where('id', $cat_product_id)
             ->first();
 
-        $product_title=$product_info['product_title'];
+        $cat_product_title = $cat_product_info['cat_title'];
 
-        $product_image_info=ImageProduct::query()
-            ->where('is_main',0)
-            ->where('product_id',$product_id)
+        $product_image_info = ImageProduct::query()
+            ->where('is_main', 0)
+            ->where('product_id', $cat_product_id)
             ->paginate(10);
 
-        return view('admin.products.product_images.index',compact('product_title','product_image_info','product_id'));
+        return view('admin.products.product_images.index', compact('cat_product_title', 'product_image_info', 'cat_product_id'));
     }
 
-    #[NoReturn] public function store(Request $request, $product_id): \Illuminate\Http\RedirectResponse
+    #[NoReturn] public function store(Request $request, $cat_product_id): \Illuminate\Http\RedirectResponse
     {
-        $input=$request->all();
+        $input = $request->all();
 
         $validation = validator::make($input, [
             'image_src' => 'required|mimes:jpg,png,jpeg|max:1024', //1MB
@@ -47,10 +48,10 @@ class adminProductImagesController extends Controller
         $product_image = $file->move('site\assets\product_img', $file_name);
 
         ImageProduct::query()->create([
-            'image_id'=>2,
-            'image_src'=>RepairFileSrc::repair_file_src($product_image),
-            'is_main'=>0,
-            'product_id'=>$product_id
+            'image_id' => 2,
+            'image_src' => RepairFileSrc::repair_file_src($product_image),
+            'is_main' => 0,
+            'product_id' => $cat_product_id
 
         ]);
 
