@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('product_name', 500);
             $table->string('product_nickname', 500);
+            $table->string('product_image', 500)->nullable();
             $table->integer('product_price');
             $table->integer('product_force_price')->default(0);
             $table->integer('cat_id');

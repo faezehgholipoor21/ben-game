@@ -98,7 +98,7 @@
                                         @error('cat_slug')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input value="{{old('cat_slug')}}" type="text" class="form-control" name="cat_slug">
+                                        <input value="{{old('cat_slug')}}" dir="ltr" type="text" class="form-control" name="cat_slug">
                                     </div>
                                 </div>
 

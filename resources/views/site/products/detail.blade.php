@@ -371,11 +371,6 @@
                                             <span class="far fa-shopping-bag"></span>
                                             افزودن به سبد خرید
                                         </button>
-
-
-
-{{--                                        <a href="#" class="theme-btn theme-btn2" data-tooltip="tooltip"--}}
-{{--                                           title="افزودن به مقایسه"><span class="far fa-arrows-repeat"></span></a>--}}
                                     </div>
                                 </div>
                                 {{--                                <div class="col-md-6 col-lg-12 col-xl-6">--}}

@@ -7,8 +7,8 @@
 @section('custom-js')
     <script>
         function removePost(id) {
-            var removeModal = $("#RemoveModal");
-            var action = "/panel/posts/" + id;
+            let removeModal = $("#RemoveModal");
+            let action = "/panel/posts/" + id;
             removeModal.find('form').attr('action', action);
             removeModal.modal('show');
         }

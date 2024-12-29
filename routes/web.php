@@ -274,6 +274,9 @@ Route::namespace('App\Http\Controllers\site')
 
         //categories
         Route::get('category_detail/{cat_id}', [siteCategoryController::class, 'detail'])->name('category_detail');
+        Route::get('get_products/{cat_id}', [siteCategoryController::class, 'getProducts'])->name('get_products');
+        Route::get('get_product_detail', [siteCategoryController::class, 'get_product_detail'])->name('get_product_detail');
+
 
         //cart
         Route::get('cart', [siteCartController::class, 'cart'])->name('cart');

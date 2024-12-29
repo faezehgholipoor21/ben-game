@@ -13,6 +13,7 @@
             border-radius: 10px;
             box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, .5);
         }
+
         .switch {
             position: relative;
             display: inline-block;
@@ -54,22 +55,49 @@
 
         /* تغییر رنگ در حالت روشن */
         input:checked + .slider {
-            background-color: #ce0414;
+            background-color: #11B76B;
         }
 
         /* جابجایی دایره در حالت روشن */
         input:checked + .slider:before {
             transform: translateX(25px);
         }
-        .force_div{
-            background-color: #f27b91;
+
+        .force_div {
+            background-color: #fff400;
             display: inline-block;
-            padding: 5px;
             border-radius: 10px;
-            border-color: red;
             color: #000;
             font-size: 10px;
-            line-height: 30px;
+        }
+
+        .pro_img {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            text-decoration: none;
+            color: inherit;
+            border-radius: 10px;
+            margin-left: 5px !important;
+        }
+
+        .pro_img img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+        }
+
+        .title_css {
+            margin-right: 10px !important;
+        }
+
+        .w-100px {
+            width: 100px;
+        }
+
+        #is_force_span {
+            float: right;
+            margin-top: 4px;
         }
     </style>
 @endsection
@@ -77,14 +105,37 @@
 @section('custom-js')
     <script src="{{asset('vendor/sweetalert/sweetalert.all.js')}}"></script>
     <script>
+        function ShowProductDetail(productId) {
+            let selected_product_tr = $("#selected_product_tr")
+            $.ajax({
+                url: '{{route("site.get_product_detail")}}', // URL برای دریافت اطلاعات محصول
+                method: 'GET',
+                data: {
+                    id: productId
+                },
+                success: function (response) {
+                    if (!response.error) {
+                        selected_product_tr.find('img').attr('src', response['product']['product_image'])
+                        selected_product_tr.find('p.p_name').text(response['product']['product_name'])
+                        selected_product_tr.find('p.p_price').text(response['product']['product_price'])
+                        selected_product_tr.find('.p_id').val(response['product']['id'])
+                        $('#is_force_span').text('خرید فوری ( ' + response['product']['product_force_price_seperated'] + ' تومان )')
+                    }
+                    $('#ProductModal').modal('hide');
+                },
+                error: function (error) {
+                    console.log('خطا در بارگیری اطلاعات محصول', error);
+                }
+            });
+        }
+
         let product_quantity = $("#product_quantity");
         let cart_count_span = $("#cart_count_span");
 
         const toggleSwitch = document.getElementById('toggleSwitch');
         const force_value = document.getElementById('force_value');
 
-        // تغییر مقدار input مخفی بر اساس وضعیت سوئیچ
-        toggleSwitch.addEventListener('change', () => {
+        toggleSwitch?.addEventListener('change', () => {
             if (toggleSwitch.checked) {
                 force_value.value = "1";
             } else {
@@ -92,7 +143,43 @@
             }
         });
 
+        function ShowProductModal(id, cat_title) {
+            let product_modal = $("#ProductModal");
+            let modal_body = product_modal.find(".modal-body");
 
+            product_modal.find("#cat_name").text(cat_title);
+            modal_body.html('<p>در حال بارگذاری محصولات...</p>');
+
+            $.ajax({
+                url: `/get_products/${id}`,
+                method: 'GET',
+                success: function (response) {
+                    if (response.length > 0) {
+                        let productList = '<div class="product-list">';
+                        response.forEach(product => {
+                            productList += `
+                        <button onclick="ShowProductDetail(${product.id})" class="product-item pro_img product-link w-100 border-0">
+                            <img src="${product.product_image}" alt="${product.product_name}">
+                            <div>
+                                <p class="title_css" style="font-weight: bold;">${product.product_name}</p>
+                                <p class="title_css" style="color: green;">${product.product_price} تومان</p>
+                            </div>
+                        </button>`;
+                        });
+                        productList += '</div>';
+                        modal_body.html(productList);
+                    } else {
+                        modal_body.html('<p>محصولی یافت نشد.</p>');
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText); // بررسی خطا
+                    modal_body.html('<p>خطا در دریافت اطلاعات.</p>');
+                }
+            });
+
+            product_modal.modal('show');
+        }
 
         function show_sweetalert_msg(msg, icon) {
             new swal({
@@ -116,9 +203,9 @@
         }
 
         function setCookie(name, value, days) {
-            var expires = "";
+            let expires = "";
             if (days) {
-                var date = new Date();
+                let date = new Date();
                 date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
                 expires = "; expires=" + date.toUTCString();
             }
@@ -145,20 +232,28 @@
         }
 
         function addToCart(tag) {
+
+            let p_id = $('input.p_id')
+
+            if (!p_id.val()) {
+                location.reload()
+                return false;
+            }
+
             $(tag).prop('disabled', true);
 
-            var cart_cookie = getCookie('cart');
+            let cart_cookie = getCookie('cart');
 
             if (cart_cookie === null) {
                 cart_cookie = new Date().getTime();
                 setCookie('cart', cart_cookie, 60);
             }
 
-            var data = {
-                product_id: '{{$cat_info['id']}}',
+            let data = {
+                product_id: p_id.val(),
                 count: product_quantity.val(),
                 cookie: cart_cookie.toString(),
-                force_value: force_value.value,
+                force_value: $('#force_value').val()
             };
 
             $.ajax({
@@ -188,8 +283,6 @@
                 }
             });
         }
-
-
     </script>
 
 @endsection
@@ -294,76 +387,89 @@
                             <div class="row align-items-center">
                                 <div class="col-md-6 col-lg-12 col-xl-6">
                                     <div class="shop-single-btn">
-                                        <button type="submit" class="theme-btn">
+                                        <button
+                                            onclick="ShowProductModal({{$cat_info['id']}} , '{{$cat_info['cat_title']}}')"
+                                            class="theme-btn w-75">
                                             <span class="far fa-shopping-bag"></span>
-                                            نمایش محصولاتش
+                                            نمایش محصولات
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive mt-4">
+                                <table class="table table-bordered align-middle text-center">
+                                    <thead>
+                                    <tr>
+                                        <th>تصویر</th>
+                                        <th>نام محصول</th>
+                                        <th>قیمت</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr id="selected_product_tr">
+                                        <td>
+                                            <img class="w-100px rounded-2" src="">
+                                        </td>
+                                        <td>
+                                            <p class="p_name"></p>
+                                            <input type="hidden" class="p_id">
+                                        </td>
+                                        <td>
+                                            <p class="p_price"></p>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 mt-4">
+                                    <div class="force_div theme-btn clearfix">
+                                        <label class="switch float-end ms-2">
+                                            <input type="checkbox" id="toggleSwitch">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <input type="hidden" id="force_value" name="force_value" value="0">
+
+                                        <span id="is_force_span">خرید فوری ({{@number_format($product_info['product_force_price']) . 'تومان'}})</span>
+                                    </div>
+
+                                    <button onclick="addToCart(this)" type="button" class="theme-btn">
+                                        <span class="far fa-shopping-bag"></span>
+                                        افزودن به سبد خرید
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="shop-single-details">
-                <nav>
-                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
-                                type="button" role="tab" aria-controls="tab1" aria-selected="true">توضیحات
-                        </button>
-                        <button class="nav-link" id="nav-tab2" data-bs-toggle="tab" data-bs-target="#tab2" type="button"
-                                role="tab" aria-controls="tab2" aria-selected="false">اضافی
-                            اطلاعات
-                        </button>
-                        <button class="nav-link" id="nav-tab3" data-bs-toggle="tab" data-bs-target="#tab3" type="button"
-                                role="tab" aria-controls="tab3" aria-selected="false">بررسی ها
-                            (05)
-                        </button>
-                    </div>
-                </nav>
-                <div class="tab-content" id="nav-tabContent">
-                    <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="nav-tab1">
-                        <div class="shop-single-desc">
-                            <p>
-                                {!! $cat_info['cat_content'] !!}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="tab2" role="tabpanel" aria-labelledby="nav-tab2">
-                        <div class="shop-single-additional">
-                            <p>
-                                انواع مختلف از معابر لورم آپسیوم وجود دارد، اما اکثریت
-                                به نوعی تغییر می کند، با شوخی تزریقی، یا کلمات تصادفی که
-                                حتی کمی باورپذیر به نظر نرسید اگر از یک پاساژ لورم استفاده کنید
-                                ایپسوم، مطمئن باشید که هیچ چیز شرم آور در این وسط پنهان نشده است
-                                تمام ژنراتورهای لورم اپسیوم در اینترنت متن به تکرار از پیش تعریف شده دارند
-                                قطعات در صورت لزوم، این را به اولین مولد واقعی در اینترنت تبدیل می کند.
-                            </p>
-                            <p>
-                                انواع مختلف از معابر لورم آپسیوم وجود دارد، اما اکثریت
-                                به نوعی تغییر می کند، با شوخی تزریقی، یا کلمات تصادفی که
-                                حتی کمی باورپذیر به نظر نرسید اگر از یک پاساژ لورم استفاده کنید
-                                ایپسوم، مطمئن باشید که هیچ چیز شرم آور در این وسط پنهان نشده است
-                                تمام ژنراتورهای لورم اپسیوم در اینترنت متن به تکرار از پیش تعریف شده دارند
-                                قطعات در صورت لزوم، این را به اولین مولد واقعی در اینترنت تبدیل می کند.
-                            </p>
-                            <div class="shop-single-list">
-                                <h5 class="title">گزینه های حمل و نقل:</h5>
-                                <ul>
-                                    <li><span>استاندارد:</span> 6-7 روز، هزینه ارسال - رایگان</li>
-                                    <li><span>اکسپرس:</span> 1-2 روز، هزینه ارسال - 20 ریال</li>
-                                    <li><span>پیک:</span> 2-3 روز، هزینه ارسال - 30 ریال</li>
-                                    <li><span>فستگو:</span> 1-3 روز، هزینه ارسال - 15 ریال</li>
-                                </ul>
-                            </div>
-                        </div>
+        <div class="shop-single-details">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="nav-tab1" data-bs-toggle="tab" data-bs-target="#tab1"
+                            type="button" role="tab" aria-controls="tab1" aria-selected="true">توضیحات
+                    </button>
+                    <button class="nav-link" id="nav-tab3" data-bs-toggle="tab" data-bs-target="#tab3" type="button"
+                            role="tab" aria-controls="tab3" aria-selected="false">بررسی ها
+                        (05)
+                    </button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="tab1" role="tabpanel" aria-labelledby="nav-tab1">
+                    <div class="shop-single-desc">
+                        <p>
+                            {!! $cat_info['cat_content'] !!}
+                        </p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
     <div class="newsletter-area pt-60 pb-60">
         <div class="container">
@@ -384,12 +490,30 @@
                 </div>
             </div>
         </div>
-        {{--        <div class="newsletter-img-1">--}}
-        {{--            <img src="assets/img/newsletter/01.png" alt>--}}
-        {{--        </div>--}}
-        {{--        <div class="newsletter-img-2">--}}
-        {{--            <img src="assets/img/newsletter/02.png" alt>--}}
-        {{--        </div>--}}
+    </div>
+
+
+    <!-- The Modal -->
+    <div class="modal" id="ProductModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title title_css">نمایش محصولات</h4>
+                    <p class="modal-title title_css" id="cat_name"></p>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+
+                </div>
+
+                <!-- Modal footer -->
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">انصراف</button>
+            </div>
+        </div>
     </div>
 @endsection
 

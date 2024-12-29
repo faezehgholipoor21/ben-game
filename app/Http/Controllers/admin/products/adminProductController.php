@@ -48,6 +48,7 @@ class adminProductController extends Controller
         $validation = validator::make($input, [
             'product_name' => 'required',
             'product_nickname' => 'required|unique:products,product_nickname',
+            'product_image' => 'required|mimes:jpg,png,jpeg|max:1024', //1MB
             'product_price' => 'required',
             'inventory' => 'required',
         ]);
@@ -68,6 +69,15 @@ class adminProductController extends Controller
             'product_force_price' => $force_price,
             'inventory' =>  $input['inventory'],
             'cat_id' => $input['cat_id'],
+        ]);
+
+        $file = $request->file('product_image');
+        $file_ext = $file->getClientOriginalExtension();
+        $file_name = 'product_' . time() . '.' . $file_ext;
+        $product_image = $file->move('site\assets\products', $file_name);
+
+        $product_info->update([
+            'product_image' => RepairFileSrc::repair_file_src($product_image),
         ]);
 
         $product_info->accounts()->sync($input['game_account_ids']); // اتصال اکانت‌ها به محصول
@@ -101,6 +111,24 @@ class adminProductController extends Controller
 
         $price = str_replace(",", "", $input['product_price']);
         $force_price = str_replace(",", "", $input['product_force_price']);
+
+        if ($request->has('product_image')) {
+            //get posts image and delete old profile
+            $old = $product_info->product_image;
+
+            if (file_exists($old) and !is_dir($old)) {
+                unlink($old);
+            }
+
+            $file = $request->file('product_image');
+            $file_ext = $file->getClientOriginalExtension();
+            $file_name = 'product_' . time() . '.' . $file_ext;
+            $product_image = $file->move('site\assets\products', $file_name);
+
+            $product_info->update([
+                'product_image' => RepairFileSrc::repair_file_src($product_image),
+            ]);
+        }
 
         $product_info->update([
             'product_name' => $input['product_name'],

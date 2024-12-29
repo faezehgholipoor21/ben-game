@@ -85,6 +85,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th class="text-center">تصویر محصول</th>
                                 <th class="text-center">عنوان محصول</th>
                                 <th class="text-center">دسته محصول</th>
                                 <th class="text-center">اکانت بازی</th>
@@ -103,6 +104,9 @@
                                 <tr>
                                     <td class="w60">
                                         <span>{{$row}}</span>
+                                    </td>
+                                    <td>
+                                        <img src="{{asset($product['product_image'])}}" class="my_img">
                                     </td>
                                     <td class="text-center">
                                         <p class="mb-0">

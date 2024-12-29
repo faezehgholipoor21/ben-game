@@ -15,6 +15,8 @@
     <script src="{{asset('admin/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js')}}"></script>
     <script src="{{asset('admin/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script>
+        $(".dropify").dropify();
+
         $(document).ready(function() {
             $('#game_account_ids').multiselect({
                 includeSelectAllOption: true,
@@ -75,7 +77,19 @@
                               method="post"
                               class="row">
                             @csrf
-                            <div class="col-12">
+                            <div class="col-12 col-md-3">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label>تصویر محصول</label>
+                                        @error('product_image')
+                                        <span class="validation_label_error">{{$message}}</span>
+                                        @enderror
+                                        <input name="product_image" type="file" class="form-control dropify">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-9">
                                 <div class="row">
                                     <div class="col-12 col-md-8 mb-4">
                                         <label>عنوان محصول</label>
@@ -98,7 +112,7 @@
 
                                 <div class="row">
                                     <div class="col-12 col-md-4 mb-4">
-                                        <label>دسته بندی های محصول</label>
+                                        <label>دسته بندی محصول</label>
                                         @error('cat_id')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
