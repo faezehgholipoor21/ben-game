@@ -9,13 +9,12 @@ class GetProductMainImage
 {
     static function get_product_main_image($product_id, $asset = false): array|string
     {
-        $product_image = ImageProduct::query()
-            ->where('product_id', $product_id)
-            ->where('is_main', 1)
+        $product_image = Product::query()
+            ->where('id', $product_id)
             ->first();
 
 
-        return $asset ? asset($product_image['image_src']) : $product_image['image_src'];
+        return $asset ? asset($product_image['product_image']) : $product_image['product_image'];
     }
 
     static function get_product_images($product_id): array|string
