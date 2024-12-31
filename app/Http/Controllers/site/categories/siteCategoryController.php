@@ -18,6 +18,11 @@ class siteCategoryController extends Controller
             ->where('id', $category_id)
             ->first();
 
+        $product_info = Product::query()
+            ->where('cat_id', $category_id)
+            ->orderBy('created_at', 'asc') // ترتیب صعودی برای قدیمی‌ترین تاریخ
+            ->first();
+
         $product_images_list = ImageProduct::query()
             ->where('product_id', $category_id)
             ->where('is_main', '!=', 1)
@@ -27,7 +32,7 @@ class siteCategoryController extends Controller
 
         $image_count = \App\Helper\GetProductMainImage::get_product_images($cat_info['id']);
 
-        return view('site.categories.detail', compact('category_id', 'cat_info', 'image_count', 'product_images_list', 'keywords'));
+        return view('site.categories.detail', compact('category_id', 'cat_info', 'product_info', 'image_count', 'product_images_list', 'keywords'));
     }
 
     public function getProducts($cat_id): \Illuminate\Http\JsonResponse
@@ -73,6 +78,27 @@ class siteCategoryController extends Controller
                 'error' => false,
                 'message' => '',
                 'product' => $product
+            ]);
+        }
+    }
+
+
+    public function get_product_account(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $input = $request->all();
+
+        $product = Product::query()->find($input['id']);
+
+        if (!$product) {
+            return response()->json([
+                'error' => true,
+                'message' => 'کالای مورد نظر یافت نشد2'
+            ]);
+        } else {
+            $accounts = $product->accounts; // حساب‌های مرتبط با محصول
+            return response()->json([
+                'error' => false,
+                'accounts' => $accounts
             ]);
         }
     }

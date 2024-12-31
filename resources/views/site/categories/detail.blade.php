@@ -69,6 +69,37 @@
             border-radius: 10px;
             color: #000;
             font-size: 10px;
+            position: relative; /* برای نمایش متن توضیحی */
+            opacity: 0.5; /* ظاهر غیرفعال */
+            cursor: not-allowed; /* نشانگر ورود ممنوع */
+        }
+
+
+        .force_div > * {
+            pointer-events: none; /* غیرفعال کردن تعامل با محتوای داخلی */
+        }
+
+        .force_div::before {
+            content: attr(data-tooltip); /* متن سفارشی */
+            position: absolute;
+            bottom: 120%; /* متن بالای دیو قرار گیرد */
+            left: 50%; /* وسط دیو */
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8); /* رنگ پس‌زمینه متن */
+            color: #fff; /* رنگ متن */
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            white-space: nowrap; /* جلوگیری از شکستن متن */
+            opacity: 0; /* مخفی بودن در حالت پیش‌فرض */
+            pointer-events: none; /* جلوگیری از تعامل */
+            transition: opacity 0.2s ease-in-out;
+            z-index: 10; /* نمایش بالاتر از بقیه محتوا */
+        }
+
+        .force_div:hover::before {
+            opacity: 1; /* متن ظاهر می‌شود */
+            bottom: 110%; /* انیمیشن برای جابجایی جزئی */
         }
 
         .pro_img {
@@ -98,6 +129,22 @@
         #is_force_span {
             float: right;
             margin-top: 4px;
+        }
+
+        .account_css{
+            border:1px solid #0a58ca;
+            border-radius: 10px;
+            padding: 5px 10px;
+            margin: 2px;
+            color: #5c636a !important;
+            font-size: 10px;
+        }
+        .account_p_css{
+            background-color: #f6d3bd;
+            padding: 5px;
+            border-radius: 10px;
+            width: 100%;
+            cursor: pointer;
         }
     </style>
 @endsection
@@ -179,6 +226,53 @@
             });
 
             product_modal.modal('show');
+        }
+
+        function ShowAccountProductModal(product_id , cat_title){
+            let product_account_modal = $("#account_modal") ;
+            let account_select = $("#accountSelect") ;
+            let modal_body = product_account_modal.find(".modal-body");
+
+            product_account_modal.find("#cat_name").text(cat_title);
+            modal_body.html('<p>در حال بارگذاری محصولات...</p>');
+
+            $.ajax({
+                url: '{{route("site.get_product_account")}}', // URL برای دریافت اطلاعات محصول
+                method: 'GET',
+                data: {
+                    id: product_id
+                },
+                success: function (response) {
+                    if (response.error === false) {
+                        if (!response.error) {
+                            // آرایه accounts را از response استخراج کنید
+                            const accounts = response.accounts;
+
+                            // گزینه‌های select را می‌سازیم
+                            let options = '<option value="">انتخاب کنید</option>'; // گزینه پیش‌فرض
+                            accounts.forEach(function(account) {
+                                options += `<option value="${account.id}">${account.account_name}</option>`;
+                            });
+
+                            // مقدارهای ساخته‌شده را در select قرار دهید
+                            $('#accountSelect').html(options);
+
+                            // مودال را نمایش دهید
+                            $('#myModal').modal('show');
+                        } else {
+                            alert('خطا در دریافت اطلاعات.');
+                        }
+                    } else {
+                        modal_body.html('<p>محصولی یافت نشد.</p>');
+                    }
+                },
+                error: function (xhr) {
+                    console.error(xhr.responseText); // بررسی خطا
+                    modal_body.html('<p>خطا در دریافت اطلاعات.</p>');
+                }
+            });
+
+            product_account_modal.modal('show');
         }
 
         function show_sweetalert_msg(msg, icon) {
@@ -283,6 +377,8 @@
                 }
             });
         }
+
+
     </script>
 
 @endsection
@@ -403,20 +499,43 @@
                                     <tr>
                                         <th>تصویر</th>
                                         <th>نام محصول</th>
-                                        <th>قیمت</th>
+                                        <th>قیمت (ریال)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr id="selected_product_tr">
                                         <td>
-                                            <img class="w-100px rounded-2" src="">
+                                            <img class="w-100px rounded-2" src="{{asset($product_info['product_image'])}}">
                                         </td>
                                         <td>
-                                            <p class="p_name"></p>
+                                            <p class="p_name">
+                                                {{$product_info['product_name']}}
+                                            </p>
                                             <input type="hidden" class="p_id">
                                         </td>
                                         <td>
-                                            <p class="p_price"></p>
+                                            <p class="p_price">
+                                                {{@number_format($product_info['product_price'])}}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            حساب های مجاز
+                                        </td>
+                                        <td colspan="2">
+                                            @foreach($product_info->accounts as $account)
+                                                <span class="account_css text-black">
+                                                    {{ $account->account_name }}
+                                                </span>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}')" id="product-ip" class="account_p_css" data-product-id="{{$product_info['id']}}">
+                                                    برای خرید لطفا ابتدا اکانت خود را وارد نمایید
+                                            </p>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -425,7 +544,7 @@
 
                             <div class="row">
                                 <div class="col-12 mt-4">
-                                    <div class="force_div theme-btn clearfix">
+                                    <div class="force_div theme-btn clearfix" data-tooltip="لطفا اکانت انتخاب کنید">
                                         <label class="switch float-end ms-2">
                                             <input type="checkbox" id="toggleSwitch">
                                             <span class="slider"></span>
@@ -435,7 +554,7 @@
                                         <span id="is_force_span">خرید فوری ({{@number_format($product_info['product_force_price']) . 'تومان'}})</span>
                                     </div>
 
-                                    <button onclick="addToCart(this)" type="button" class="theme-btn">
+                                    <button onclick="addToCart(this)" type="button" class="theme-btn" disabled="disabled">
                                         <span class="far fa-shopping-bag"></span>
                                         افزودن به سبد خرید
                                     </button>
@@ -507,6 +626,30 @@
                 <!-- Modal body -->
                 <div class="modal-body">
 
+                </div>
+
+                <!-- Modal footer -->
+
+                <button type="button" class="btn btn-danger" data-dismiss="modal">انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="account_modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title title_css">انتخاب اکانت مورد نظر</h4>
+                    <p class="modal-title title_css" id="cat_name"></p>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <select class="form-control" id="accountSelect">
+                        <option value="">در حال بارگذاری...</option>
+                    </select>
                 </div>
 
                 <!-- Modal footer -->
