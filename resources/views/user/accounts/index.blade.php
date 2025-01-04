@@ -6,7 +6,7 @@
 
 @section('custom-css')
     <style>
-        .my_i{
+        .my_i {
             margin-left: 5px !important;
         }
     </style>
@@ -31,7 +31,23 @@
                     </div>
                 </div>
                 @if(!empty($accounts->all()))
+                    <table class="table table-bordered text-center">
+                        <tr>
+                            <td>نوع اکانت</td>
+                            <td>عملیات</td>
+                        </tr>
 
+                        @foreach($accounts as $account)
+                            <tr>
+                                <td>{{$account['account']['account_name']}}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </table>
                 @else
                     <p class="alert alert-warning">
                         اکانتی تعریف نشده است

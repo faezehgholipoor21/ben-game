@@ -308,9 +308,8 @@ Route::namespace('App\Http\Controllers\user')
 
         //user account
         Route::get('accounts',[userAccountController::class, 'index'])->name('accounts');
-        Route::get('account_create',[userAccountController::class, 'create'])->name('account_create');
-        Route::get('/game_account_fields/{game_account_id}', [userAccountController::class, 'get_fields'])->name('game_account_fields');
-
+        Route::get('account/create',[userAccountController::class, 'create'])->name('account_create');
+        Route::post('account/store',[userAccountController::class, 'store'])->name('account_store');
     });
 
 // *************************  user **********************************

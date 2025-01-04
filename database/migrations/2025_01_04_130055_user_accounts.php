@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('account_id' );
             $table->unsignedBigInteger('field_id');
+            $table->string('unique_form', 255);
             $table->string('value', 255);
             $table->timestamps();
         });

@@ -69,11 +69,11 @@
                     اکانت خود را انتخاب کنید
                 </label>
 
-                <form method="POST" action="#">
+                <form method="POST" action="{{route('user.account_store')}}">
                     @csrf
                     <div class="row mb-4">
                         <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                            <select class="form-control" name="game_account_id" id="game_account_select"
+                            <select class="form-control" name="game_account" id="game_account_select"
                                     onchange="updateFields(this)">
                                 <option>انتخاب کنید</option>
 
@@ -89,13 +89,20 @@
                             @foreach($game_account['fields'] as $field)
                                 <div class="col-12 col-md-6 col-lg-4 col-xl-3">
                                     <label>{{$field['label']}}</label>
-                                    <input type="{{$field['type']}}" class="form-control">
+                                    <input type="{{$field['type']}}" class="form-control" name="field_{{$field['id']}}">
                                 </div>
                             @endforeach
                         </div>
                     @endforeach
-                </form>
 
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button class="btn btn-sm theme-btn">
+                                افزودن
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
