@@ -41,7 +41,7 @@
                         method="post" class="card-body">
                         @csrf
                         <div class="row">
-                            <div class="col-12 col-sm-6 col-md-3">
+                            <div class="col-12">
                                 <label>عنوان اکانت</label>
                                 @error('account_name')
                                 <span class="validation_label_error">{{$message}}</span>
@@ -51,8 +51,13 @@
                             </div>
                         </div>
 
-                        <hr class="horizontal_row my-5">
+                        <hr class="horizontal_row my-4">
 
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label>لطفا فیلدهای اکانت را انتخاب کنید</label>
+                            </div>
+                        </div>
                         <div class="row">
                             @foreach($fields as $key => $field)
                                 <div class="col-12 col-md-6 col-lg-3 col-xl-2 mb-4">

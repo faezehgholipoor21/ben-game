@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 class adminGameAccountController extends Controller
 {
-    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function index(): \Illuminate\Contracts\View\View
     {
         $game_account_info = GameAccount::query()
             ->paginate(10);
@@ -18,13 +18,17 @@ class adminGameAccountController extends Controller
         return view('admin.account.index', compact('game_account_info'));
     }
 
-    public function create(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function create(): \Illuminate\Contracts\View\View
     {
 
         $game_account_info = GameAccount::query()
             ->get();
 
-        return view('admin.account.create', compact('game_account_info'));
+        $fields = GameAccountField::query()
+            ->orderBy('label')
+            ->get();
+
+        return view('admin.account.create', compact('game_account_info', 'fields'));
     }
 
     public function store(Request $request): \Illuminate\Http\RedirectResponse
@@ -36,13 +40,15 @@ class adminGameAccountController extends Controller
         ]);
 
         if ($validation->fails()) {
-            alert()->error($validation->errors()->first(), 'خطا !');
+            alert()->error('' , $validation->errors()->first());
             return back()->withErrors($validation->errors())->withInput();
         }
 
-        GameAccount::create([
+        $account_info = GameAccount::query()->create([
             'account_name' => $input['account_name'],
         ]);
+
+        $account_info->fields()->attach($input['fields']);
 
         alert()->success('', 'عنوان اکانت با موفقیت افزوده شد.');
         return redirect()->route('admin.game_account_panel');

@@ -16,7 +16,6 @@ use App\Http\Controllers\admin\images\adminProductImagesController;
 use App\Http\Controllers\admin\sliders\adminSliderController;
 use App\Http\Controllers\admin\banners\adminBannerController;
 use App\Http\Controllers\admin\accounts\adminGameAccountController;
-use App\Http\Controllers\admin\accounts\adminGameAccountFieldController;
 use App\Http\Controllers\admin\about_us\adminAboutUsController;
 use App\Http\Controllers\admin\faq\adminCategoryFaqController;
 use App\Http\Controllers\admin\faq\adminFaqController;
@@ -50,6 +49,7 @@ use App\Http\Controllers\site\categories\siteCategoryController;
 use App\Http\Controllers\user\dashboard\userDashboardController;
 use App\Http\Controllers\user\orders\userOrderController;
 use App\Http\Controllers\user\customer_authentication\userAuthenticationController;
+use App\Http\Controllers\user\accounts\userAccountController;
 
 //admin norm
 use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
@@ -158,7 +158,7 @@ Route::namespace('App\Http\Controllers\admin')
         //game account
         Route::get('game_account', [adminGameAccountController::class, 'index'])->name('game_account_panel');
         Route::get('game_account_create', [adminGameAccountController::class, 'create'])->name('game_account_create_panel');
-        Route::get('game_account_store', [adminGameAccountController::class, 'store'])->name('game_account_store_panel');
+        Route::post('game_account_store', [adminGameAccountController::class, 'store'])->name('game_account_store_panel');
         Route::get('game_account_edit/{id}', [adminGameAccountController::class, 'edit'])->name('game_account_edit_panel');
         Route::post('game_account_update/{id}', [adminGameAccountController::class, 'update'])->name('game_account_update_panel');
         Route::post('game_account_delete/{id}', [adminGameAccountController::class, 'delete'])->name('game_account_delete_panel');
@@ -305,6 +305,12 @@ Route::namespace('App\Http\Controllers\user')
         //user authentication
         Route::get('authentication', [userAuthenticationController::class, 'index'])->name('authentication');
         Route::post('authentication_store', [userAuthenticationController::class, 'store'])->name('authentication_store');
+
+        //user account
+        Route::get('accounts',[userAccountController::class, 'index'])->name('accounts');
+        Route::get('account_create',[userAccountController::class, 'create'])->name('account_create');
+        Route::get('/game_account_fields/{game_account_id}', [userAccountController::class, 'get_fields'])->name('game_account_fields');
+
     });
 
 // *************************  user **********************************

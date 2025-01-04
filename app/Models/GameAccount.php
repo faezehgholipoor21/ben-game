@@ -17,4 +17,9 @@ class GameAccount extends Model
     {
         return $this->belongsToMany(GameAccountField::class, 'game_account_field_pivot', 'account_id', 'account_field_id');
     }
+
+    public function products(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'account_product', 'account_id', 'product_id');
+    }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\ImageProduct;
 use App\Models\Product;
+use App\Models\UserAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
@@ -87,18 +88,24 @@ class siteCategoryController extends Controller
     {
         $input = $request->all();
 
-        $product = Product::query()->find($input['id']);
+        $product = Product::query()
+            ->with(['accounts.fields'])
+            ->find($input['id']);
+
+        $user_account = UserAccount::query()
+            ->where('user_id', $input['user_id'])
+            ->get();
 
         if (!$product) {
             return response()->json([
                 'error' => true,
-                'message' => 'کالای مورد نظر یافت نشد2'
+                'message' => 'کالای مورد نظر یافت نشد'
             ]);
         } else {
-            $accounts = $product->accounts; // حساب‌های مرتبط با محصول
             return response()->json([
                 'error' => false,
-                'accounts' => $accounts
+                'accounts' => $product['accounts'] ,
+                'user_account' => $user_account
             ]);
         }
     }

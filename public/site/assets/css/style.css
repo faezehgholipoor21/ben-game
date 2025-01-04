@@ -5,7 +5,7 @@
     --body-font: 'IRANSans', sans-serif;
     --mybody-font: 'Roboto', sans-serif;
     --heading-font: 'IRANSans', sans-serif;
-    --theme-color: #11B76B;
+    --theme-color: #11b76b;
     --theme-color2: #8493CA;
     --theme-bg-light: #F6F9FC;
     --theme-bg-light2: #F1F6FA;
@@ -54,12 +54,16 @@ html, body {
 }
 
 body {
-    font-family: var(--mybody-font);
+    font-family: var(--body-font), serif;
     font-style: normal;
     font-size: 16px;
     font-weight: 400;
     color: var(--body-text-color);
     line-height: 1.8
+}
+
+input, select, button {
+    font-family: var(--body-font), serif !important;
 }
 
 a {
@@ -554,7 +558,7 @@ label {
     color: var(--theme-color)
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .site-heading-inline .site-title {
         font-size: 19px
     }
@@ -563,6 +567,7 @@ label {
         width: 25px
     }
 }
+
 .theme-btn:disabled {
     background-color: #cccccc !important;
     color: #666666;
@@ -662,7 +667,7 @@ label {
     bottom: 20px
 }
 
-@media all and (min-width:768px) and (max-width:1199px) {
+@media all and (min-width: 768px) and (max-width: 1199px) {
     #scroll-top.active {
         bottom: 100px
     }
@@ -742,13 +747,13 @@ label {
     color: var(--color-white)
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .header-top-right .header-top-list li.account, .header-top-right .header-top-list li.login {
         display: none
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .header-top-list li {
         border-left: none
     }
@@ -771,7 +776,7 @@ label {
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .header-top {
         text-align: center
     }
@@ -1077,7 +1082,7 @@ label {
     width: 10%
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .header-middle {
         padding: 15px 0;
         background: 0 0
@@ -1193,7 +1198,7 @@ label {
     border-right-color: transparent
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .nav-right {
         margin-right: 25px !important
     }
@@ -1203,13 +1208,13 @@ label {
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .navbar .nav-right {
         display: none
     }
 }
 
-@media all and (min-width:992px) {
+@media all and (min-width: 992px) {
     .navbar .nav-item .nav-link {
         margin-left: 22px;
         padding: 24px 0;
@@ -1364,7 +1369,7 @@ label {
     }
 }
 
-@media all and (min-width:992px) and (max-width:1199px) {
+@media all and (min-width: 992px) and (max-width: 1199px) {
     .navbar .nav-item .nav-link {
         margin-left: 15px;
         font-size: 16px
@@ -1375,7 +1380,7 @@ label {
     display: none
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .navbar {
         padding-top: 8px;
         padding-bottom: 8px
@@ -1716,7 +1721,7 @@ label {
     display: none
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .main-category {
         min-width: 260px
     }
@@ -1734,7 +1739,7 @@ label {
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .main-category {
         display: none
     }
@@ -1744,7 +1749,7 @@ label {
     }
 }
 
-@media all and (min-width:992px) and (max-width:1199px) {
+@media all and (min-width: 992px) and (max-width: 1199px) {
     .navbar.fixed-top .category-all {
         margin: 0 30px
     }
@@ -1763,7 +1768,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .category-all {
         flex-grow: 1
     }
@@ -1794,14 +1799,14 @@ label {
     }
 }
 
-@media all and (min-width:768px) and (max-width:991px) {
+@media all and (min-width: 768px) and (max-width: 991px) {
     .navbar.fixed-top .main-category {
         right: 0;
         left: unset
     }
 }
 
-@media all and (min-width:992px) {
+@media all and (min-width: 992px) {
     .nav-item.mega-menu {
         position: static
     }
@@ -1839,7 +1844,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .mega-menu-img {
         display: none
     }
@@ -1883,7 +1888,7 @@ label {
     visibility: visible
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .navbar .nav-item .dropdown-submenu .dropdown-menu {
         margin: 0 17px
     }
@@ -2237,7 +2242,7 @@ label {
     left: 0
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .hero-section2 .hero-single {
         padding: 78px 35px
     }
@@ -2247,13 +2252,13 @@ label {
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .hs3-1 .hero-slider .owl-nav {
         display: none
     }
 }
 
-@media all and (min-width:992px) and (max-width:1199px) {
+@media all and (min-width: 992px) and (max-width: 1199px) {
     .hero-section2 .hero-single {
         padding: 40px
     }
@@ -2263,7 +2268,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .hero-single .hero-img {
         margin-top: 70px
     }
@@ -2333,13 +2338,13 @@ label {
     border-color: var(--theme-color)
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .small-banner .banner-item h3 {
         font-size: 19px
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .small-banner .banner-content {
         padding-right: 25px
     }
@@ -2409,7 +2414,7 @@ label {
     letter-spacing: 0px
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .mid-banner .banner-content {
         padding-right: 25px
     }
@@ -2419,7 +2424,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .mid-banner .banner-item p {
         margin-bottom: 10px;
         font-size: 14px
@@ -2578,7 +2583,7 @@ label {
     margin-top: 25px
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .popup-banner-img img {
         border-radius: 10px 10px 0 0
     }
@@ -2802,7 +2807,7 @@ label {
     transform: scale(1.05)
 }
 
-@media all and (min-width:992px) and (max-width:1399px) {
+@media all and (min-width: 992px) and (max-width: 1399px) {
     .category-area3 .category-img-info {
         padding: 15px 10px 20px
     }
@@ -2830,7 +2835,7 @@ label {
     }
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .category-info .content h4 {
         font-size: 16px
     }
@@ -2977,7 +2982,7 @@ label {
     visibility: hidden
 }
 
-.shop-checkbox-list.color .form-check-input:checked~.form-check-label span::before {
+.shop-checkbox-list.color .form-check-input:checked ~ .form-check-label span::before {
     opacity: 1;
     visibility: visible
 }
@@ -3043,7 +3048,7 @@ label {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 30px;
-    font-family:var(--body-font);
+    font-family: var(--body-font);
 }
 
 .shop-sort-box {
@@ -3119,7 +3124,7 @@ label {
     padding: 10px 20px
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .shop-sort {
         flex-direction: column;
         gap: 20px
@@ -3313,7 +3318,7 @@ label {
     color: var(--theme-color)
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .shop-cart-summary {
         margin-right: 0
     }
@@ -3447,7 +3452,7 @@ label {
     width: 100%
 }
 
-.shop-shipping-method .form-check-input:checked~label {
+.shop-shipping-method .form-check-input:checked ~ label {
     border-color: var(--theme-color) !important
 }
 
@@ -3620,7 +3625,7 @@ label {
     border-radius: 10px
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .shop-checkout2 .checkout-step-list .nav-link {
         font-size: 18px
     }
@@ -3659,7 +3664,7 @@ label {
     margin-bottom: 30px
 }
 
-@media all and (min-width:992px) and (max-width:1399px) {
+@media all and (min-width: 992px) and (max-width: 1399px) {
     .checkout-complete-content {
         padding: 40px
     }
@@ -3991,7 +3996,7 @@ label {
     background: var(--color-white)
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .shop-single-gallery .flex-control-thumbs li {
         margin: 6px
     }
@@ -4001,7 +4006,7 @@ label {
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .shop-single-color {
         margin-top: 20px
     }
@@ -4011,7 +4016,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .shop-single-info {
         margin-right: 0;
         margin-top: 30px
@@ -4026,7 +4031,7 @@ label {
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .shop-single-gallery .flex-control-thumbs li {
         margin: 4.6px
     }
@@ -4501,7 +4506,7 @@ label {
     text-align: center
 }
 
-@media all and (min-width:992px) and (max-width:1399px) {
+@media all and (min-width: 992px) and (max-width: 1399px) {
     .item-banner .product-item {
         padding: 12px
     }
@@ -4529,7 +4534,7 @@ label {
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .item-list .product-item {
         flex-direction: column;
         align-items: unset;
@@ -4649,7 +4654,7 @@ label {
     color: var(--color-white)
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .product-list-content h4 a {
         font-size: 16px
     }
@@ -4846,7 +4851,7 @@ label {
     color: var(--theme-color)
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .seller-img a {
         width: 118px;
         height: 118px
@@ -4944,7 +4949,7 @@ label {
     margin-bottom: 10px
 }
 
-@media all and (min-width:992px) and (max-width:1399px) {
+@media all and (min-width: 992px) and (max-width: 1399px) {
     .seller-feature-item {
         padding: 36px
     }
@@ -4954,7 +4959,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .seller-form {
         margin-bottom: 30px
     }
@@ -5126,7 +5131,7 @@ label {
     color: var(--color-white)
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .store-banner-img {
         height: 220px
     }
@@ -5228,7 +5233,7 @@ label {
     border-radius: 8px
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .deal-title {
         font-size: 30px
     }
@@ -5242,7 +5247,7 @@ label {
     }
 }
 
-@media all and (min-width:992px) and (max-width:1199px) {
+@media all and (min-width: 992px) and (max-width: 1199px) {
     .deal-content {
         padding: 20px
     }
@@ -5282,13 +5287,13 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .deal-area2 .deal-img img {
         border-radius: 10px 10px 0 0
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .deal-area2 .deal-content, .deal-content {
         padding: 30px
     }
@@ -5328,25 +5333,25 @@ label {
     padding: 40px
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .feature-area2 .feature-wrap {
         padding: 40px 25px
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .feature-content {
         flex: 1
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .feature-item {
         margin: 10px 0
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .feature-item {
         flex-direction: column;
         text-align: center
@@ -5405,7 +5410,7 @@ label {
     margin-bottom: 10px
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .about-right {
         margin-top: 30px;
         padding-right: 0
@@ -5464,7 +5469,7 @@ label {
     margin-right: 5px;
     font-size: 20px;
     font-weight: 500;
-    font-family:var(--body-font);
+    font-family: var(--body-font);
 }
 
 .counter-box .title {
@@ -5475,7 +5480,7 @@ label {
     text-transform: capitalize
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .counter-area .counter-box {
         margin: 40px 0
     }
@@ -5640,7 +5645,7 @@ label {
     transform: translate(-50%, -50%)
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .video-wrapper {
         height: 250px
     }
@@ -5985,7 +5990,7 @@ label {
     font-family: var(--body-font);
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .faq-area .accordion-button {
         font-size: 16px
     }
@@ -6185,7 +6190,7 @@ label {
     color: var(--color-white) !important
 }
 
-@media all and (min-width:992px) and (max-width:1399px) {
+@media all and (min-width: 992px) and (max-width: 1399px) {
     .login-form {
         padding: 30px
     }
@@ -6195,7 +6200,7 @@ label {
     }
 }
 
-@media only screen and (max-width:991px) {
+@media only screen and (max-width: 991px) {
     .login-form {
         padding: 40px 20px
     }
@@ -6382,7 +6387,7 @@ label {
     padding: 8px 15px
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .user-card-header {
         flex-direction: column;
         align-items: flex-start;
@@ -6702,7 +6707,7 @@ label {
     border-radius: 8px
 }
 
-.user-area .user-card .table>:not(caption)>*>* {
+.user-area .user-card .table > :not(caption) > * > * {
     vertical-align: middle;
     padding: .8rem
 }
@@ -6712,7 +6717,7 @@ label {
     font-weight: 500
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .user-area .table-list-info a {
         display: block
     }
@@ -6890,7 +6895,7 @@ label {
     font-size: 14px
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .user-track-order .track-order-step {
         flex-wrap: nowrap;
         flex-direction: column
@@ -7006,7 +7011,7 @@ label {
     margin-left: 10px
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .user-payout .next-payout {
         margin-bottom: 20px
     }
@@ -7282,7 +7287,7 @@ label {
     padding-right: 20px
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .user-message .message-by-content span {
         font-family: var(--body-font);
         left: 65px
@@ -7293,7 +7298,7 @@ label {
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .user-message .message-wrapper {
         flex-direction: column;
         gap: 50px
@@ -7416,7 +7421,7 @@ label {
     margin-top: 30px
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .coming-soon-content {
         margin-top: 0
     }
@@ -7452,7 +7457,7 @@ label {
     margin-top: 30px
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .error-wrapper h1 {
         font-size: 160px
     }
@@ -7791,7 +7796,7 @@ label {
     font-weight: 500;
     margin-top: 5px;
     color: var(--theme-color);
-    font-family:var(--body-font);
+    font-family: var(--body-font);
 }
 
 .blog-comments-content a:hover {
@@ -7830,18 +7835,18 @@ label {
     -moz-transition: var(--transition);
     -ms-transition: var(--transition);
     -o-transition: var(--transition);
-    font-family:var(--body-font);
+    font-family: var(--body-font);
 }
 
 .blog-comments-form .form-control option {
-    font-family:var(--body-font);
+    font-family: var(--body-font);
 }
 
 .blog-comments-form .form-control:focus {
     border-color: var(--theme-color)
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .blog-meta {
         flex-direction: column;
         font-size: 15px
@@ -8249,13 +8254,13 @@ label {
     height: 350px
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .contact-info {
         padding: 35px
     }
 }
 
-@media all and (max-width:768px) {
+@media all and (max-width: 768px) {
     .contact-content {
         margin-top: 50px;
         margin-bottom: 0
@@ -8442,7 +8447,7 @@ label {
     left: 30px
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .newsletter-img-2 {
         display: none
     }
@@ -8844,7 +8849,7 @@ label {
     border-color: var(--border-info-color)
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .footer-download-btn a i {
         font-size: 27px
     }
@@ -8859,7 +8864,7 @@ label {
     }
 }
 
-@media all and (min-width:992px) and (max-width:1199px) {
+@media all and (min-width: 992px) and (max-width: 1199px) {
     .footer-payment span, .footer-social span {
         font-family: var(--body-font);
         display: none
@@ -8870,7 +8875,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .footer-widget-box {
         margin-bottom: 50px
     }
@@ -8948,20 +8953,20 @@ label {
     text-align: left
 }
 
-@media all and (min-width:992px) {
+@media all and (min-width: 992px) {
     .home-2 .navbar .nav-item .nav-link {
         padding: 20px 0
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .home-2 .footer-payment {
         text-align: right;
         margin-top: 20px
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .home-2 .footer-widget-wrapper {
         padding-bottom: 0
     }
@@ -9081,7 +9086,7 @@ label {
     border: none
 }
 
-@media all and (max-width:1399px) {
+@media all and (max-width: 1399px) {
     .home-3 .header-top-social a {
         line-height: 29px
     }
@@ -9095,7 +9100,7 @@ label {
     }
 }
 
-@media all and (max-width:767px) {
+@media all and (max-width: 767px) {
     .home-3 .footer-list {
         margin-bottom: .65rem
     }
@@ -9129,7 +9134,7 @@ label {
     font-size: 35px
 }
 
-@media all and (min-width:992px) {
+@media all and (min-width: 992px) {
     .home-4 .navbar-nav {
         flex: 1
     }
@@ -9139,7 +9144,7 @@ label {
     }
 }
 
-@media all and (min-width:992px) and (max-width:1199px) {
+@media all and (min-width: 992px) and (max-width: 1199px) {
     .home-4 .header-middle {
         padding: 15px 0
     }
@@ -9149,7 +9154,7 @@ label {
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .home-4 .navbar .navbar-brand .logo-scrolled {
         display: block
     }
@@ -9306,7 +9311,7 @@ label {
     font-size: 35px
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .home-5 .header-middle-list li:first-child .list-item {
         margin-right: 0
     }
@@ -9330,13 +9335,13 @@ label {
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .home-5 .header-middle-list .list-item-info {
         display: none
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .home-5 .navbar-brand {
         padding-right: 0
     }
@@ -9446,7 +9451,7 @@ label {
     border: 1px solid var(--color-white)
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .home-6 .footer-widget-wrapper {
         padding-bottom: 0
     }
@@ -9520,13 +9525,13 @@ label {
     border-radius: 10px
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .home-7 .hero-section3 .hero-slider .owl-nav {
         display: none
     }
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .home-7 .footer-widget-wrapper {
         padding-bottom: 0
     }
@@ -9615,7 +9620,7 @@ label {
     width: 27px
 }
 
-@media all and (min-width:1199px) and (max-width:1399px) {
+@media all and (min-width: 1199px) and (max-width: 1399px) {
     .home-8 .header-middle-list li:first-child .list-item {
         margin-right: 0
     }
@@ -9627,7 +9632,7 @@ label {
     }
 }
 
-@media all and (max-width:1199px) {
+@media all and (max-width: 1199px) {
     .home-8 .header-middle-list .list-item-info {
         display: none
     }
@@ -9637,7 +9642,7 @@ label {
     padding: 110px 60px
 }
 
-@media all and (max-width:991px) {
+@media all and (max-width: 991px) {
     .home-9 .footer-widget-wrapper {
         padding-bottom: 0
     }

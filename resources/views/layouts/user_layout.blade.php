@@ -285,6 +285,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{route('user.accounts')}}">
+                                    <i class="far fa-album-collection-circle-user"></i>
+                                    اکانت ها
+                                </a>
+                            </li>
+                            <li>
                                 <a href="#">
                                     <i class="far fa-wallet"></i>
                                     کیف پول

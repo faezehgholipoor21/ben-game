@@ -131,15 +131,16 @@
             margin-top: 4px;
         }
 
-        .account_css{
-            border:1px solid #0a58ca;
+        .account_css {
+            border: 1px solid #0a58ca;
             border-radius: 10px;
             padding: 5px 10px;
             margin: 2px;
             color: #5c636a !important;
             font-size: 10px;
         }
-        .account_p_css{
+
+        .account_p_css {
             background-color: #f6d3bd;
             padding: 5px;
             border-radius: 10px;
@@ -152,6 +153,8 @@
 @section('custom-js')
     <script src="{{asset('vendor/sweetalert/sweetalert.all.js')}}"></script>
     <script>
+        let account_fields = [];
+
         function ShowProductDetail(productId) {
             let selected_product_tr = $("#selected_product_tr")
             $.ajax({
@@ -191,6 +194,7 @@
         });
 
         function ShowProductModal(id, cat_title) {
+
             let product_modal = $("#ProductModal");
             let modal_body = product_modal.find(".modal-body");
 
@@ -213,6 +217,7 @@
                             </div>
                         </button>`;
                         });
+
                         productList += '</div>';
                         modal_body.html(productList);
                     } else {
@@ -228,8 +233,9 @@
             product_modal.modal('show');
         }
 
-        function ShowAccountProductModal(product_id , cat_title){
-            let product_account_modal = $("#account_modal") ;
+        function ShowAccountProductModal(product_id, cat_title , user_id) {
+            account_fields = []
+            let product_account_modal = $("#account_modal");
             let account_select = $("#accountSelect");
             product_account_modal.find('.loader').show()
             account_select.find('option').remove()
@@ -241,25 +247,24 @@
                 url: '{{route("site.get_product_account")}}', // URL برای دریافت اطلاعات محصول
                 method: 'GET',
                 data: {
-                    id: product_id
+                    id: product_id ,
+                    user_id : user_id
                 },
                 success: function (response) {
                     if (response.error === false) {
                         if (!response.error) {
-                            // آرایه accounts را از response استخراج کنید
                             const accounts = response.accounts;
 
-                            // گزینه‌های select را می‌سازیم
-                            let options = '<option value="">انتخاب کنید</option>'; // گزینه پیش‌فرض
-                            accounts.forEach(function(account) {
+                            let options = '<option value="">انتخاب اکانت جدید</option>';
+                            accounts.forEach(function (account) {
+                                account_fields.push(account.fields)
                                 options += `<option value="${account.id}">${account.account_name}</option>`;
                             });
 
-                            // مقدارهای ساخته‌شده را در select قرار دهید
                             account_select.append(options);
                             account_select.show();
                             product_account_modal.find('.loader').hide();
-                            // مودال را نمایش دهید
+
                             $('#myModal').modal('show');
                         } else {
                             alert('خطا در دریافت اطلاعات.');
@@ -273,6 +278,26 @@
                     modal_body.html('<p>خطا در دریافت اطلاعات.</p>');
                 }
             });
+        }
+
+        function showAccountFields(tag) {
+
+            $(tag).next().find('div').remove()
+            let selected_option_index = $(tag).find('option:selected').index()
+
+            console.log(selected_option_index)
+
+            let fields = account_fields[selected_option_index - 1]
+
+            let the_field = ''
+            for (let i = 0; i < fields.length; i++) {
+                the_field = '<div class="col-12 mb-4">' +
+                    '<label>'+ fields[i]['label'] +'</label>' +
+                    "<input type=\"" + fields[i]['type'] + "\" id=\"" + fields[i]['name'] + "\" class=\"form-control\">" +
+                '</div>'
+
+                $(tag).next().append(the_field)
+            }
         }
 
         function show_sweetalert_msg(msg, icon) {
@@ -377,8 +402,6 @@
                 }
             });
         }
-
-
     </script>
 
 @endsection
@@ -505,7 +528,8 @@
                                     <tbody>
                                     <tr id="selected_product_tr">
                                         <td>
-                                            <img class="w-100px rounded-2" src="{{asset($product_info['product_image'])}}">
+                                            <img class="w-100px rounded-2"
+                                                 src="{{asset($product_info['product_image'])}}">
                                         </td>
                                         <td>
                                             <p class="p_name">
@@ -533,8 +557,10 @@
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}')" id="product-ip" class="account_p_css" data-product-id="{{$product_info['id']}}">
-                                                    برای خرید لطفا ابتدا اکانت خود را وارد نمایید
+                                            <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}' , '{{Auth::id()}}')"
+                                               id="product-ip" class="account_p_css"
+                                               data-product-id="{{$product_info['id']}}">
+                                                برای خرید لطفا ابتدا اکانت خود را وارد نمایید
                                             </p>
                                         </td>
                                     </tr>
@@ -554,7 +580,8 @@
                                         <span id="is_force_span">خرید فوری ({{@number_format($product_info['product_force_price']) . 'تومان'}})</span>
                                     </div>
 
-                                    <button onclick="addToCart(this)" type="button" class="theme-btn" disabled="disabled">
+                                    <button onclick="addToCart(this)" type="button" class="theme-btn"
+                                            disabled="disabled">
                                         <span class="far fa-shopping-bag"></span>
                                         افزودن به سبد خرید
                                     </button>
@@ -611,7 +638,6 @@
         </div>
     </div>
 
-
     <!-- The Modal -->
     <div class="modal" id="ProductModal">
         <div class="modal-dialog">
@@ -635,27 +661,28 @@
         </div>
     </div>
 
-    <div class="modal" id="account_modal">
+    <div class="modal fade" id="account_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
 
-                <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title title_css">انتخاب اکانت مورد نظر</h4>
+                    <h5 class="modal-title">انتخاب اکانت</h5>
                     <p class="modal-title title_css" id="cat_name"></p>
                 </div>
 
-                <!-- Modal body -->
                 <div class="modal-body">
                     <p class="loader text-center fw-bold my-4">لطفا شکیبا باشید...</p>
-                    <select class="form-control" id="accountSelect">
+                    <select onchange="showAccountFields(this)" class="form-control" id="accountSelect">
                         <option value="">در حال بارگذاری...</option>
                     </select>
+
+                    <div class="row mt-4"></div>
                 </div>
-
-                <!-- Modal footer -->
-
-                <button type="button" class="btn btn-danger" data-dismiss="modal">انصراف</button>
+                <!-- فوتر مدال -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">بستن</button>
+                    <button type="button" class="btn btn-sm btn-primary">ذخیره تغییرات</button>
+                </div>
             </div>
         </div>
     </div>

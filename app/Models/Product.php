@@ -30,6 +30,6 @@ class Product extends Model
 
     public function accounts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Account::class, 'account_product', 'product_id', 'account_id');
+        return $this->belongsToMany(GameAccount::class, 'account_product', 'product_id', 'account_id');
     }
 }
