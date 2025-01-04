@@ -10,6 +10,20 @@
 /*=============================================*/
 /*=============================================*/
 /*my css*/
+.horizontal_row {
+    border-bottom: 1px solid #ddd;
+}
+
+.custom-control-label::before {
+    left: auto !important;
+    right: 0 !important;
+    top: 2px !important;
+}
+
+.custom-switch label {
+    padding-right: 25px;
+}
+
 .mt--15px {
     margin-top: -15px;
 }

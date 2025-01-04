@@ -230,11 +230,12 @@
 
         function ShowAccountProductModal(product_id , cat_title){
             let product_account_modal = $("#account_modal") ;
-            let account_select = $("#accountSelect") ;
-            let modal_body = product_account_modal.find(".modal-body");
-
+            let account_select = $("#accountSelect");
+            product_account_modal.find('.loader').show()
+            account_select.find('option').remove()
+            account_select.hide()
+            product_account_modal.modal('show');
             product_account_modal.find("#cat_name").text(cat_title);
-            modal_body.html('<p>در حال بارگذاری محصولات...</p>');
 
             $.ajax({
                 url: '{{route("site.get_product_account")}}', // URL برای دریافت اطلاعات محصول
@@ -255,8 +256,9 @@
                             });
 
                             // مقدارهای ساخته‌شده را در select قرار دهید
-                            $('#accountSelect').html(options);
-
+                            account_select.append(options);
+                            account_select.show();
+                            product_account_modal.find('.loader').hide();
                             // مودال را نمایش دهید
                             $('#myModal').modal('show');
                         } else {
@@ -271,8 +273,6 @@
                     modal_body.html('<p>خطا در دریافت اطلاعات.</p>');
                 }
             });
-
-            product_account_modal.modal('show');
         }
 
         function show_sweetalert_msg(msg, icon) {
@@ -647,6 +647,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
+                    <p class="loader text-center fw-bold my-4">لطفا شکیبا باشید...</p>
                     <select class="form-control" id="accountSelect">
                         <option value="">در حال بارگذاری...</option>
                     </select>

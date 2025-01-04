@@ -24,7 +24,7 @@ class adminGameAccountController extends Controller
         $game_account_info = GameAccount::query()
             ->get();
 
-        return view('admin.account.create',compact('game_account_info'));
+        return view('admin.account.create', compact('game_account_info'));
     }
 
     public function store(Request $request): \Illuminate\Http\RedirectResponse
@@ -48,13 +48,19 @@ class adminGameAccountController extends Controller
         return redirect()->route('admin.game_account_panel');
     }
 
-    public function edit($id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function edit($id): \Illuminate\Contracts\View\View
     {
-        $account_info = GameAccount::query()->findOrFail($id);
-        return view('admin.account.edit', compact('account_info'));
+        $account_info = GameAccount::query()
+            ->findOrFail($id);
+
+        $fields = GameAccountField::query()
+            ->orderBy('label')
+            ->get();
+
+        return view('admin.account.edit', compact('account_info', 'fields'));
     }
 
-    public function update(Request $request,$id): \Illuminate\Http\RedirectResponse
+    public function update(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         $account_info = GameAccount::query()->findOrFail($id);
 
@@ -62,16 +68,19 @@ class adminGameAccountController extends Controller
 
         $validation = Validator::make($input, [
             'account_name' => 'required|string|max:255',
+            'fields' => 'required|array',
         ]);
 
         if ($validation->fails()) {
-            alert()->error($validation->errors()->first(), 'خطا !');
+            alert()->error('', $validation->errors()->first());
             return back()->withErrors($validation->errors())->withInput();
         }
 
         $account_info->update([
             'account_name' => $input['account_name'],
         ]);
+
+        $account_info->fields()->sync($input['fields']);
 
         alert()->success('', 'اکانت با موفقیت ویرایش شد.');
         return redirect()->route('admin.game_account_panel');
@@ -82,16 +91,14 @@ class adminGameAccountController extends Controller
         $account_info = GameAccount::query()->findOrFail($id);
 
         $game_account_field_count = GameAccountField::query()
-            ->where('account_name_id' , $id)
+            ->where('account_name_id', $id)
             ->count();
 
-        if ($game_account_field_count == 0)
-        {
+        if ($game_account_field_count == 0) {
             $account_info->delete();
             alert()->success('', 'عنوان اکانت با موفقیت حذف شد.');
             return back();
-        }
-        else{
+        } else {
             alert()->info('', 'شما برای این اکانت زیرمجموعه تعریف کرده اید لطفا ابتدا آن را حذف نمایید.');
             return back();
         }

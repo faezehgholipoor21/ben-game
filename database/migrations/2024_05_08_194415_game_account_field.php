@@ -16,8 +16,11 @@ return new class extends Migration
 
         Schema::create('game_account_field', function (Blueprint $table) {
             $table->id();
-            $table->integer('account_name_id');
-            $table->string('field_title', 255);
+            $table->string('label', 255);
+            $table->string('tag', 255)->default('input');
+            $table->string('type', 255)->default('text');
+            $table->string('name', 255);
+            $table->string('priority', 255)->default(1);
             $table->timestamps();
         });
     }

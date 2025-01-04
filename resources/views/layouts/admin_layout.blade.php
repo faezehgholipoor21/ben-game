@@ -297,18 +297,10 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" class="has-arrow">
+                        <a href="{{route('admin.game_account_panel')}}">
                             <i class="fa fa-link"></i>
                             <span>اکانت ها</span>
                         </a>
-                        <ul>
-                            <li>
-                                <a href="{{route('admin.game_account_panel')}}">عنوان اکانت ها</a>
-                            </li>
-                            <li>
-                                <a href="{{route('admin.game_account_field_panel')}}">فیلد اکانت ها</a>
-                            </li>
-                        </ul>
                     </li>
                     <li>
                         <a href="#" class="has-arrow">

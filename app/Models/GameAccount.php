@@ -13,8 +13,8 @@ class GameAccount extends Model
     protected $table = 'game_account';
     protected $guarded = [];
 
-    function fieldInfo(): HasMany
+    function fields(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->hasMany(GameAccountField::class, 'account_name_id', 'id');
+        return $this->belongsToMany(GameAccountField::class, 'game_account_field_pivot', 'account_id', 'account_field_id');
     }
 }

@@ -163,14 +163,6 @@ Route::namespace('App\Http\Controllers\admin')
         Route::post('game_account_update/{id}', [adminGameAccountController::class, 'update'])->name('game_account_update_panel');
         Route::post('game_account_delete/{id}', [adminGameAccountController::class, 'delete'])->name('game_account_delete_panel');
 
-        //game account field
-        Route::get('game_account_field', [adminGameAccountFieldController::class, 'index'])->name('game_account_field_panel');
-        Route::get('game_account_field_create', [adminGameAccountFieldController::class, 'create'])->name('game_account_field_create_panel');
-        Route::get('game_account_field_store', [adminGameAccountFieldController::class, 'store'])->name('game_account_field_store_panel');
-        Route::get('game_account_field_edit/{id}', [adminGameAccountFieldController::class, 'edit'])->name('game_account_field_edit_panel');
-        Route::post('game_account_field_update/{id}', [adminGameAccountFieldController::class, 'update'])->name('game_account_field_update_panel');
-        Route::post('game_account_field_delete/{id}', [adminGameAccountFieldController::class, 'delete'])->name('game_account_field_delete_panel');
-
         //about us
         Route::get('about_us', [adminAboutUsController::class, 'index'])->name('about_us_panel');
         Route::post('about_us_update', [adminAboutUsController::class, 'update'])->name('about_us_update_panel');
