@@ -45,7 +45,16 @@
         function updateFields(tag) {
             let selected_value = $(tag).find("option:selected").val()
             $(".account_fields_row").hide()
-            $(".account_fields_row[data-account="+ selected_value +"]").show().css("display", "flex");
+            $(".account_fields_row[data-account=" + selected_value + "]").show().css("display", "flex");
+        }
+
+        function addNewAccountSubmitForm() {
+            let newAccountForms = $(".newAccountForms:visible")
+
+            let game_account_select_value = $("#game_account_select").find("option:selected").val()
+            $(".game_account_select_hidden").val(game_account_select_value)
+
+            newAccountForms.submit()
         }
     </script>
 @endsection
@@ -65,44 +74,48 @@
                     </div>
                 </div>
 
-                <label>
-                    اکانت خود را انتخاب کنید
-                </label>
+                <div class="row mb-4">
+                    <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                        <label>اکانت خود را انتخاب کنید</label>
+                        <select class="form-control" id="game_account_select"
+                                onchange="updateFields(this)">
+                            <option>انتخاب کنید</option>
 
-                <form method="POST" action="{{route('user.account_store')}}">
-                    @csrf
-                    <div class="row mb-4">
-                        <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                            <select class="form-control" name="game_account" id="game_account_select"
-                                    onchange="updateFields(this)">
-                                <option>انتخاب کنید</option>
-
-                                @foreach($game_accounts as $game_account)
-                                    <option value="{{ $game_account->id }}">{{ $game_account->account_name }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
-                    @foreach($game_accounts as $game_account)
-                        <div data-account="{{$game_account['id']}}" class="row account_fields_row">
-                            @foreach($game_account['fields'] as $field)
-                                <div class="col-12 col-md-6 col-lg-4 col-xl-3">
-                                    <label>{{$field['label']}}</label>
-                                    <input type="{{$field['type']}}" class="form-control" name="field_{{$field['id']}}">
-                                </div>
+                            @foreach($game_accounts as $game_account)
+                                <option value="{{ $game_account->id }}">{{ $game_account->account_name }}</option>
                             @endforeach
-                        </div>
-                    @endforeach
-
-                    <div class="row mt-4">
-                        <div class="col-12">
-                            <button class="btn btn-sm theme-btn">
-                                افزودن
-                            </button>
-                        </div>
+                        </select>
                     </div>
-                </form>
+                </div>
+
+                @foreach($game_accounts as $game_account)
+                    <form method="POST" action="{{route('user.account_store')}}" data-account="{{$game_account['id']}}"
+                          class="row account_fields_row newAccountForms">
+                        <select name="game_account" class="form-control game_account_select_hidden d-none"
+                                onchange="updateFields(this)">
+                            <option>انتخاب کنید</option>
+
+                            @foreach($game_accounts as $a_game_account)
+                                <option value="{{ $a_game_account->id }}">{{ $a_game_account->account_name }}</option>
+                            @endforeach
+                        </select>
+                        @foreach($game_account['fields'] as $field)
+                            @csrf
+                            <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+                                <label>{{$field['label']}}</label>
+                                <input type="{{$field['type']}}" class="form-control" name="field_{{$field['id']}}">
+                            </div>
+                        @endforeach
+                    </form>
+                @endforeach
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <button onclick="addNewAccountSubmitForm()" class="btn btn-sm theme-btn">
+                            افزودن
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -310,6 +310,11 @@ Route::namespace('App\Http\Controllers\user')
         Route::get('accounts',[userAccountController::class, 'index'])->name('accounts');
         Route::get('account/create',[userAccountController::class, 'create'])->name('account_create');
         Route::post('account/store',[userAccountController::class, 'store'])->name('account_store');
+        Route::get('/get-fields/{accountId}', [userAccountController::class, 'getFields']);
+        Route::post('/save-account', [userAccountController::class, 'saveAccount']);
+
+
+        Route::get('account/is_default/{user_account_id}/{unique_form}',[userAccountController::class, 'is_default'])->name('account_is_default');
     });
 
 // *************************  user **********************************

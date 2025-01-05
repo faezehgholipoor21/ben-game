@@ -41,6 +41,17 @@
                             <tr>
                                 <td>{{$account['account']['account_name']}}</td>
                                 <td>
+                                    @if(\App\Helper\GetActiveAccount::get_active_account($account['unique_form']) == 1)
+                                        <label class="btn btn-success">
+                                            اکانت پیش فرض
+                                        </label>
+                                    @else
+                                        <a href="{{route('user.account_is_default' , ['user_account_id' => $account['user_id'] , 'unique_form' => $account['unique_form']])}}"
+                                           class="btn btn-warning">
+                                            پیش فرض
+                                        </a>
+                                    @endif
+
                                     <button class="btn btn-sm btn-danger">
                                         <i class="fa fa-trash"></i>
                                     </button>
