@@ -22,4 +22,7 @@ class GameAccount extends Model
     {
         return $this->belongsToMany(Product::class, 'account_product', 'account_id', 'product_id');
     }
+
+    // App\Models\Product.php
+
 }

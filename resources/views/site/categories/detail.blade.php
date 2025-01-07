@@ -11,7 +11,7 @@
             margin: 0 5px;
             font-size: 10px;
             border-radius: 10px;
-            box-shadow: 6px 6px 2px 1px rgba(0, 0, 255, .5);
+            box-shadow: 3px 2px 1px 0 rgba(0, 0, 255, .5);
         }
 
         .switch {
@@ -233,7 +233,9 @@
             product_modal.modal('show');
         }
 
-        function ShowAccountProductModal(product_id, cat_title , user_id) {
+        function ShowAccountProductModal(product_id, cat_title, user_id) {
+            const accountList = document.getElementById('account-list');
+
             account_fields = []
             let product_account_modal = $("#account_modal");
             let account_select = $("#accountSelect");
@@ -247,18 +249,41 @@
                 url: '{{route("site.get_product_account")}}', // URL برای دریافت اطلاعات محصول
                 method: 'GET',
                 data: {
-                    id: product_id ,
-                    user_id : user_id
+                    id: product_id,
+                    user_id: user_id
                 },
                 success: function (response) {
                     if (response.error === false) {
                         if (!response.error) {
+                            // console.log(response.default_account);
+                            const default_accounts = response.default_account;
                             const accounts = response.accounts;
+                            const user_accounts = response.accounts.user_account;
+
+                           default_accounts.forEach(function (default_account){
+                               const li = document.createElement('li');
+                               li.innerHTML = `${default_account.account_name} : ${default_account.user_id}`
+
+                               const innerUl = document.createElement("ul");
+                               user_accounts.forEach(function (user_account){
+                                   console.log(user_account);
+                                   const innerLi = document.createElement("li");
+                                   innerLi.textContent = `${user_account}` ;
+                                   innerUl.appendChild(innerLi);
+                               });
+
+                            });
+
+                            accountList.appendChild(li);
 
                             let options = '<option value="">انتخاب اکانت جدید</option>';
                             accounts.forEach(function (account) {
                                 account_fields.push(account.fields)
                                 options += `<option value="${account.id}">${account.account_name}</option>`;
+                            });
+
+                            default_accounts.forEach(function (default_account) {
+
                             });
 
                             account_select.append(options);
@@ -292,9 +317,9 @@
             let the_field = ''
             for (let i = 0; i < fields.length; i++) {
                 the_field = '<div class="col-12 mb-4">' +
-                    '<label>'+ fields[i]['label'] +'</label>' +
+                    '<label>' + fields[i]['label'] + '</label>' +
                     "<input type=\"" + fields[i]['type'] + "\" id=\"" + fields[i]['name'] + "\" class=\"form-control\">" +
-                '</div>'
+                    '</div>'
 
                 $(tag).next().append(the_field)
             }
@@ -487,6 +512,16 @@
                                     </span>
                                 </li>
                                 <li>
+                                    اکانت های مجاز :
+                                    <span>
+                                    @foreach($accounts as $account)
+                                            <span class="tag_css">
+                                        {{$account['account_name']}}
+                                        </span>
+                                        @endforeach
+                                    </span>
+                                </li>
+                                <li>
                                     فروش توسط:
                                     <a href="#">
                                         سایت بازی
@@ -671,6 +706,9 @@
                 </div>
 
                 <div class="modal-body">
+                    <ul id="account-list">
+                        <!-- لیست اکانت‌ها در اینجا قرار خواهد گرفت -->
+                    </ul>
                     <p class="loader text-center fw-bold my-4">لطفا شکیبا باشید...</p>
                     <select onchange="showAccountFields(this)" class="form-control" id="accountSelect">
                         <option value="">در حال بارگذاری...</option>

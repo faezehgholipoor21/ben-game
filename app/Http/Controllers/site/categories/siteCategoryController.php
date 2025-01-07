@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\site\categories;
 
+use App\Helper\GetAccountFieldTitle;
+use App\Helper\GetGameAccountTitle;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\DefaultAccount;
 use App\Models\ImageProduct;
 use App\Models\Product;
 use App\Models\UserAccount;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
@@ -24,6 +28,8 @@ class siteCategoryController extends Controller
             ->orderBy('created_at', 'asc') // ترتیب صعودی برای قدیمی‌ترین تاریخ
             ->first();
 
+        $accounts = $product_info->accounts;
+
         $product_images_list = ImageProduct::query()
             ->where('product_id', $category_id)
             ->where('is_main', '!=', 1)
@@ -33,7 +39,7 @@ class siteCategoryController extends Controller
 
         $image_count = \App\Helper\GetProductMainImage::get_product_images($cat_info['id']);
 
-        return view('site.categories.detail', compact('category_id', 'cat_info', 'product_info', 'image_count', 'product_images_list', 'keywords'));
+        return view('site.categories.detail', compact('category_id', 'cat_info', 'product_info', 'image_count', 'product_images_list', 'keywords', 'accounts'));
     }
 
     public function getProducts($cat_id): \Illuminate\Http\JsonResponse
@@ -87,6 +93,32 @@ class siteCategoryController extends Controller
     public function get_product_account(Request $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->all();
+        $user_id = Auth::id();
+
+        $default_account = DefaultAccount::query()
+            ->where('user_id', $user_id)
+            ->get();
+
+
+        foreach ($default_account as $key => $account) {
+            $account['user_account'] = UserAccount::query()
+                ->where('user_id', $account->user_id)
+                ->where('account_id', $account->account_id)
+                ->where('unique_form', $account['unique_form'])
+                ->get();
+
+            $account['account_name'] = GetGameAccountTitle::get_game_account_title($account['account_id']);
+            foreach ($account['user_account'] as $user) {
+                $user['field_title'] = GetAccountFieldTitle::get_account_field_title($user['field_id']);
+            }
+        };
+
+//        dd($default_account[0]['user_account']);
+
+
+        if ($default_account->isEmpty()) {
+            $default_account = 0;
+        }
 
         $product = Product::query()
             ->with(['accounts.fields'])
@@ -104,8 +136,9 @@ class siteCategoryController extends Controller
         } else {
             return response()->json([
                 'error' => false,
-                'accounts' => $product['accounts'] ,
-                'user_account' => $user_account
+                'accounts' => $product['accounts'],
+                'user_account' => $user_account,
+                'default_account' => $default_account
             ]);
         }
     }
