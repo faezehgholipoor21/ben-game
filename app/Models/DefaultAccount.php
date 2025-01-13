@@ -11,4 +11,14 @@ class DefaultAccount extends Model
 
     protected $table = 'default_accounts';
     protected $guarded = [];
+
+    function userAccount(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(UserAccount::class, 'unique_form', 'unique_form');
+    }
+
+    function accountInfo(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(GameAccount::class, 'account_id');
+    }
 }

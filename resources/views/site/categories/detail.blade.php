@@ -147,6 +147,14 @@
             width: 100%;
             cursor: pointer;
         }
+
+        .user_acc_li {
+            border: 2px solid #11b76b;
+            border-radius: 10px;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background-color: #f8fffd;
+        }
     </style>
 @endsection
 
@@ -234,7 +242,7 @@
         }
 
         function ShowAccountProductModal(product_id, cat_title, user_id) {
-            const accountList = document.getElementById('account-list');
+            const accountList = $('#account-list');
 
             account_fields = []
             let product_account_modal = $("#account_modal");
@@ -255,39 +263,22 @@
                 success: function (response) {
                     if (response.error === false) {
                         if (!response.error) {
-                            // console.log(response.default_account);
+                            console.log(response);
                             const default_accounts = response.default_account;
-                            const accounts = response.accounts;
-                            const user_accounts = response.accounts.user_account;
+                            let tr = '';
 
-                           default_accounts.forEach(function (default_account){
-                               const li = document.createElement('li');
-                               li.innerHTML = `${default_account.account_name} : ${default_account.user_id}`
-
-                               const innerUl = document.createElement("ul");
-                               user_accounts.forEach(function (user_account){
-                                   console.log(user_account);
-                                   const innerLi = document.createElement("li");
-                                   innerLi.textContent = `${user_account}` ;
-                                   innerUl.appendChild(innerLi);
-                               });
-
-                            });
-
-                            accountList.appendChild(li);
-
-                            let options = '<option value="">انتخاب اکانت جدید</option>';
-                            accounts.forEach(function (account) {
-                                account_fields.push(account.fields)
-                                options += `<option value="${account.id}">${account.account_name}</option>`;
-                            });
-
+                            let li = '';
                             default_accounts.forEach(function (default_account) {
-
+                                li += '<li class="user_acc_li">' + default_account.account_info.account_name;
+                                tr = '<p> <input type="radio" name="user_acc_radio[]" value="'+ default_account.unique_form +'">';
+                                default_account.user_account.forEach(function (user_acc) {
+                                    tr += '<span class="badge bg-dark text-white m-1 px-2">' + user_acc.field_info.label + ': ' + user_acc.value + '</span>'
+                                });
+                                tr += '</p></li>'
+                                li += tr
                             });
 
-                            account_select.append(options);
-                            account_select.show();
+                            accountList.html(li);
                             product_account_modal.find('.loader').hide();
 
                             $('#myModal').modal('show');
@@ -306,11 +297,8 @@
         }
 
         function showAccountFields(tag) {
-
             $(tag).next().find('div').remove()
             let selected_option_index = $(tag).find('option:selected').index()
-
-            console.log(selected_option_index)
 
             let fields = account_fields[selected_option_index - 1]
 

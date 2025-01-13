@@ -96,37 +96,18 @@ class siteCategoryController extends Controller
         $user_id = Auth::id();
 
         $default_account = DefaultAccount::query()
+            ->with(['userAccount.fieldInfo', 'accountInfo'])
             ->where('user_id', $user_id)
             ->get();
-
-
-        foreach ($default_account as $key => $account) {
-            $account['user_account'] = UserAccount::query()
-                ->where('user_id', $account->user_id)
-                ->where('account_id', $account->account_id)
-                ->where('unique_form', $account['unique_form'])
-                ->get();
-
-            $account['account_name'] = GetGameAccountTitle::get_game_account_title($account['account_id']);
-            foreach ($account['user_account'] as $user) {
-                $user['field_title'] = GetAccountFieldTitle::get_account_field_title($user['field_id']);
-            }
-        };
-
-//        dd($default_account[0]['user_account']);
-
 
         if ($default_account->isEmpty()) {
             $default_account = 0;
         }
 
         $product = Product::query()
+            ->select(['id', 'product_name'])
             ->with(['accounts.fields'])
             ->find($input['id']);
-
-        $user_account = UserAccount::query()
-            ->where('user_id', $input['user_id'])
-            ->get();
 
         if (!$product) {
             return response()->json([
@@ -136,8 +117,6 @@ class siteCategoryController extends Controller
         } else {
             return response()->json([
                 'error' => false,
-                'accounts' => $product['accounts'],
-                'user_account' => $user_account,
                 'default_account' => $default_account
             ]);
         }
