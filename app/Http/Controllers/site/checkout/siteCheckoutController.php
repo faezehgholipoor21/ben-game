@@ -10,11 +10,11 @@ use Illuminate\Support\Facades\Validator;
 class siteCheckoutController extends Controller
 {
 
-    public function index()
+    public function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        if (isset($_COOKIE['cart'])) {
+        if (isset($_COOKIE['cart_id'])) {
             $cart = Cart::query()
-                ->where('cookie', $_COOKIE['cart'])
+                ->where('cookie', $_COOKIE['cart_id'])
                 ->get();
         } else {
             $cart = [];

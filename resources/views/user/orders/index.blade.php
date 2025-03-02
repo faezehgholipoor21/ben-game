@@ -6,8 +6,8 @@
 
 @section('custom-css')
     <style>
-        .my_test{
-            color:orangered !important;
+        .my_test {
+            color: orangered !important;
             background-color: #f3cebe;
             border-radius: 50px;
             padding: 5px 12px;
@@ -25,9 +25,6 @@
             <div class="user-card">
                 <div class="user-card-header">
                     <h4 class="user-card-title">سفارشات</h4>
-                    {{--                    <div class="user-card-header-right">--}}
-                    {{--                        <a href="#" class="theme-btn">مشاهده همه سفارش‌ها</a>--}}
-                    {{--                    </div>--}}
                 </div>
                 <div class="table-responsive">
                     <table class="table table-borderless text-nowrap">
@@ -75,24 +72,11 @@
                                         </button>
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li>
-                                                @if($order['review_expert_id'] == 0)
-                                                    <a class="dropdown-item"
-                                                       href="{{route('admin_norm.order_detail' , ['order_id' => $order['id']])}}">
-                                                        <i class="far fa-eye"></i>
-                                                        جزئیات سفارش
-                                                    </a>
-                                                @elseif($order['review_expert_id'] == auth()->user()->id)
-                                                    <a class="dropdown-item"
-                                                       href="{{route('admin_norm.order_detail' , ['order_id' => $order['id']])}}">
-                                                        <i class="far fa-eye"></i>
-                                                        جزئیات سفارش
-                                                    </a>
-                                                @else
-                                                    <a class="dropdown-item" disabled="disabled" href="#" style="color: red">
-                                                        <i class="far fa-do-not-enter" style="color: red"></i>
-                                                        جزئیات سفارش
-                                                    </a>
-                                                @endif
+                                                <a class="dropdown-item"
+                                                   href="{{route('user.order_detail' , ['order_id' => $order['id']])}}">
+                                                    <i class="far fa-eye"></i>
+                                                    جزئیات سفارش
+                                                </a>
                                             </li>
                                         </ul>
                                     </div>

@@ -15,7 +15,7 @@ class CalculateOrderPrice
         $total_price = 0 ;
 
         foreach ($order_detail_info as $order){
-            $total_price += intval($order['bought_price']) * intval($order['count']) ;
+            $total_price += intval($order['bought_price']) ;
         }
 
         return $total_price;

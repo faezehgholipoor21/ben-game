@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('order_id');
             $table->unsignedBigInteger('product_id');
             $table->string('bought_price', 500);
+            $table->decimal('pay_dollar', 10);
             $table->timestamps();
         });
     }

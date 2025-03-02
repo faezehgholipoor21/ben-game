@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\site\order;
 
+use App\Helper\ChangeDollar;
 use App\Http\Controllers\Controller;
 use App\Models\AuthenticationPrice;
 use App\Models\Cart;
@@ -47,7 +48,7 @@ class siteOrderController extends Controller
             'order_code' => 0,
             'order_status' => 1,
             'payment_status_id' => 1,
-            'total_price' => $cart['total_price'],
+            'total_price' => ChangeDollar::change_dollar($cart['total_price']),
             'is_force' => $cart['cart'][0]['is_force'],
             'user_id' => $user->id,
             'gateway' => $input['gateway'],
@@ -60,11 +61,13 @@ class siteOrderController extends Controller
         ]);
 
         foreach ($cart['cart'] as $product) {
+
             OrderDetail::query()->create([
                 'order_id' => $order['id'],
                 'product_id' => $product['product_id'],
+                'bought_price' => ChangeDollar::change_dollar($product['bought_price']),
                 'count' => $product['count'],
-                'bought_price' => $product['bought_price'],
+                'user_account_id' => $product['user_account_id'],
             ]);
         }
 
@@ -103,10 +106,10 @@ class siteOrderController extends Controller
 
     function getCart(): array
     {
-        if (isset($_COOKIE['cart'])) {
+        if (isset($_COOKIE['cart_id'])) {
             $cart = Cart::query()
                 ->with(['product'])
-                ->where('cookie', $_COOKIE['cart'])
+                ->where('cookie', $_COOKIE['cart_id'])
                 ->get();
         } else {
             $cart = [];
@@ -116,10 +119,10 @@ class siteOrderController extends Controller
 
         foreach ($cart as $item) {
             if ($item['is_force'] == 1) {
-                $total_price += ($item['product']['product_force_price']) * $item['count'];
+                $total_price += ($item['product']['product_force_price']);
                 $item['bought_price'] = $item['product']['product_force_price'];
             } else {
-                $total_price += ($item['product']['product_price']) * $item['count'];
+                $total_price += ($item['product']['product_price']);
                 $item['bought_price'] = $item['product']['product_price'];
             }
         }
@@ -132,10 +135,10 @@ class siteOrderController extends Controller
 
     function deleteCart(): void
     {
-        if (isset($_COOKIE['cart'])) {
+        if (isset($_COOKIE['cart_id'])) {
             $cart = Cart::query()
                 ->with(['product'])
-                ->where('cookie', $_COOKIE['cart'])
+                ->where('cookie', $_COOKIE['cart_id'])
                 ->get();
         } else {
             $cart = [];

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('national_code',11)->nullable()->default(null);
             $table->string('user_image',255)->nullable()->default('admin/assets/images/placeholders/user_placeholder.png');
             $table->unsignedTinyInteger('user_status_id')->default(3);
+            $table->unsignedTinyInteger('memebership_level_id');
             $table->date('birth_day')->nullable()->default(null);
             $table->string('email',255)->unique();
             $table->timestamp('email_verified_at')->nullable();

@@ -14,7 +14,7 @@ class DefaultAccount extends Model
 
     function userAccount(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(UserAccount::class, 'unique_form', 'unique_form');
+        return $this->hasMany(UserAccountOld::class, 'unique_form', 'unique_form');
     }
 
     function accountInfo(): \Illuminate\Database\Eloquent\Relations\BelongsTo

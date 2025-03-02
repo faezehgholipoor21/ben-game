@@ -143,8 +143,9 @@
             <div class="row">
                 <div class="col-lg-6 mx-auto">
                     <div class="site-heading text-center">
-                        <span class="site-title-tagline">رده ما</span>
-                        <h2 class="site-title">مرور محصول بر اساس <span>دسته</span></h2>
+                        <h2 class="site-title">
+                            دسترسی سریع به دسته های اصلی
+                        </h2>
                     </div>
                 </div>
             </div>
@@ -152,7 +153,7 @@
                 @foreach($categories as $category)
                     <div class="col-6 col-md-4 col-lg-2 text-center">
                         <div class="category-item">
-                            <a href="#">
+                            <a href="{{route('site.category_index' , ['cat_id' => $category['id']])}}">
                                 <div class="category-info">
                                     <div class="icon">
                                         <img src="{{asset($category['cat_image'])}}" alt>

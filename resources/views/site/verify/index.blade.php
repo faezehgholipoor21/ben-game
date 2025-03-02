@@ -55,9 +55,8 @@
                                     <tr>
                                         <th>تصویر</th>
                                         <th>نام محصول</th>
-                                        <th>قیمت (ریال)</th>
-                                        <th>مقدار</th>
-                                        <th>قیمت کل (ریال)</th>
+                                        <th>تعداد</th>
+                                        <th>قیمت کل (تومان)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -67,8 +66,7 @@
                                     @foreach($products as $item)
                                         @php
                                             $price = $item['bought_price'] ;
-                                            $count = $item['count'] ;
-                                            $total_price += $price * $count ;
+                                            $total_price += $price * $item['count'] ;
                                         @endphp
                                         <tr>
                                             <td>
@@ -90,21 +88,14 @@
                                                 </div>
                                             </td>
                                             <td>
+                                                {{$item['count']}}
+                                            </td>
+                                            <td>
                                                 <div class="shop-cart-price">
-                                                    <span class="tr_price">{{number_format($price)}}</span>
+                                                    <span class="tr_price">{{number_format($price * $item['count'])}}</span>
                                                 </div>
                                             </td>
-                                            <td>
-                                                <div class="shop-cart-qty" dir="ltr">
-                                                    {{$count}}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div class="shop-cart-subtotal">
-                                                        <span
-                                                            class="tbl_total_price">{{number_format($count * $price)}}</span>
-                                                </div>
-                                            </td>
+
                                         </tr>
                                     @endforeach
 
@@ -131,13 +122,13 @@
                                 <li>
                                     <strong>مالیات:</strong>
                                     <span class="show_tax_price">
-                                            {{@number_format($total_price * 0.1)}} ریال
+                                            {{@number_format($total_price * 0.1)}} تومان
                                         </span>
                                 </li>
                                 <li class="shop-cart-total">
                                     <strong>مجموع:</strong>
                                     <span class="show_total_price_with_tax">
-                                            {{@number_format(($total_price) + $total_price * 0.1)}} ریال
+                                            {{@number_format(($total_price) + $total_price * 0.1)}} تومان
                                         </span>
                                 </li>
                             </ul>

@@ -11,7 +11,6 @@ class GetGameAccountTitle
         $game_account_info = GameAccount::query()
             ->where('id' , $game_account_id)
             ->first();
-
         return $game_account_info['account_name'];
     }
 }

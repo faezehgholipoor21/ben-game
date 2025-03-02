@@ -3,6 +3,7 @@
 namespace App\Helper;
 
 use App\Models\Cart;
+use Illuminate\Support\Facades\Log;
 
 class CalculateTotalCart
 {
@@ -14,6 +15,7 @@ class CalculateTotalCart
             ->get();
 
         $total_price = 0;
+
 
 
         foreach ($cart as $cart_item) {

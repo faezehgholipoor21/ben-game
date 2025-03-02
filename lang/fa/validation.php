@@ -247,6 +247,9 @@ return [
         'account_bank_name' => 'نام صاحب حساب',
         'account_bank_family' => 'نام خانوادگی صاحب حساب',
         'bank_card_number' => 'شماره کارت بانکی',
+        'label' => 'عنوان',
+        'type' => 'نوع',
+        'field_name' => 'نام فیلد',
     ],
 
 ];

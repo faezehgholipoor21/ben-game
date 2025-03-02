@@ -103,6 +103,7 @@ class adminProductController extends Controller
     {
         $input = $request->all();
 
+
         $selectedAccounts = $input['game_account_ids'];
 
         $product_info = Product::query()
@@ -136,6 +137,7 @@ class adminProductController extends Controller
             'product_price' => $price,
             'product_force_price' => $force_price,
             'inventory' =>  $input['inventory'],
+            'cat_id' => $input['cat_id'],
         ]);
 
         // حذف اکانت‌های قبلی

@@ -35,25 +35,25 @@
         <div class="row clearfix">
             <div class="col-12">
                 <div class="card">
-                    <form method="post" action="{{route('admin.users.search')}}" class="card-body">
+                    <form method="post" action="{{route('admin.order_search')}}" class="card-body">
                         @csrf
                         <div class="row">
                             <div class="col-12 col-sm-6 col-md-3 mb-4">
-                                <label>نام</label>
-                                <input type="text" name="first_name" class="form-control">
+                                <label>شماره سفارش</label>
+                                <input type="text" name="order_number" class="form-control">
                             </div>
 
                             <div class="col-12 col-sm-6 col-md-3 mb-4">
-                                <label>نام خانوادگی</label>
-                                <input type="text" name="last_name" class="form-control">
+                                <label>موبایل خریدار</label>
+                                <input type="text" name="mobile" class="form-control">
                             </div>
 
                             <div class="col-12 col-sm-6  @if(!$searched) col-md-3 @else col-md-2 @endif mb-4">
-                                <label>جنسیت</label>
-                                <select name="gender" class="form-control">
-                                    <option value="">همه</option>
-                                    <option value="1">مرد</option>
-                                    <option value="2">زن</option>
+                                <label>وضعیت سفارش</label>
+                                <select name="status" class="form-control">
+                                    @foreach($order_status as $order)
+                                        <option value="{{$order['id']}}">{{$order['title']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -66,7 +66,7 @@
                                 </div>
                             @else
                                 <div class="col-12 col-md-2 mb-4">
-                                    <a href="{{route('admin.users')}}" class="btn btn-danger w-100 mt-29">
+                                    <a href="{{route('admin.orders')}}" class="btn btn-danger w-100 mt-29">
                                         <i class="fa fa-times-circle mr-2"></i>
                                         حذف فیلتر
                                     </a>
@@ -93,6 +93,7 @@
                                 <th>شماره سفارش</th>
                                 <th>تعداد محصول</th>
                                 <th>نام و نام خانوادگی</th>
+                                <th>تلفن همراه مشتری</th>
                                 <th>تاریخ</th>
                                 <th>وضعیت</th>
                                 <th>کارشناس سفارش</th>
@@ -135,7 +136,9 @@
                                             {{$order['userInfo']['first_name'] . ' ' . $order['userInfo']['last_name']}}
                                         </p>
                                     </td>
-
+                                    <td>
+                                        {{$order['userInfo']['mobile']}}
+                                    </td>
                                     <td>
                                         <span class="mb-0">
                                             {{$order['jalali_date']}}

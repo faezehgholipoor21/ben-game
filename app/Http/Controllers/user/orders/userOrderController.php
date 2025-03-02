@@ -7,11 +7,14 @@ use App\Helper\GetCategoryTitle;
 use App\Helper\GetGameAccountTitle;
 use App\Helper\GetProductMainImage;
 use App\Helper\GetProductTitleWithProId;
+use App\Helper\GetUserAccountTitle;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\OrderStatus;
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\UserAccount;
+use App\Models\UserAccountDetail;
 use Illuminate\View\View;
 
 class userOrderController extends Controller
@@ -20,7 +23,7 @@ class userOrderController extends Controller
     {
         $my_order_list = Order::query()
             ->with(['expertInfo', 'userInfo', 'statusInfo'])
-            ->where('review_expert_id', auth()->user()->id)
+            ->where('user_id', auth()->user()->id)
             ->latest()
             ->paginate();
 
@@ -53,8 +56,23 @@ class userOrderController extends Controller
             $item['product_name'] = GetProductTitleWithProId::get_product_title_with_pro_id($item['product_id']);
             $item['product_image'] = GetProductMainImage::get_product_main_image($item['product_id']);
             $item['product_cat_title'] = GetCategoryTitle::get_category_title($product_info['cat_id']);
-            $item['game_account_title'] = GetGameAccountTitle::get_game_account_title($product_info['game_account_id']);
+            $item['game_account_title'] = GetUserAccountTitle::get_user_account_title($item['user_account_id']);
+
+            $user_account = UserAccount::query()
+                ->with('account')
+                ->with('user_account_details.fieldInfo')
+                ->where('account_id', $item['user_account_id'])
+                ->orderBy('default', 'desc')
+                ->first();
+
+            $item['user_account_detail_info'] = UserAccountDetail::query()
+                ->where('user_account_id', $user_account['id'])
+                ->get();
         }
-        return view('user.orders.order_details',compact('order_info','total_order_price','order_detail_infos'));
+
+        $order_status_list = OrderStatus::query()
+            ->get();
+
+        return view('user.orders.order_details',compact('order_detail_infos', 'order_info', 'total_order_price', 'order_status_list'));
     }
 }

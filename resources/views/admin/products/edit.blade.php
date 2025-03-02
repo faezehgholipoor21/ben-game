@@ -161,22 +161,21 @@
                                 </div>
                                 <div class="row mb-4">
                                     <div class="col-12 col-md-6 mt-4">
-                                        <label>قیمت محصول(تومان)</label>
+                                        <label>قیمت محصول(به دلار بنویسید)</label>
                                         @error('product_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input value="{{number_format($product_info['product_price'])}}" dir="ltr" type="text"
+                                        <input value="{{number_format($product_info['product_price'],2)}}" dir="ltr" type="text"
                                                class="form-control text-right" name="product_price"
-                                               oninput="formatNumber(this)">
+                                               >
                                     </div>
                                     <div class="col-12 col-md-6 mt-4">
-                                        <label>قیمت فوری محصول(تومان)</label>
+                                        <label>قیمت فوری محصول(به دلار بنویسید)</label>
                                         @error('product_force_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
-                                        <input value="{{number_format($product_info['product_force_price'])}}" dir="ltr" type="text"
-                                               class="form-control text-right" name="product_force_price"
-                                               oninput="formatNumber(this)">
+                                        <input value="{{number_format($product_info['product_force_price'],2)}}" dir="ltr" type="text"
+                                               class="form-control text-right" name="product_force_price">
                                     </div>
                                 </div>
                                 <div class="row justify-content-end">

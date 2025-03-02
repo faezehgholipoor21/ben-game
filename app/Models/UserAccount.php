@@ -9,7 +9,7 @@ class UserAccount extends Model
 {
     use HasFactory;
 
-    protected $table = 'user_accounts';
+    protected $table = 'user_account';
     protected $guarded = [];
 
     function account(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -17,8 +17,8 @@ class UserAccount extends Model
         return $this->belongsTo(GameAccount::class, 'account_id');
     }
 
-    function fieldInfo(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user_account_details(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(GameAccountField::class, 'field_id');
+        return $this->hasMany(UserAccountDetail::class);
     }
 }

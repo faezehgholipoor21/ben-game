@@ -14,69 +14,46 @@
             box-shadow: 3px 2px 1px 0 rgba(0, 0, 255, .5);
         }
 
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 25px;
-        }
-
-        /* خود چک‌باکس */
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        /* ظاهر سوئیچ */
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: 0.4s;
-            border-radius: 25px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 19px;
-            width: 19px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: 0.4s;
-            border-radius: 50%;
-        }
-
-        /* تغییر رنگ در حالت روشن */
-        input:checked + .slider {
-            background-color: #11B76B;
-        }
-
-        /* جابجایی دایره در حالت روشن */
-        input:checked + .slider:before {
-            transform: translateX(25px);
-        }
-
         .force_div {
-            background-color: #fff400;
-            display: inline-block;
-            border-radius: 10px;
+            display: flex;
+            align-items: center; /* هم‌تراز کردن عمودی چک‌باکس و متن */
+            gap: 10px; /* فاصله بین چک‌باکس و متن */
+            background-color: #6e2a2a;
+            border-radius: 4px;
             color: #000;
             font-size: 10px;
             position: relative; /* برای نمایش متن توضیحی */
-            opacity: 0.5; /* ظاهر غیرفعال */
-            cursor: not-allowed; /* نشانگر ورود ممنوع */
+            padding: 9px 8px;
+        }
+
+        /* تنظیم ارتفاع input */
+        input[name="force_price"] {
+            height: 36px; /* برابر با دکمه‌ی سبد خرید */
+            padding: 0 10px; /* فضای داخلی */
+            box-sizing: border-box; /* برای محاسبه padding */
+        }
+
+        input[type="checkbox"] {
+            width: 13px; /* عرض چک‌باکس */
+            height: 13px; /* ارتفاع چک‌باکس */
+            transform: scale(1.5); /* مقیاس‌بندی */
+            margin-right: 5px; /* فاصله از متن */
+            margin-left: 12px;
+            cursor: pointer; /* نشانگر دست برای تجربه کاربری بهتر */
+        }
+
+        /* تنظیم دکمه‌ی سبد خرید */
+        button {
+            height: 36px; /* ارتفاع یکسان با input */
+            display: flex;
+            align-items: center; /* هم‌تراز کردن آیکون و متن */
+            padding: 0 15px; /* فضای داخلی دکمه */
+            gap: 5px; /* فاصله بین آیکون و متن */
         }
 
 
         .force_div > * {
-            pointer-events: none; /* غیرفعال کردن تعامل با محتوای داخلی */
+            /*pointer-events: none; !* غیرفعال کردن تعامل با محتوای داخلی *!*/
         }
 
         .force_div::before {
@@ -155,15 +132,47 @@
             margin-bottom: 10px;
             background-color: #f8fffd;
         }
+
+        .close_btn {
+            background-color: #dd0628;
+            border: none;
+            border-radius: 5px;
+            padding: 1px 6px;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        form {
+            display: flex;
+            align-items: center; /* برای هم‌تراز کردن عمودی المان‌ها */
+            gap: 10px; /* فاصله بین المان‌ها */
+        }
+
+        .force_label {
+            display: flex;
+            align-items: center;
+        }
+
+        .force_label span {
+            color: #fff !important;
+        }
+
+        .force_inp {
+            margin-right: 5px;
+            margin-left: 5px;
+        }
     </style>
 @endsection
 
 @section('custom-js')
-    <script src="{{asset('vendor/sweetalert/sweetalert.all.js')}}"></script>
+    <script src="{{asset('/vendor/sweetalert/sweetalert.all.js')}}"></script>
+
     <script>
         let account_fields = [];
 
         function ShowProductDetail(productId) {
+            document.getElementById("product_modal_id").value = productId;
+
             let selected_product_tr = $("#selected_product_tr")
             $.ajax({
                 url: '{{route("site.get_product_detail")}}', // URL برای دریافت اطلاعات محصول
@@ -213,6 +222,7 @@
                 url: `/get_products/${id}`,
                 method: 'GET',
                 success: function (response) {
+
                     if (response.length > 0) {
                         let productList = '<div class="product-list">';
                         response.forEach(product => {
@@ -263,15 +273,13 @@
                 success: function (response) {
                     if (response.error === false) {
                         if (!response.error) {
-                            console.log(response);
-                            const default_accounts = response.default_account;
+                            const user_accounts = response.user_accounts;
                             let tr = '';
-
                             let li = '';
-                            default_accounts.forEach(function (default_account) {
-                                li += '<li class="user_acc_li">' + default_account.account_info.account_name;
-                                tr = '<p> <input type="radio" name="user_acc_radio[]" value="'+ default_account.unique_form +'">';
-                                default_account.user_account.forEach(function (user_acc) {
+                            user_accounts.forEach(function (user_account) {
+                                li += '<li class="user_acc_li">' + user_account.account.account_name;
+                                tr = '<p> <input type="radio" name="user_acc_radio[]" value="' + user_account.account_id + '">';
+                                user_account.user_account_details.forEach(function (user_acc) {
                                     tr += '<span class="badge bg-dark text-white m-1 px-2">' + user_acc.field_info.label + ': ' + user_acc.value + '</span>'
                                 });
                                 tr += '</p></li>'
@@ -286,6 +294,7 @@
                             alert('خطا در دریافت اطلاعات.');
                         }
                     } else {
+                        alert('یوزری موجود نیست');
                         modal_body.html('<p>محصولی یافت نشد.</p>');
                     }
                 },
@@ -365,7 +374,7 @@
 
         function addToCart(tag) {
 
-            let p_id = $('input.p_id')
+            let p_id = $('')
 
             if (!p_id.val()) {
                 location.reload()
@@ -375,6 +384,7 @@
             $(tag).prop('disabled', true);
 
             let cart_cookie = getCookie('cart');
+
 
             if (cart_cookie === null) {
                 cart_cookie = new Date().getTime();
@@ -545,7 +555,7 @@
                                     <tr>
                                         <th>تصویر</th>
                                         <th>نام محصول</th>
-                                        <th>قیمت (ریال)</th>
+                                        <th>قیمت (تومان)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -562,7 +572,7 @@
                                         </td>
                                         <td>
                                             <p class="p_price">
-                                                {{@number_format($product_info['product_price'])}}
+                                                {{@number_format(\App\Helper\ChangeDollar::change_dollar($product_info['product_price']))}}
                                             </p>
                                         </td>
                                     </tr>
@@ -580,36 +590,26 @@
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}' , '{{Auth::id()}}')"
-                                               id="product-ip" class="account_p_css"
-                                               data-product-id="{{$product_info['id']}}">
-                                                برای خرید لطفا ابتدا اکانت خود را وارد نمایید
-                                            </p>
+                                            @if(\Illuminate\Support\Facades\Auth::user())
+                                                <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}' , '{{Auth::id()}}')"
+                                                   id="product-ip" class="account_p_css"
+                                                   data-product-id="{{$product_info['id']}}">
+                                                    برای خرید لطفا ابتدا اکانت خود را وارد نمایید
+                                                </p>
+                                            @else
+                                                <p class="alert alert-info">
+                                                    <a href="{{route('site_login')}}">
+                                                        لطفا ابتدا در سایت وارد شوید
+                                                    </a>
+                                                </p>
+                                            @endif
+
                                         </td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div class="row">
-                                <div class="col-12 mt-4">
-                                    <div class="force_div theme-btn clearfix" data-tooltip="لطفا اکانت انتخاب کنید">
-                                        <label class="switch float-end ms-2">
-                                            <input type="checkbox" id="toggleSwitch">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <input type="hidden" id="force_value" name="force_value" value="0">
-
-                                        <span id="is_force_span">خرید فوری ({{@number_format($product_info['product_force_price']) . 'تومان'}})</span>
-                                    </div>
-
-                                    <button onclick="addToCart(this)" type="button" class="theme-btn"
-                                            disabled="disabled">
-                                        <span class="far fa-shopping-bag"></span>
-                                        افزودن به سبد خرید
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -679,13 +679,20 @@
 
                 <!-- Modal footer -->
 
-                <button type="button" class="btn btn-danger" data-dismiss="modal">انصراف</button>
+                <div class="modal-footer text-right">
+                    <button type="button" class="close_btn" data-bs-dismiss="modal">
+                        <i class="fa fa-close"></i>
+                        انصراف
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="modal fade" id="account_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
+            <form action="{{route("api.addToCart")}}" method="POST">
+                @csrf
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -693,23 +700,44 @@
                     <p class="modal-title title_css" id="cat_name"></p>
                 </div>
 
-                <div class="modal-body">
-                    <ul id="account-list">
-                        <!-- لیست اکانت‌ها در اینجا قرار خواهد گرفت -->
-                    </ul>
-                    <p class="loader text-center fw-bold my-4">لطفا شکیبا باشید...</p>
-                    <select onchange="showAccountFields(this)" class="form-control" id="accountSelect">
-                        <option value="">در حال بارگذاری...</option>
-                    </select>
+                    <div class="modal-body">
+                        <ul id="account-list">
+                            <!-- لیست اکانت‌ها در اینجا قرار خواهد گرفت -->
+                        </ul>
+                        <p class="loader text-center fw-bold my-4">لطفا شکیبا باشید...</p>
+                        <select onchange="showAccountFields(this)" class="form-control" id="accountSelect">
+                            <option value="">در حال بارگذاری...</option>
+                        </select>
 
-                    <div class="row mt-4"></div>
-                </div>
-                <!-- فوتر مدال -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">بستن</button>
-                    <button type="button" class="btn btn-sm btn-primary">ذخیره تغییرات</button>
-                </div>
+                        <div class="row mt-4"></div>
+                    </div>
+                    <!-- فوتر مدال -->
+                    <div class="modal-footer">
+                        <button type="button" class="close_btn" data-bs-dismiss="modal">
+                            <i class="fa fa-close"></i>
+                            بستن
+                        </button>
+
+                        <div class="force_div">
+                            <label class="force_label">
+                                <input type="checkbox" name="is_force" class="force_inp">
+                                <span>
+                                 خرید فوری
+                            </span>
+                            </label>
+                            <input type="hidden" value="{{$product_info['id']}}" name="product_id" id="product_modal_id">
+                        </div>
+                        <input type="hidden" value="{{$product_info['product_force_price']}}" name="force_price">
+                        <button type="submit" class="btn btn-sm btn-primary">
+                            <i class="fa fa-shopping-bag"></i>
+                            افزودن به سبد خرید
+                        </button>
+
+                    </div>
+
             </div>
+            </form>
+
         </div>
     </div>
 @endsection

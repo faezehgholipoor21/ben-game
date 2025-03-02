@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\DefaultAccount;
 use App\Models\GameAccount;
 use App\Models\UserAccount;
+use App\Models\UserAccountDetail;
+use App\Models\UserAccountOld;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,9 +19,8 @@ class userAccountController extends Controller
     public function index(): View
     {
         $accounts = UserAccount::query()
-            ->with(['account'])
+            ->with(['user_account_details'])
             ->where('user_id', Auth::id())
-            ->groupBy('unique_form')
             ->get();
 
         return view('user.accounts.index', compact('accounts'));
@@ -62,13 +63,19 @@ class userAccountController extends Controller
         }
 
         $unique_form = time() . '-' . rand(1000000, 9999999);
+
+        $user_account_info = UserAccount::query()->create([
+            'user_id' => $user_id,
+            'account_id' => $game_account['id'],
+            'unique_form' => $unique_form,
+            'default' => 0
+        ]);
+
         foreach ($game_account['fields'] as $field) {
-            UserAccount::query()->create([
-                'user_id' => $user_id,
+            UserAccountDetail::query()->create([
+                'user_account_id' => $user_account_info['id'],
                 'field_id' => $field['id'],
-                'account_id' => $game_account['id'],
                 'value' => $input['field_' . $field['id']],
-                'unique_form' => $unique_form,
             ]);
         }
 
@@ -106,43 +113,22 @@ class userAccountController extends Controller
     }
 
 
-    public function is_default($user_account_id, $unique_form)
+    public function is_default($user_account_id, $unique_form): \Illuminate\Http\RedirectResponse
     {
         $user_account = UserAccount::query()
             ->where('user_id', Auth::id())
             ->where('unique_form', $unique_form)
             ->first();
 
-        $default_account_info = DefaultAccount::query()
-            ->where('user_id', $user_account['user_id'])
-            ->where('account_id', $user_account['account_id'])
-            ->where('unique_form', $user_account['unique_form'])
-            ->first();
-
-        $default_account_with_user = DefaultAccount::query()
-            ->where('user_id', $user_account['user_id'])
-            ->where('account_id', $user_account['account_id'])
-            ->first();
-
-        if ($default_account_with_user) {
-
-            $default_account_with_user->delete();
-
-            DefaultAccount::query()->create([
-                'user_id' => $user_account['user_id'],
-                'account_id' => $user_account['account_id'],
-                'unique_form' => $user_account['unique_form'],
+        if ($user_account['default'] == 0) {
+            $user_account->update([
+                'default' => 1
             ]);
-
         } else {
-            DefaultAccount::query()->create([
-                'user_id' => $user_account['user_id'],
-                'account_id' => $user_account['account_id'],
-                'unique_form' => $user_account['unique_form'],
+            $user_account->update([
+                'default' => 0
             ]);
-
         }
-
 
         alert()->success('', 'اکانت مورد نظر به عنوان پیش فرض در نظر گرفته شد');
         return back();

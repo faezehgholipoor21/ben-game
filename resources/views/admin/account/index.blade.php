@@ -34,6 +34,10 @@
                         <i class="fa fa-plus mr-2"></i>
                         افزودن اکانت جدید
                     </a>
+                    <a href="{{route('admin.game_account_field')}}" class="btn btn-sm btn-warning">
+                        <i class="fa fa-plus mr-2"></i>
+                         فیلدهای اکانت
+                    </a>
                 </div>
             </div>
         </div>

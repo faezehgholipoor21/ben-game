@@ -88,19 +88,22 @@
         function updateCart(count, product_id, tag) {
             my_fullscreen_loader.slideDown();
 
-            let cart_cookie = getCookie('cart');
-            let show_total_price_with_tax = $('.show_total_price_with_tax');
+            let cart_cookie = getCookie('cart_id');
+            let show_total_price_wit_tax = $('.show_total_price_with_tax');
             let show_total_price_without_tax = $('.show_total_price_without_tax');
+            let tbl_total_price = $('.tbl_total_price');
             let show_tax_price = $('.show_tax_price');
             let cart_table_tr = $('.cart_table').find('tr');
             let tr_price = 0;
             let tr_count = 0;
 
-            for (let i = 1; i < cart_table_tr.length - 1; i++) {
-                tr_price = remove_comma(cart_table_tr.eq(i).find('.tr_price').text());
+
+            for (let i = 1; i <= cart_table_tr.length - 1; i++) {
+                tr_price = remove_comma(cart_table_tr.eq(i).find('.tbl_price').text());
                 tr_count = parseInt(cart_table_tr.eq(i).find('.quantity').val());
-                console.log(tr_price);
-                cart_table_tr.eq(i).find('.tbl_total_price').text(putComma(tr_price * tr_count));
+                cart_table_tr.eq(i).find('.tbl_total_price').text(tr_price * tr_count);
+
+             console.log('cart_table_tr = ' + cart_table_tr + 'tr_count = ' + tr_count + 'tr_price=' + tr_price);
             }
 
             if (cart_cookie === null) {
@@ -129,13 +132,14 @@
                         }, 2000);
                     } else {
                         show_sweetalert_msg(response.message, 'success');
-                        show_total_price_with_tax.text(response.total_price);
+
+                        show_total_price_wit_tax.text(response.total_price);
                         show_total_price_without_tax.text(response.pure_total_price);
                         show_tax_price.text(response.tax);
 
                         let price = remove_comma($(tag).parents('tr').find('.tr_price').text())
-
-                        $(tag).parents('tr').find('.tbl_total_price').text(putComma(price * parseInt(count)))
+                        //
+                        // $(tag).parents('tr').find('.tbl_total_price').text(putComma(price * parseInt(count)))
 
                         my_fullscreen_loader.slideUp();
                     }
@@ -157,6 +161,7 @@
                 }
             } else {
                 if (quantity_value + 1 > parseInt(max)) {
+
                     $(tag).val(parseInt(max));
                     show_sweetalert_msg(' موجودی انبار  ' + max + ' عدد است ', 'error')
                 } else {
@@ -165,9 +170,23 @@
             }
 
             if (parseInt(quantity.val()) !== quantity_value) {
+
                 updateCart(quantity.val(), product_id, tag)
             }
         }
+
+        $(document).ready(function () {
+            $(".minus-btn").click(function () {
+                changeCartQuantity(this, "-", 100); // مقدار 100 به عنوان حداکثر تعداد فرضی
+            });
+
+            $(".plus-btn").click(function () {
+                let max = $(this).data("max");
+                console.log(max);
+                changeCartQuantity(this, "+", max);
+            });
+        });
+
     </script>
 
 @endsection
@@ -208,9 +227,9 @@
                                         <tr>
                                             <th>تصویر</th>
                                             <th>نام محصول</th>
-                                            <th>قیمت (ریال)</th>
                                             <th>مقدار</th>
-                                            <th>قیمت کل (ریال)</th>
+                                            <th>قیمت واحد (تومان)</th>
+                                            <th>قیمت کل (تومان)</th>
                                             <th></th>
                                         </tr>
                                         </thead>
@@ -221,14 +240,16 @@
                                         @foreach($cart as $item)
                                             @php
                                                 if ($item->is_force == 1){
-                                                    $price = $item->product->product_force_price ;
+                                                    $price = \App\Helper\ChangeDollar::change_dollar($item->product->product_force_price) ;
+                                                    $count = $item->count ;
+                                                    $t_price = $price * $count;
 
                                                 }else{
-                                                    $price = $item->product->product_price ;
+                                                    $price = \App\Helper\ChangeDollar::change_dollar($item->product->product_price) ;
+                                                    $count = $item->count ;
+                                                    $t_price = $price * $count;
                                                 }
-                                                    $count = $item['count'] ;
-                                                    $inventory = $item->product->inventory ;
-                                                    $total_price += $price * $count ;
+                                                    $total_price += $t_price ;
                                             @endphp
                                             <tr>
                                                 <td>
@@ -247,37 +268,26 @@
                                                                 {{$item->product->product_name}}
                                                             </a>
                                                         </h5>
-                                                        {{--                                                    <div class="shop-cart-info">--}}
-                                                        {{--                                                        <p><span>نوع:</span>هدفون</p>--}}
-                                                        {{--                                                        <p><span>رنگ:</span>سیاه</p>--}}
-                                                        {{--                                                    </div>--}}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="shop-cart-price">
-                                                        <span class="tr_price">{{number_format($price)}}</span>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="shop-cart-qty" dir="ltr">
-                                                        <button onclick="changeCartQuantity(this,'-')"
-                                                                class="minus-btn">
-                                                            <i class="fal fa-minus"></i>
-                                                        </button>
-                                                        <input type="hidden" class="product_id"
-                                                               value="{{$item['product_id']}}">
-                                                        <input class="quantity" type="text"
-                                                               value="{{$count}}" max="{{$inventory}}">
-                                                        <button onclick="changeCartQuantity(this,'+', '{{$inventory}}')"
-                                                                class="plus-btn">
-                                                            <i class="fal fa-plus"></i>
-                                                        </button>
+                                                        <input type="hidden" class="product_id" value="{{$item->product->id}}">
+                                                        <button class="minus-btn"><i class="fal fa-minus"></i></button>
+                                                        <input class="quantity" type="text" value="{{$item->count}}" disabled>
+                                                        <button class="plus-btn" data-max="{{$item->product->inventory}}"><i class="fal fa-plus"></i></button>
                                                     </div>
                                                 </td>
                                                 <td>
                                                     <div class="shop-cart-subtotal">
                                                         <span
-                                                            class="tbl_total_price">{{number_format($count * $price)}}</span>
+                                                            class="tbl_price">{{number_format($price)}}</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="shop-cart-subtotal">
+                                                        <span
+                                                            class="tbl_total_price">{{number_format($t_price)}}</span>
                                                     </div>
                                                 </td>
                                                 <td>
@@ -304,7 +314,7 @@
                                     </div>
                                     <div class="col-md-5 col-lg-6">
                                         <div class="shop-cart-btn text-md-end">
-                                            <a href="#" class="theme-btn"> ادامه خرید <span
+                                            <a href="{{route('site.products')}}" class="theme-btn"> ادامه خرید <span
                                                     class="fas fa-arrow-left"></span></a>
                                         </div>
                                     </div>
@@ -318,24 +328,19 @@
                                     <li>
                                         <strong>قیمت کل :</strong>
                                         <span class="show_total_price_without_tax">
-                                            {{number_format($total_price)}} ریال
+                                            {{number_format($total_price)}} تومان
                                         </span>
                                     </li>
-{{--                                    <li>--}}
-{{--                                        <strong>تخفیف:</strong>--}}
-{{--                                        <span>5.00 ریال</span>--}}
-{{--                                    </li>--}}
-                                    {{--                                <li><strong>ارسال:</strong> <span>رایگان</span></li>--}}
                                     <li>
                                         <strong>مالیات:</strong>
                                         <span class="show_tax_price">
-                                            {{@number_format($total_price * 0.1)}} ریال
+                                            {{@number_format($total_price * 0.1)}} تومان
                                         </span>
                                     </li>
                                     <li class="shop-cart-total">
                                         <strong>مجموع:</strong>
                                         <span class="show_total_price_with_tax">
-                                            {{@number_format(($total_price) + $total_price * 0.1)}} ریال
+                                            {{@number_format(($total_price) + $total_price * 0.1)}} تومان
                                         </span>
                                     </li>
                                 </ul>
@@ -364,33 +369,5 @@
                 </div>
             @endif
         </div>
-    </div>
-
-
-    <div class="newsletter-area pt-60 pb-60">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mx-auto">
-                    <div class="newsletter-content">
-                        <h3>دریافت کوپن تخفیف <span>20%</span></h3>
-                        <p>با مشترک شدن در خبرنامه ما</p>
-                        <div class="subscribe-form">
-                            <form action="#">
-                                <input type="email" class="form-control" placeholder="آدرس ایمیل معتبر شما">
-                                <button class="theme-btn" type="submit">
-                                    اشتراک <i class="far fa-paper-plane"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{--        <div class="newsletter-img-1">--}}
-        {{--            <img src="assets/img/newsletter/01.png" alt>--}}
-        {{--        </div>--}}
-        {{--        <div class="newsletter-img-2">--}}
-        {{--            <img src="assets/img/newsletter/02.png" alt>--}}
-        {{--        </div>--}}
     </div>
 @endsection

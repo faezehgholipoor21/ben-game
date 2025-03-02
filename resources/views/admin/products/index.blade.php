@@ -127,7 +127,7 @@
                                     </td>
                                     <td class="text-center">
                                         <p class="mb-0">
-                                            {{number_format($product['product_price'])}}
+                                            {{number_format(\App\Helper\ChangeDollar::change_dollar($product['product_price']))}}
                                         </p>
                                     </td>
                                     <td class="text-center">

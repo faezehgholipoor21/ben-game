@@ -15,7 +15,8 @@ class Product extends Model
 
     protected $casts = [
         'id' => 'integer',
-        'inventory' => 'integer'
+        'inventory' => 'integer',
+        'product_price' => 'float',
     ];
 
     function categoryInfo(): BelongsTo

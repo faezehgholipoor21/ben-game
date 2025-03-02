@@ -158,20 +158,20 @@
 
                                 <div class="row  mb-4">
                                     <div class="col-12 col-md-6 mt-4">
-                                        <label>قیمت محصول(تومان)</label>
+                                        <label>قیمت محصول(به دلار بنویسید)</label>
                                         @error('product_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
                                         <input type="text" class="form-control text-right" name="product_price"
-                                               oninput="formatNumber(this)">
+                                              >
                                     </div>
                                     <div class="col-12 col-md-6 mt-4">
-                                        <label>قیمت فوری محصول(تومان)</label>
+                                        <label>قیمت فوری محصول(به دلار بنویسید)</label>
                                         @error('product_force_price')
                                         <span class="validation_label_error">{{$message}}</span>
                                         @enderror
                                         <input type="text" class="form-control text-right" name="product_force_price"
-                                               oninput="formatNumber(this)">
+                                               >
                                     </div>
                                 </div>
 

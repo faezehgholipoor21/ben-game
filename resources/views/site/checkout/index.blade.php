@@ -725,13 +725,16 @@
                     @foreach($cart as $item)
                         @php
                             if ($item->is_force == 1){
-                                $price = $item->product->product_force_price ;
+                                  $price = \App\Helper\ChangeDollar::change_dollar($item->product->product_force_price) ;
+                                  $count = $item->count ;
+                                  $t_price = $price * $count;
                             }else{
-                                 $price = $item->product->product_price ;
+                                 $price = \App\Helper\ChangeDollar::change_dollar($item->product->product_price) ;
+                                 $count = $item->count ;
+                                 $t_price = $price * $count;
                                  }
-                             $count = $item['count'] ;
                              $inventory = $item->product->inventory ;
-                             $total_price += $price * $count ;
+                              $total_price += $t_price ;
                         @endphp
                     @endforeach
                     <div class="col-lg-4">

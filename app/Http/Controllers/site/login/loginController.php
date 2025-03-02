@@ -14,7 +14,7 @@ class loginController extends Controller
         return view('site.login.login');
     }
 
-    public function site_login_do(Request $request)
+    public function site_login_do(Request $request): \Illuminate\Http\RedirectResponse
     {
         $input = $request->all();
 

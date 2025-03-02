@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <link rel="icon" href="{{asset('admin/assets/images/logo.png')}}" type="image/x-icon">
     <!-- VENDOR CSS -->
@@ -19,6 +20,15 @@
     <link rel="stylesheet" href="{{asset('admin/assets/css/site.min.css')}}">
 
     @yield('custom-css')
+    <style>
+        .admin_notification{
+            background-color: red;
+            border-radius: 50px;
+            padding: 0px 5px;
+            color: #fff;
+            font-size: 12px;
+        }
+    </style>
 </head>
 
 <body class="theme-cyan light_version font-shabnam rtl">
@@ -262,10 +272,60 @@
                     </li>
 
                     <li>
-                        <a href="{{route('admin.orders')}}">
+                        <a href="#" class="has-arrow">
                             <i class="icon-basket"></i>
                             <span>مدیریت سفارشات</span>
+                            <span class="admin_notification">{{$full_order_count}}</span>
                         </a>
+                        <ul>
+                            <li>
+                                <a href="{{route('admin.orders')}}">
+                                    همه سفارشات
+                                    <span class="admin_notification">{{$full_order_count}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 1])}}">
+                                    در حال بررسی
+                                    <span class="admin_notification">{{$my_order_status_count_first}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 2])}}">
+                                    تکمیل شده
+                                    <span class="admin_notification">{{$my_order_status_count_second}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 3])}}">
+                                    اطلاعات اشتباه
+                                    <span class="admin_notification">{{$my_order_status_count_third}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 4])}}">
+                                    عدم پاسخ
+                                    <span class="admin_notification">{{$my_order_status_count_forth}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 5])}}">
+                                    نیاز به احراز هویت
+                                    <span class="admin_notification">{{$my_order_status_count_five}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 6])}}">
+                                    مغایرت محصول
+                                    <span class="admin_notification">{{$my_order_status_count_six}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 7])}}">
+                                    در حال استرداد مبلغ
+                                    <span class="admin_notification">{{$my_order_status_count_seven}}</span>
+                                </a>
+                            </li><li>
+                                <a href="{{route('admin.separate_orders',['order_status' => 8])}}">
+                                    مسترد شده
+                                    <span class="admin_notification">{{$my_order_status_count_eight}}</span>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li>
@@ -274,6 +334,9 @@
                             <span>محصولات</span>
                         </a>
                         <ul>
+                            <li>
+                                <a href="{{route('admin.dollar_price')}}">تعیین قیمت دلار</a>
+                            </li>
                             <li>
                                 <a href="{{route('admin.category_product_panel')}}">دسته بندی ها</a>
                             </li>

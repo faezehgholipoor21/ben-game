@@ -31,6 +31,54 @@ class adminGameAccountController extends Controller
         return view('admin.account.create', compact('game_account_info', 'fields'));
     }
 
+    public function fields(): \Illuminate\Contracts\View\View
+    {
+        $game_account_field_info = GameAccountField::query()
+            ->paginate(10);
+        return view('admin.account.add_field.index',compact('game_account_field_info'));
+    }
+
+    public function add_field(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        return view('admin.account.add_field.create');
+    }
+
+    public function field_store(Request $request):RedirectResponse
+    {
+        $input = $request->all();
+
+        $validation = Validator::make($input, [
+            'field_name' => 'required|unique:game_account_field,name',
+            'type' => 'required',
+            'label' => 'required'
+        ]);
+
+        if ($validation->fails()) {
+            alert()->error('', $validation->errors()->first());
+            return back()->withErrors($validation->errors())->withInput();
+        }
+
+        GameAccountField::query()->create([
+            'name' => $input['field_name'],
+            'type' => $input['type'],
+            'label' => $input['label'],
+            'tag' => 'input',
+            'priority' => 1,
+        ]);
+        alert()->success('', 'فیلد با موفقیت افزوده شد.');
+        return redirect()->route('admin.game_account_field');
+    }
+
+    public function field_delete($id): \Illuminate\Http\RedirectResponse
+    {
+        $field_account_info = GameAccountField::query()->findOrFail($id);
+
+        $field_account_info->delete();
+            alert()->success('', 'فیلد مورد نظر با موفقیت حذف شد.');
+            return back();
+
+    }
+
     public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
         $input = $request->all();
@@ -40,7 +88,7 @@ class adminGameAccountController extends Controller
         ]);
 
         if ($validation->fails()) {
-            alert()->error('' , $validation->errors()->first());
+            alert()->error('', $validation->errors()->first());
             return back()->withErrors($validation->errors())->withInput();
         }
 

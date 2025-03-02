@@ -26,4 +26,6 @@ class GetProductMainImage
 
         return $product_images_info;
     }
+
+
 }

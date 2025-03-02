@@ -84,6 +84,7 @@ class adminCategoryController extends Controller
         $category_product_info = Category::query()->findOrFail($id);
 
         $input = $request->all();
+
         $validation = Validator::make($input, [
             'cat_title' => 'required|string|max:255',
             'cat_slug' => 'required|string|max:255'

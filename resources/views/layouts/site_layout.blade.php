@@ -205,9 +205,9 @@
                     <img src="{{asset('site/assets/img/logo/logo.png')}}" class="logo-scrolled" alt="logo">
                 </a>
                 <div class="category-all">
-                    <button class="category-btn" type="button">
+                    <a href="{{route('site.categories')}}" class="category-btn">
                         <i class="far fa-grid-2-plus"></i><span>همه دسته ها</span>
-                    </button>
+                    </a>
                     <ul class="main-category hide-category">
                         @foreach($category_info as $item)
                             <li>
@@ -220,7 +220,7 @@
                                             <div class="category-single">
                                                 <div class="category-link">
                                                     <a href="#">
-                                                        <img src="{{asset('site/assets/img/category_post/05.jpg')}}" alt>
+                                                        <img src="{{asset('site/assets/img/category/05.jpg')}}" alt>
                                                     </a>
                                                     <a href="#">اسباب‌بازی‌های کودکان</a>
                                                 </div>
@@ -483,7 +483,7 @@
 
 
 <script data-cfasync="false"
-        src="{{asset('site//cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js')}}"></script>
+        src="https://pillser.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 <script src="{{asset('site/assets/js/jquery-3.6.0.min.js')}}"></script>
 <script src="{{asset('site/assets/js/modernizr.min.js')}}"></script>
 <script src="{{asset('site/assets/js/bootstrap.bundle.min.js')}}"></script>
@@ -499,9 +499,9 @@
 <script src="{{asset('site/assets/js/countdown.min.js')}}"></script>
 <script src="{{asset('site/assets/js/wow.min.js')}}"></script>
 <script src="{{asset('site/assets/js/flex-slider.js')}}"></script>
-<script src="{{asset('admin/assets/js/sweetalert.all.js')}}"></script>
-
 <script src="{{asset('site/assets/js/main.js')}}"></script>
+<script src="{{asset('vendor/sweetalert/sweetalert.all.js')}}"></script>
+
 @include('sweetalert::alert')
 @yield('custom-js')
 

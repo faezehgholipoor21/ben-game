@@ -22,9 +22,16 @@ class siteProductController extends Controller
             ->paginate();
 
         $product_cat = Category::query()
+            ->where('id' ,'!=' , 1)
+            ->where('parent' ,'!=' , 1)
             ->get();
 
-        return view('site.products.index', compact('product_list', 'product_cat'));
+        $main_categories = Category::query()
+            ->where('id', '!=', 1)
+            ->where('parent', 1)
+            ->get();
+
+        return view('site.products.index', compact('product_list', 'product_cat','main_categories'));
     }
 
     public function detail($product_id)

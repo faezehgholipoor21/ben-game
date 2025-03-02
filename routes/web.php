@@ -24,6 +24,7 @@ use App\Http\Controllers\admin\contact\adminContactSettingController;
 use App\Http\Controllers\admin\rules\adminRulesController;
 use App\Http\Controllers\admin\orders\adminOrderController;
 use App\Http\Controllers\admin\authentication_price\adminAuthenticationPriceController;
+use App\Http\Controllers\admin\dollar_price\adminDollarPriceController;
 
 //site
 use App\Http\Controllers\site\home\homeController;
@@ -158,6 +159,11 @@ Route::namespace('App\Http\Controllers\admin')
         //game account
         Route::get('game_account', [adminGameAccountController::class, 'index'])->name('game_account_panel');
         Route::get('game_account_create', [adminGameAccountController::class, 'create'])->name('game_account_create_panel');
+        Route::get('game_account_field', [adminGameAccountController::class, 'fields'])->name('game_account_field');
+        Route::get('game_account_add_field', [adminGameAccountController::class, 'add_field'])->name('game_account_add_field');
+        Route::post('game_account_field_store', [adminGameAccountController::class, 'field_store'])->name('game_account_field_store');
+        Route::post('field_delete/{id}', [adminGameAccountController::class, 'field_delete'])->name('field_delete');
+
         Route::post('game_account_store', [adminGameAccountController::class, 'store'])->name('game_account_store_panel');
         Route::get('game_account_edit/{id}', [adminGameAccountController::class, 'edit'])->name('game_account_edit_panel');
         Route::post('game_account_update/{id}', [adminGameAccountController::class, 'update'])->name('game_account_update_panel');
@@ -202,13 +208,25 @@ Route::namespace('App\Http\Controllers\admin')
 
         //orders
         Route::get('orders', [adminOrderController::class, 'index'])->name('orders');
+        Route::get('separate_orders/{order_status}', [adminOrderController::class, 'separate_orders'])->name('separate_orders');
+        Route::post('change_order_status_report', [adminOrderController::class, 'change_order_status_report'])->name('change_order_status_report');
+        Route::post('change_order_status_report', [adminOrderController::class, 'change_order_status_report'])->name('change_order_status_report');
+        Route::post('search', [adminOrderController::class, 'search'])->name('order_search');
+        Route::post('separate_order_search/{order_status_id}', [adminOrderController::class, 'separate_order_search'])->name('separate_order_search');
+
+
         Route::get('order_detail/{order_id}', [adminOrderController::class, 'detail'])->name('order_detail');
         Route::post('change_order_status', [adminOrderController::class, 'change_order_status'])->name('change_order_status');
-        Route::get('order_allocation/{order_id}', [adminOrderController::class, 'order_allocation'])->name('order_allocation');
+        Route::post('update_review_expert', [adminOrderController::class, 'update_review_expert'])->name('update_review_expert');
 
         //authentication price
         Route::get('authentication_price', [adminAuthenticationPriceController::class, 'index'])->name('authentication_price');
         Route::post('authentication_price_update', [adminAuthenticationPriceController::class, 'update'])->name('authentication_price_update');
+
+        //dollar price
+        Route::get('dollar_price',[adminDollarPriceController::class,'index'])->name('dollar_price');
+        Route::post('dollar_price_update',[adminDollarPriceController::class,'update'])->name('dollar_price_update');
+
 
     });
 
@@ -265,6 +283,8 @@ Route::namespace('App\Http\Controllers\site')
         Route::get('product_detail/{product_id}', [siteProductController::class, 'detail'])->name('product_detail');
 
         //categories
+        Route::get('categories', [siteCategoryController::class, 'index'])->name('categories');
+        Route::get('category_index/{cat_id}', [siteCategoryController::class, 'cat_index'])->name('category_index');
         Route::get('category_detail/{cat_id}', [siteCategoryController::class, 'detail'])->name('category_detail');
         Route::get('get_products/{cat_id}', [siteCategoryController::class, 'getProducts'])->name('get_products');
         Route::get('get_product_detail', [siteCategoryController::class, 'get_product_detail'])->name('get_product_detail');
@@ -300,7 +320,7 @@ Route::namespace('App\Http\Controllers\user')
 
         //orders
         Route::get('orders', [userOrderController::class, 'index'])->name('orders');
-        Route::get('order_detail', [userOrderController::class, 'detail'])->name('order_detail');
+        Route::get('order_detail/{order_id}', [userOrderController::class, 'detail'])->name('order_detail');
 
         //user authentication
         Route::get('authentication', [userAuthenticationController::class, 'index'])->name('authentication');
@@ -335,8 +355,13 @@ Route::namespace('App\Http\Controllers\admin-norm')
         Route::get('orders', [admin_normOrderController::class, 'index'])->name('orders');
         Route::get('my_orders/{order_status}', [admin_normOrderController::class, 'my_orders'])->name('my_orders');
         Route::get('order_detail/{order_id}', [admin_normOrderController::class, 'detail'])->name('order_detail');
+        Route::post('change_order_status_report', [admin_normOrderController::class, 'change_order_status_report'])->name('change_order_status_report');
+
         Route::post('change_order_status', [admin_normOrderController::class, 'change_order_status'])->name('change_order_status');
         Route::get('order_allocation/{order_id}', [admin_normOrderController::class, 'order_allocation'])->name('order_allocation');
+
+        Route::post('search', [admin_normOrderController::class, 'search'])->name('order_search');
+        Route::post('separate_order_search/{order_status_id}', [admin_normOrderController::class, 'separate_order_search'])->name('separate_order_search');
 
     });
 

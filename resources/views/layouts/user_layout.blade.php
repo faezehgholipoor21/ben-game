@@ -510,7 +510,7 @@
 <a href="#" id="scroll-top"><i class="far fa-arrow-up-from-arc"></i></a>
 
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<script data-cfasync="false" src="https://pillser.com/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js'"></script>
 <script src="{{asset('site/assets/js/jquery-3.6.0.min.js')}}"></script>
 <script src="{{asset('site/assets/js/modernizr.min.js')}}"></script>
 <script src="{{asset('site/assets/js/bootstrap.bundle.min.js')}}"></script>

@@ -71,6 +71,56 @@
                     {{--                        <a href="#" class="theme-btn">مشاهده همه سفارش‌ها</a>--}}
                     {{--                    </div>--}}
                 </div>
+                <div class="card">
+                    <form method="post" action="{{route('admin_norm.order_search')}}">
+                        @csrf
+                        <div class="row p-4">
+                            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                <label>شماره سفارش</label>
+                                <input type="text" name="order_number" class="form-control">
+                            </div>
+
+                            <div class="col-12 col-sm-6 col-md-3 mb-4">
+                                <label>موبایل خریدار</label>
+                                <input type="text" name="mobile" class="form-control">
+                            </div>
+
+                            <div class="col-12 col-sm-6  @if(!$searched) col-md-3 @else col-md-2 @endif mb-4">
+                                <label>وضعیت سفارش</label>
+                                <select name="status" class="form-control">
+                                    @foreach($order_status as $order)
+                                        <option value="{{$order['id']}}">{{$order['title']}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            @if(!$searched)
+                                <div class="col-12 col-sm-6 col-md-3 mb-4 mt-4">
+                                    <button type="submit" class="btn btn-success w-100 mt-29">
+                                        <i class="fa fa-search mr-2"></i>
+                                        فیلتر کنید
+                                    </button>
+                                </div>
+                            @else
+                                <div class="col-12 col-md-2 mb-4">
+                                    <a href="{{route('admin_norm.orders')}}"
+                                       class="btn btn-danger w-100 mt-29">
+                                        <i class="fa fa-times-circle mr-2"></i>
+                                        حذف فیلتر
+                                    </a>
+                                </div>
+
+                                <div class="col-12 col-sm-6 col-md-2 mb-4">
+                                    <button type="submit" class="btn btn-success w-100 mt-29">
+                                        <i class="fa fa-search mr-2"></i>
+                                        فیلتر کنید
+                                    </button>
+                                </div>
+                            @endif
+
+                        </div>
+                    </form>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-borderless text-nowrap">
                         <thead>
@@ -145,7 +195,7 @@
                                             <li>
                                                 @if($order['review_expert_id'] == 0)
                                                 <a class="dropdown-item"
-                                                   href="{{route('admin_norm.order_detail' , ['order_id' => $order['id']])}}">
+                                                   href="#">
                                                     <i class="far fa-eye"></i>
                                                     جزئیات سفارش
                                                 </a>

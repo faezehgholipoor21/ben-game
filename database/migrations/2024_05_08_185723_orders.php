@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->string('total_price', 250);
+            $table->decimal('total_price_usd', 10);
             $table->boolean('is_force')->default(0);
             $table->string('order_status', 250);
+            $table->integer('point_earned')->comment('babate in kharid chand emtiaz kasb karde');
             $table->string('discount_price', 250);
             $table->string('payment_type', 250);
             $table->unsignedBigInteger('discount_type_id');

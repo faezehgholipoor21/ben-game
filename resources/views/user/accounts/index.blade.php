@@ -46,10 +46,21 @@
                                             اکانت پیش فرض
                                         </label>
                                     @else
-                                        <a href="{{route('user.account_is_default' , ['user_account_id' => $account['user_id'] , 'unique_form' => $account['unique_form']])}}"
-                                           class="btn btn-warning">
-                                            پیش فرض
-                                        </a>
+
+                                        @if($account['default'] == 0)
+                                            <a href="{{route('user.account_is_default' , ['user_account_id' => $account['user_id'] , 'unique_form' => $account['unique_form']])}}"
+                                               class="btn btn-primary">
+                                                <i class="fa fa-check"></i>
+                                                پیش فرض شود
+                                            </a>
+                                        @else
+                                            <a href="{{route('user.account_is_default' , ['user_account_id' => $account['user_id'] , 'unique_form' => $account['unique_form']])}}"
+                                               class="btn btn-warning">
+                                                <i class="fa fa-close"></i>
+                                                پیش فرض غیرفعال شود
+                                            </a>
+                                        @endif
+
                                     @endif
 
                                     <button class="btn btn-sm btn-danger">

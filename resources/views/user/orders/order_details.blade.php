@@ -7,20 +7,18 @@
 @section('custom-css')
     <style>
         .pro_img{
-            width: 200px;
-            height: 200px;
+            width: 150px;
+            height: 150px;
         }
         .back_btn {
             font-family: var(--body-font);
             padding: 8px 15px;
             font-size: 10px;
         }
-        .status_css{
-            font-family: var(--body-font);
-            padding: 8px 15px;
-            font-size: 15px;
+        .account_css{
+            border: 1px solid #c5c2c2;
             border-radius: 10px;
-            background-color: #f5f490;
+            padding: 10px;
         }
     </style>
 @endsection
@@ -33,7 +31,9 @@
         <div class="col-lg-12">
             <div class="user-card">
                 <div class="user-card-header">
-                    <h4 class="user-card-title">سفارش محصول فلان</h4>
+                    <h4 class="user-card-title">
+                        جزئیات سفارش {{$order_info['order_code']}} به مبلغ نهایی {{@number_format($total_order_price)  . ' ریال '}}
+                    </h4>
                     <div class="user-card-header-right">
                         <a href="{{route('user.orders')}}" class="back_btn alert alert-danger">
                             <i class="fa fa-arrow-right pr-2"></i>
@@ -41,45 +41,75 @@
                         </a>
                     </div>
                 </div>
-                <div class="alert  alert-info">
+                <div class="alert alert-info">
+                    @foreach($order_detail_infos as $item)
+                        <div class="row mb-5">
+                            <div class="col-12 col-md-3 mt-1 text-center">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <img src="{{asset($item['product_image'])}}" class="pro_img m-auto">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-9 mt-1">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mb-3 text-left">
+                                        <label>
+                                            عنوان محصول :
+                                        </label>
+                                        <p class="alert alert-primary p-2">
+                                            {{$item['product_name']}}
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3 text-left">
+                                        <label>
+                                            دسته محصول :
+                                        </label>
+                                        <p class="alert alert-primary p-2">
+                                            {{$item['product_cat_title']}}
+                                        </p>
+                                    </div>
+                                    <div class="col-12 col-md-6 mb-3 text-left">
+                                        <label>
+                                            دسته اکانت محصول :
+                                        </label>
+                                        <p class="alert alert-primary p-2">
+                                            {{$item['game_account_title']}}
+                                        </p>
+                                    </div>
 
-                <div class="row">
-                        <div class="col-12">
-                            <img src="{{asset('site/assets/products/product_1718302676.png')}}" class="pro_img">
+                                    <div class="col-12 col-md-6 mb-3 text-left">
+                                        <label>
+                                            قیمت :
+                                        </label>
+                                        <p class="alert alert-primary p-2  text-right">
+                                            {{@number_format($item['bought_price']) . ' ریال '}}
+                                        </p>
+                                    </div>
+                                    <div class="col-12 mt-3 text-left account_css">
+                                        <label>
+                                            جزئیات اکانت محصول :
+                                        </label>
+                                        <p>
+                                            @foreach($item['user_account_detail_info'] as $user_acc)
+                                                <span class="text-left mb-3" style="direction: rtl">
+                                                    <span class="title_field">
+                                                        {{$user_acc['fieldInfo']['label'] . ' ' . ':'}}
+                                                    </span>
+                                                <span class="value_field">
+                                                        {{$user_acc['value']}}
+                                                    </span>
+                                            </span>
+                                                <span class="text-danger">{{' ' . '|' . ' '}}</span>
+                                            @endforeach
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
-                        <div class="col-12 col-md-6 mt-3">
-                            <label>
-                                عنوان محصول :
-                            </label>
-                            <p>
-                                بازی فلان
-                            </p>
-                        </div>
-                    <div class="col-12 col-md-6 mt-3">
-                        <label>
-                            وضعیت سفارش :
-                        </label>
-                        <p class="status_css">
-                            عدم پاسخ
-                        </p>
-                    </div>
-                        <div class="col-12 col-md-6 mt-3">
-                            <label>
-                                دسته محصول :
-                            </label>
-                            <p>
-                                اکانت قانونی پلی استیشن
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-6 mt-3">
-                            <label>
-                                دسته اکانت محصول :
-                            </label>
-                            <p>
-                                اکانت قانونی پلی استیشن
-                            </p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
 
             </div>
