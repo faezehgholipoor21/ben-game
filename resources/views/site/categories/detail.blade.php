@@ -287,6 +287,7 @@
                             });
 
                             accountList.html(li);
+                            accountList.find('input[name="user_acc_radio[]"]').first().prop('checked', true);
                             product_account_modal.find('.loader').hide();
 
                             $('#myModal').modal('show');

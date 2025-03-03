@@ -19,6 +19,9 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->string('bought_price', 500);
             $table->decimal('pay_dollar', 10);
+            $table->boolean('is_force')->default(0);
+            $table->integer('count');
+            $table->integer('user_account_id');
             $table->timestamps();
         });
     }

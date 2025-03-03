@@ -755,20 +755,20 @@
                                 <li>
                                     <strong>مالیات:</strong>
                                     <span class="show_tax_price">
-                                            {{@number_format($total_price * 0.1)}} ریال
+                                            {{@number_format($total_price * 0.1)}} تومان
                                         </span>
                                 </li>
                                 <li class="shop-cart-total">
                                     <strong>مجموع:</strong>
                                     <span class="show_total_price_with_tax">
-                                            {{@number_format(($total_price) + $total_price * 0.1)}} ریال
+                                            {{@number_format(($total_price) + $total_price * 0.1)}} تومان
                                         </span>
                                 </li>
                             </ul>
                             <form class="text-end mt-40" action="{{route('site.submitOrder')}}" method="post">
                                 @csrf
                                 <input type="hidden" value="1" name="gateway">
-                                <button type="submit" onclick="submit_order()" class="theme-btn w-100 d-block">
+                                <button type="submit" class="theme-btn w-100 d-block">
                                     پرداخت
                                     <i class="fas fa-arrow-left-long"></i>
                                 </button>

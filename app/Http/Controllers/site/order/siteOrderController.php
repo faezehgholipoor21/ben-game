@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\site\order;
 
 use App\Helper\ChangeDollar;
+use App\Helper\GetDollar;
+use App\Helper\TaxHelper;
 use App\Http\Controllers\Controller;
 use App\Models\AuthenticationPrice;
 use App\Models\Cart;
+use App\Models\DollarPrice;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class siteOrderController extends Controller
@@ -32,6 +36,7 @@ class siteOrderController extends Controller
 
         $cart = $this->getCart();
 
+
         // Authentication Price Condition  **********************************************************
 
 //        $authentication_price_info = AuthenticationPrice::query()
@@ -48,8 +53,7 @@ class siteOrderController extends Controller
             'order_code' => 0,
             'order_status' => 1,
             'payment_status_id' => 1,
-            'total_price' => ChangeDollar::change_dollar($cart['total_price']),
-            'is_force' => $cart['cart'][0]['is_force'],
+            'total_price' => $cart['total_price'],
             'user_id' => $user->id,
             'gateway' => $input['gateway'],
         ]);
@@ -65,8 +69,10 @@ class siteOrderController extends Controller
             OrderDetail::query()->create([
                 'order_id' => $order['id'],
                 'product_id' => $product['product_id'],
-                'bought_price' => ChangeDollar::change_dollar($product['bought_price']),
+                'bought_price' =>$product['bought_price'],
                 'count' => $product['count'],
+                'is_force' => $product['is_force'],
+                'pay_dollar' => GetDollar::get_dollar(),
                 'user_account_id' => $product['user_account_id'],
             ]);
         }
@@ -75,7 +81,7 @@ class siteOrderController extends Controller
 
         if (intval($input['gateway']) === 1) {
             $MerchantID = env('ZARINPAL_MERCHEND_CODE');
-            $Amount = $cart['total_price'];
+            $Amount = intval($cart['total_price']);
             $Description = "بازی";
             $Email = "";
             $Mobile = auth()->user()->mobile;
@@ -127,8 +133,10 @@ class siteOrderController extends Controller
             }
         }
 
+        $total_price += ((TaxHelper::get_tax()) * $total_price) / 100;
+
         return [
-            'total_price' => $total_price,
+            'total_price' => ChangeDollar::change_dollar($total_price),
             'cart' => $cart,
         ];
     }
@@ -171,7 +179,6 @@ class siteOrderController extends Controller
                 $order->update([
                     'payment_status_id' => 2,
                     'transaction_number' => $verify_result['ref_id'],
-                    'fee' => $verify_result['fee'],
                     'card_pan' => $verify_result['card_pan'],
                 ]);
 
@@ -179,7 +186,6 @@ class siteOrderController extends Controller
                 $order->update([
                     'payment_status_id' => 1,
                     'transaction_number' => $verify_result['ref_id'],
-                    'fee' => $verify_result['fee'] ?? null,
                     'card_pan' => $verify_result['card_pan'] ?? null,
                 ]);
             }
