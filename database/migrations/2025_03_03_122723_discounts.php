@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subscribe', function (Blueprint $table) {
+        Schema::create('discounts', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
-            $table->text('description');
-            $table->decimal('price',10);
-            $table->integer('date');
-            $table->decimal('discount');
+            $table->string('discount_code',255);
+            $table->string('discount_name',255);
+            $table->timestamp('expired_time');
+            $table->integer('limit');
+            $table->boolean('used')->default(0);
             $table->timestamps();
-
         });
     }
 

@@ -61,13 +61,13 @@ class siteCategoryController extends Controller
             ->where('id', $category_id)
             ->first();
 
+
         $product_info = Product::query()
             ->where('cat_id', $category_id)
             ->orderBy('created_at', 'asc') // ترتیب صعودی برای قدیمی‌ترین تاریخ
             ->first();
 
         $accounts = $product_info->accounts;
-
 
         $product_images_list = ImageProduct::query()
             ->where('product_id', $category_id)

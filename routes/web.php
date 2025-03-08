@@ -51,6 +51,7 @@ use App\Http\Controllers\user\dashboard\userDashboardController;
 use App\Http\Controllers\user\orders\userOrderController;
 use App\Http\Controllers\user\customer_authentication\userAuthenticationController;
 use App\Http\Controllers\user\accounts\userAccountController;
+use App\Http\Controllers\user\subscribes\UserSubscribeController;
 
 //admin norm
 use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
@@ -335,6 +336,12 @@ Route::namespace('App\Http\Controllers\user')
 
 
         Route::get('account/is_default/{user_account_id}/{unique_form}',[userAccountController::class, 'is_default'])->name('account_is_default');
+
+        //subscribes
+        Route::get('subscribe',[UserSubscribeController::class,'index'])->name('subscribe');
+        Route::get('subscribe_pay/{sub_id}',[UserSubscribeController::class,'subscribe_pay'])->name('subscribe_pay');
+        Route::middleware(['checkIsLogin'])->get('update_sub_after_pay/{sub_id}', [UserSubscribeController::class, 'update_subscribe_after_pay'])->name('update_sub_after_pay');
+
     });
 
 // *************************  user **********************************

@@ -13,15 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('subscribe', function (Blueprint $table) {
+        Schema::create('discount_history', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
-            $table->text('description');
-            $table->decimal('price',10);
-            $table->integer('date');
-            $table->decimal('discount');
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('discount_id');
+            $table->unsignedBigInteger('product_id');
             $table->timestamps();
 
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('discount_id')->references('id')->on('discounts');
+            $table->foreign('product_id')->references('id')->on('products');
         });
     }
 

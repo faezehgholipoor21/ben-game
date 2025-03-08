@@ -291,6 +291,12 @@
                                 </a>
                             </li>
                             <li>
+                                <a href="{{route('user.subscribe')}}">
+                                    <i class="far fa-album-collection-circle-user"></i>
+                                    اشتراکها
+                                </a>
+                            </li>
+                            <li>
                                 <a href="#">
                                     <i class="far fa-wallet"></i>
                                     کیف پول
@@ -435,10 +441,10 @@
                         <ul class="footer-contact">
                             <li><a href="tel:+21236547898"><i class="far fa-phone"></i>09333333333</a></li>
                             <li><i class="far fa-map-marker-alt"></i>نیویورک ، خیابان میلفورد</li>
-                            <li><a href="/cdn-cgi/l/email-protection#d9b0b7bfb699bca1b8b4a9b5bcf7bab6b4"><i
-                                        class="far fa-envelope"></i><span class="__cf_email__"
-                                                                          data-cfemail="7e171018113e1b061f130e121b501d1113">ad@info.com</span></a>
-                            </li>
+{{--                            <li><a href="/cdn-cgi/l/email-protection#d9b0b7bfb699bca1b8b4a9b5bcf7bab6b4"><i--}}
+{{--                                        class="far fa-envelope"></i><span class="__cf_email__"--}}
+{{--                                                                          data-cfemail="7e171018113e1b061f130e121b501d1113">ad@info.com</span></a>--}}
+{{--                            </li>--}}
                             <li><i class="far fa-clock"></i>دوشنبه تا جمعه (9:00 صبح تا 8:00 عصر)</li>
                         </ul>
                     </div>
@@ -479,11 +485,11 @@
                     <div class="col-12 col-lg-4 align-self-center">
                         <div class="footer-payment">
                             <span>می پذیریم:</span>
-                            <img src="assets//img/payment/visa.svg" alt>
-                            <img src="assets//img/payment/mastercard.svg" alt>
-                            <img src="assets//img/payment/amex.svg" alt>
-                            <img src="assets//img/payment/discover.svg" alt>
-                            <img src="assets//img/payment/paypal.svg" alt>
+{{--                            <img src="assets//img/payment/visa.svg" alt>--}}
+{{--                            <img src="assets//img/payment/mastercard.svg" alt>--}}
+{{--                            <img src="assets//img/payment/amex.svg" alt>--}}
+{{--                            <img src="assets//img/payment/discover.svg" alt>--}}
+{{--                            <img src="assets//img/payment/paypal.svg" alt>--}}
                         </div>
                     </div>
                     <div class="col-12 col-lg-4 align-self-center">
@@ -525,8 +531,8 @@
 <script src="{{asset('site/assets/js/jquery.nice-select.min.js')}}"></script>
 <script src="{{asset('site/assets/js/countdown.min.js')}}"></script>
 <script src="{{asset('site/assets/js/wow.min.js')}}"></script>
-<script src="{{asset('site/assets/js/apexcharts.min.js')}}"></script>
-<script src="{{asset('site/assets/js/apexchart-custom.js')}}"></script>
+{{--<script src="{{asset('site/assets/js/apexcharts.min.js')}}"></script>--}}
+{{--<script src="{{asset('site/assets/js/apexchart-custom.js')}}"></script>--}}
 <script src="{{asset('site/assets/js/main.js')}}"></script>
 <script src="{{asset('admin/assets/vendor/dropify/js/dropify.js')}}"></script>
 <script src="{{asset('/vendor/sweetalert/sweetalert.all.js')}}"></script>
