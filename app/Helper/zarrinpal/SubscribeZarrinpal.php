@@ -11,7 +11,6 @@ class SubscribeZarrinpal extends ZarinPalHelper
     {
         // TODO: Implement success_go_to_bank() method.
 
-        Log::info('res = ' . $data);
         echo '<script>window.location.href="' . $link . '"</script>';
     }
 

@@ -2,6 +2,8 @@
 
 namespace App\Helper;
 
+use Illuminate\Support\Facades\Log;
+
 class SetCookie
 {
     static function set_cookie()
@@ -19,6 +21,7 @@ class SetCookie
 
         }
 
+        Log::info($_COOKIE["cart_id"]);
         $cart__ = $_COOKIE["cart_id"];
 
         return $cart__;

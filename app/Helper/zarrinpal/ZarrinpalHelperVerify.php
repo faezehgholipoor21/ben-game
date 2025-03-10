@@ -5,46 +5,25 @@ namespace App\Helper\zarrinpal;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 abstract class ZarrinpalHelperVerify
 {
-    function update_order_after_pay(Request $request, $is_exist, $data, $amount, $authority)
+    function update_after_pay(Request $request, $is_exist, $data, $amount, $authority , $view_name)
     {
-//        $order_id = $request->order_id;
-
-//        $order = Order::query()
-//            ->where('id', $order_id)
-//            ->where('user_id', auth()->id())
-//            ->firstOrFail();
-
-//        $products = OrderDetail::query()
-//            ->with(['product'])
-//            ->where('order_id', $order_id)
-//            ->get();
-
         if ($is_exist) {
             $verify_result = $this->verify(env("ZARINPAL_MERCHEND_CODE"), $amount, $authority, true);
 
             if ($verify_result['code'] == 100) {
 
-                $this->verify_done();
-//                $order->update([
-//                    'payment_status_id' => 2,
-//                    'transaction_number' => $verify_result['ref_id'],
-//                    'card_pan' => $verify_result['card_pan'],
-//                ]);
+                $this->verify_done($verify_result , $data);
 
             } else {
-                $this->verify_fail();
-//                $order->update([
-//                    'payment_status_id' => 1,
-//                    'transaction_number' => $verify_result['ref_id'],
-//                    'card_pan' => $verify_result['card_pan'] ?? null,
-//                ]);
+                $this->verify_fail($verify_result , $data);
+
             }
         }
-
-        return view('site.verify.index', compact('data'));
+        return view($view_name, compact('data'));
     }
 
     function verify($MerchantID, $data, $authority, $SandBox = false, $ZarinGate = false): array
@@ -97,7 +76,7 @@ abstract class ZarrinpalHelperVerify
         ];
     }
 
-    abstract function verify_done();
+    abstract function verify_done($verify_result , $data);
 
-    abstract function verify_fail();
+    abstract function verify_fail($verify_result , $data);
 }

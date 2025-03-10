@@ -23,10 +23,10 @@ abstract class ZarinPalHelper
             if (isset($result["code"]) && intval($result["code"]) === 100) {
                 $this->success_go_to_bank($result['authority'], $result['link'], $result['data']);
             } else {
-                $this->fail_to_transaction();
+                $this->fail_to_transaction($data);
             }
         } else {
-            $this->fail_to_transaction();
+            $this->fail_to_transaction($data);
         }
     }
 

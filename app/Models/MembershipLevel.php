@@ -5,16 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubscribeHistoryUser extends Model
+class MembershipLevel extends Model
 {
     use HasFactory;
-    protected $table = 'subscribe_history_user';
+
+    protected $table = 'membership_levels';
 
     protected $fillable = [
-        'user_id',
+        'name',
         'description',
-        'subscribe_id',
-        'price',
-        'status',
+        'key' ,
+        'discount',
+        'require_point'
     ];
 }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('membership_levels', function (Blueprint $table) {
             $table->id();
-            $table->string('key',255);
+            $table->string('key',255)->unique();
             $table->string('name',255);
             $table->text('description');
             $table->integer('discount')->comment('chand darsad takhfif dare');

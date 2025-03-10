@@ -4,6 +4,7 @@ namespace App\Http\Controllers\site\order;
 
 use App\Helper\ChangeDollar;
 use App\Helper\GetDollar;
+use App\Helper\PointHelper;
 use App\Helper\TaxHelper;
 use App\Http\Controllers\Controller;
 use App\Models\AuthenticationPrice;
@@ -49,11 +50,15 @@ class siteOrderController extends Controller
 
         // Authentication Price Condition  **********************************************************
 
+        $total_price_usd = $cart['total_price'] / ChangeDollar::get_current_dollar();
+
         $order = Order::query()->create([
             'order_code' => 0,
             'order_status' => 1,
             'payment_status_id' => 1,
             'total_price' => $cart['total_price'],
+            'total_price_usd' => $total_price_usd,
+            'point_earned' => PointHelper::convert_order_too_point_with_total_price_usd($total_price_usd),
             'user_id' => $user->id,
             'gateway' => $input['gateway'],
         ]);
@@ -69,7 +74,7 @@ class siteOrderController extends Controller
             OrderDetail::query()->create([
                 'order_id' => $order['id'],
                 'product_id' => $product['product_id'],
-                'bought_price' =>$product['bought_price'],
+                'bought_price' => $product['bought_price'],
                 'count' => $product['count'],
                 'is_force' => $product['is_force'],
                 'pay_dollar' => GetDollar::get_dollar(),

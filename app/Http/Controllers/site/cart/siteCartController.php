@@ -183,8 +183,6 @@ class siteCartController extends Controller
             ]);
             $total_price = CalculateTotalCart::calculate_total_cart($input['cookie']);
 
-            Log::info('c=' . $input['cookie'] . 'total =' . $total_price);
-
             $change_total_price = ChangeDollar::change_dollar($total_price);
 
             return response()->json([

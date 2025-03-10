@@ -25,6 +25,8 @@ use App\Http\Controllers\admin\rules\adminRulesController;
 use App\Http\Controllers\admin\orders\adminOrderController;
 use App\Http\Controllers\admin\authentication_price\adminAuthenticationPriceController;
 use App\Http\Controllers\admin\dollar_price\adminDollarPriceController;
+use App\Http\Controllers\admin\subscribe\adminSubscribeController;
+use App\Http\Controllers\admin\membership\adminMembershipController;
 
 //site
 use App\Http\Controllers\site\home\homeController;
@@ -228,6 +230,25 @@ Route::namespace('App\Http\Controllers\admin')
         Route::get('dollar_price',[adminDollarPriceController::class,'index'])->name('dollar_price');
         Route::post('dollar_price_update',[adminDollarPriceController::class,'update'])->name('dollar_price_update');
 
+        //subscribe
+        Route::get('subscribe',[adminSubscribeController::class, 'index'])->name('subscribe');
+        Route::get('subscribe_create',[adminSubscribeController::class, 'create'])->name('subscribe_create');
+        Route::post('subscribe_store',[adminSubscribeController::class, 'store'])->name('subscribe_store');
+        Route::get('subscribe_edit/{sub_id}',[adminSubscribeController::class, 'edit'])->name('subscribe_edit');
+        Route::post('subscribe_update/{sub_id}',[adminSubscribeController::class, 'update'])->name('subscribe_update');
+        Route::post('subscribe_delete/{sub_id}', [adminSubscribeController::class, 'destroy'])->name('subscribe_delete');
+
+        //membership
+        Route::get('membership',[adminMembershipController::class,'index'])->name('membership');
+        Route::get('test',[adminMembershipController::class,'test'])->name('test');
+        Route::get('membership_create',[adminMembershipController::class, 'create'])->name('membership_create');
+        Route::post('membership_store',[adminMembershipController::class, 'store'])->name('membership_store');
+        Route::get('membership_edit/{member_id}',[adminMembershipController::class, 'edit'])->name('membership_edit');
+        Route::post('membership_update/{member_id}',[adminMembershipController::class, 'update'])->name('membership_update');
+        Route::post('membership_delete/{member_id}', [adminMembershipController::class, 'destroy'])->name('membership_delete');
+
+
+
 
     });
 
@@ -340,7 +361,7 @@ Route::namespace('App\Http\Controllers\user')
         //subscribes
         Route::get('subscribe',[UserSubscribeController::class,'index'])->name('subscribe');
         Route::get('subscribe_pay/{sub_id}',[UserSubscribeController::class,'subscribe_pay'])->name('subscribe_pay');
-        Route::middleware(['checkIsLogin'])->get('update_sub_after_pay/{sub_id}', [UserSubscribeController::class, 'update_subscribe_after_pay'])->name('update_sub_after_pay');
+        Route::middleware(['checkIsLogin'])->get('update_sub_after_pay/{sub_history_user_id}', [UserSubscribeController::class, 'update_subscribe_after_pay'])->name('update_sub_after_pay');
 
     });
 

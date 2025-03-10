@@ -366,6 +366,26 @@
                         </a>
                     </li>
                     <li>
+                        <a href="{{route('admin.subscribe')}}">
+                            <i class="fa fa-link"></i>
+                            <span>اشتراک ها</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="has-arrow">
+                            <i class="icon-book-open"></i>
+                            <span>باشگاه مشتریان</span>
+                        </a>
+                        <ul>
+                            <li>
+                                <a href="{{route('admin.membership')}}">تعریف سطوح باشگاه</a>
+                            </li>
+                            <li>
+                                <a href="#">تنظیمات باشگاه</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="#" class="has-arrow">
                             <i class="icon-book-open"></i>
                             <span>مقالات</span>

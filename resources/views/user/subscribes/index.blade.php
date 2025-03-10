@@ -39,14 +39,33 @@
             <div class="col-12">
                 <div class="row">
                     @foreach($subscribe_list as $subscribe)
-                            <div class="col-12 col-md-3">
-                                <h5>
-                                    {{$subscribe['name']}}
-                                </h5>
-                                <a href="{{route('user.subscribe_pay' , ['sub_id' => $subscribe['id']])}}">
-                                    خرید اشتراک
-                                </a>
+                        <div class="col-12 col-md-3 mt-4">
+                            <div class="team-item wow fadeInUp" data-wow-delay=".25s">
+                                <div class="team-img">
+                                    <img src="{{asset($subscribe['image'])}}" alt="thumb">
+                                </div>
+                                <div class="team-content">
+                                    <div class="team-bio">
+                                        <h5>
+                                            <a href="#">
+                                                {{$subscribe['name']}}
+                                            </a>
+                                        </h5>
+                                        <span>مدیر ارشد</span>
+                                    </div>
+                                </div>
+                                <div class="team-social">
+                                    <a href="{{route('user.subscribe_pay' , ['sub_id' => $subscribe['id']])}}">
+                                        خرید اشتراک
+                                    </a>
+                                </div>
                             </div>
+
+                            <h5>
+
+                            </h5>
+
+                        </div>
                     @endforeach
                 </div>
             </div>

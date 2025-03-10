@@ -13,10 +13,17 @@ class ChangeDollar
         $dollar_info = DollarPrice::query()
             ->where('id', 1)
             ->first();
-
         $new_price = $price * $dollar_info['price'];
 
         return $new_price;
+    }
+
+    static function get_current_dollar()
+    {
+        $dollar_info = DollarPrice::query()
+            ->first();
+
+        return $dollar_info['price'];
     }
 
 }

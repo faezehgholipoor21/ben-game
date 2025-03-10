@@ -10,4 +10,13 @@ class Subscribe extends Model
     use HasFactory;
 
     protected $table = 'subscribe';
+
+    protected $fillable = [
+        'name' ,
+        'description' ,
+        'price' ,
+        'date' ,
+        'discount' ,
+        'image'
+    ];
 }
