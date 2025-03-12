@@ -21,7 +21,6 @@ class SetCookie
 
         }
 
-        Log::info($_COOKIE["cart_id"]);
         $cart__ = $_COOKIE["cart_id"];
 
         return $cart__;

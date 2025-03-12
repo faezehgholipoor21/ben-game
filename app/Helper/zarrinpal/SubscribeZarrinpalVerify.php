@@ -10,13 +10,11 @@ class SubscribeZarrinpalVerify extends ZarrinpalHelperVerify
     {
         // TODO: Implement verify_done() method.
 
-        Log::info( 'data=' . $data);
     }
 
     function verify_fail($verify_result, $data)
     {
 
-        Log::info('data_fail=' . $data);
         // TODO: Implement verify_fail() method.
     }
 }
