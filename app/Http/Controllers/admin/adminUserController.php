@@ -6,7 +6,6 @@ use App\Helper\GetUserRoleNameByUserId;
 use App\Helper\RepairFileSrc;
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
-use App\Models\Images;
 use App\Models\Role;
 use App\Models\RoleUser;
 use App\Models\User;
@@ -14,10 +13,11 @@ use App\Models\UserStatus;
 use App\Rules\national_code;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Helper\ConvertDateToGregorian;
 
 class adminUserController extends Controller
 {
-    function index()
+    function index(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $users = User::query()
             ->select('*', 'users.id as user_id')
@@ -32,7 +32,7 @@ class adminUserController extends Controller
         return view('admin.users.index', compact('users', 'searched'));
     }
 
-    function search(Request $request)
+    function search(Request $request): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         $input = $request->all();
 
@@ -86,7 +86,7 @@ class adminUserController extends Controller
         return view('admin.users.index', compact('users', 'searched'));
     }
 
-    function edit($user_id)
+    function edit($user_id): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
 
         $this_user_info = User::query()
@@ -149,7 +149,7 @@ class adminUserController extends Controller
             'national_code' => $input['national_code'],
             'gender' => $input['gender'],
             'user_status_id' => intval($input['auth_status']),
-            'birth_day' => $input['birth_day'] != '' ? $this->convertDateToGregorian($input['birth_day']) : $user['birth_day'],
+            'birth_day' => $input['birth_day'] != '' ? ConvertDateToGregorian::convert_date_to_gregorian($input['birth_day']) : $user['birth_day'],
         ]);
 
         $role_user_info = RoleUser::query()
@@ -206,33 +206,4 @@ class adminUserController extends Controller
         }
     }
 
-    function repair_file_src($src)
-    {
-        return str_replace('\\', '/', $src);
-    }
-
-    function convertDateToGregorian($date)
-    {
-        $date = explode('/', $date);
-        $date = verta()->getGregorian($this->convertDigitsToEnglish($date[0]), $this->convertDigitsToEnglish($date[1]), $this->convertDigitsToEnglish($date[2]));
-        return join('-', $date);
-    }
-
-    public function convertDateToJalali($date)
-    {
-        $jalali_date = verta($date)->format('j/%B/Y');
-        return $jalali_date;
-    }
-
-    function convertDigitsToEnglish($string)
-    {
-        $persian = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
-        $arabic = ['٩', '٨', '٧', '٦', '٥', '٤', '٣', '٢', '١', '٠'];
-
-        $num = range(0, 9);
-        $convertedPersianNums = str_replace($persian, $num, $string);
-        $englishNumbersOnly = str_replace($arabic, $num, $convertedPersianNums);
-
-        return $englishNumbersOnly;
-    }
 }

@@ -103,11 +103,6 @@
             width: 100px;
         }
 
-        #is_force_span {
-            float: right;
-            margin-top: 4px;
-        }
-
         .account_css {
             border: 1px solid #0a58ca;
             border-radius: 10px;
@@ -232,6 +227,7 @@
                             <div>
                                 <p class="title_css" style="font-weight: bold;">${product.product_name}</p>
                                 <p class="title_css" style="color: green;">${product.product_price} تومان</p>
+                                <p class="title_css" style="color:red;font-size: 10px">${product.seller_product_name}</p>
                             </div>
                         </button>`;
                         });
@@ -521,12 +517,6 @@
                                     </span>
                                 </li>
                                 <li>
-                                    فروش توسط:
-                                    <a href="#">
-                                        سایت بازی
-                                    </a>
-                                </li>
-                                <li>
                                     برچسب‌ها:
                                     @foreach($keywords as $tag)
                                         <a href="#" class="tag_css">
@@ -550,66 +540,70 @@
                                 </div>
                             </div>
 
-                            <div class="table-responsive mt-4">
-                                <table class="table table-bordered align-middle text-center">
-                                    <thead>
-                                    <tr>
-                                        <th>تصویر</th>
-                                        <th>نام محصول</th>
-                                        <th>قیمت (تومان)</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr id="selected_product_tr">
-                                        <td>
-                                            <img class="w-100px rounded-2"
-                                                 src="{{asset($product_info['product_image'])}}">
-                                        </td>
-                                        <td>
-                                            <p class="p_name">
-                                                {{$product_info['product_name']}}
-                                            </p>
-                                            <input type="hidden" class="p_id">
-                                        </td>
-                                        <td>
-                                            <p class="p_price">
-                                                {{@number_format(\App\Helper\ChangeDollar::change_dollar($product_info['product_price']))}}
-                                            </p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            حساب های مجاز
-                                        </td>
-                                        <td colspan="2">
-                                            @foreach($product_info->accounts as $account)
-                                                <span class="account_css text-black">
+                            @if($product_info)
+                                <div class="table-responsive mt-4">
+                                    <table class="table table-bordered align-middle text-center">
+                                        <thead>
+                                        <tr>
+                                            <th>تصویر</th>
+                                            <th>نام محصول</th>
+                                            <th>قیمت (تومان)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr id="selected_product_tr">
+                                            <td>
+                                                <img class="w-100px rounded-2"
+                                                     src="{{asset($product_info['product_image'])}}">
+                                            </td>
+                                            <td>
+                                                <p class="p_name">
+                                                    {{$product_info['product_name']}}
+                                                </p>
+                                                <input type="hidden" class="p_id">
+                                            </td>
+                                            <td>
+                                                <p class="p_price">
+                                                    {{@number_format(\App\Helper\ChangeDollar::change_dollar($product_info['product_price']))}}
+                                                </p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                حساب های مجاز
+                                            </td>
+                                            <td colspan="2">
+                                                @foreach($product_info->accounts as $account)
+                                                    <span class="account_css text-black">
                                                     {{ $account->account_name }}
                                                 </span>
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            @if(\Illuminate\Support\Facades\Auth::user())
-                                                <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}' , '{{Auth::id()}}')"
-                                                   id="product-ip" class="account_p_css"
-                                                   data-product-id="{{$product_info['id']}}">
-                                                    برای خرید لطفا ابتدا اکانت خود را وارد نمایید
-                                                </p>
-                                            @else
-                                                <p class="alert alert-info">
-                                                    <a href="{{route('site_login')}}">
-                                                        لطفا ابتدا در سایت وارد شوید
-                                                    </a>
-                                                </p>
-                                            @endif
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3">
+                                                @if(\Illuminate\Support\Facades\Auth::user())
+                                                    <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}' , '{{Auth::id()}}')"
+                                                       id="product-ip" class="account_p_css"
+                                                       data-product-id="{{$product_info['id']}}">
+                                                        برای خرید لطفا ابتدا اکانت خود را وارد نمایید
+                                                    </p>
+                                                @else
+                                                    <p class="alert alert-info">
+                                                        <a href="{{route('site_login')}}">
+                                                            لطفا ابتدا در سایت وارد شوید
+                                                        </a>
+                                                    </p>
+                                                @endif
 
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            @else
+                                <p>hich</p>
+                            @endif
 
                         </div>
                     </div>

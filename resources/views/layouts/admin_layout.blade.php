@@ -380,10 +380,13 @@
                             <li>
                                 <a href="{{route('admin.membership')}}">تعریف سطوح باشگاه</a>
                             </li>
-                            <li>
-                                <a href="#">تنظیمات باشگاه</a>
-                            </li>
                         </ul>
+                    </li>
+                    <li>
+                        <a href="{{route('admin.discount')}}">
+                            <i class="fa fa-link"></i>
+                            <span>تخفیف</span>
+                        </a>
                     </li>
                     <li>
                         <a href="#" class="has-arrow">
@@ -406,10 +409,10 @@
                         </a>
                         <ul>
                             <li>
-                                <a href="{{route('admin.authentication_price')}}">تعیین مبلغ احراز هویت</a>
+                                <a href="{{route('admin.faq_category_panel')}}">دسته بندی سوالات متدوال</a>
                             </li>
                             <li>
-                                <a href="{{route('admin.about_us_panel')}}">درباره ما</a>
+                                <a href="{{route('admin.authentication_price')}}">تعیین مبلغ احراز هویت</a>
                             </li>
                             <li>
                                 <a href="{{route('admin.setting_contact_panel')}}">تنظیمات تماس با ما</a>
@@ -418,16 +421,19 @@
                                 <a href="{{route('admin.contact_panel')}}">سوالات تماس با ما</a>
                             </li>
                             <li>
-                                <a href="{{route('admin.faq_category_panel')}}">دسته بندی سوالات متدوال</a>
+                                <a href="{{route('admin.about_us_panel')}}">تنظیمات درباره ما</a>
                             </li>
                             <li>
                                 <a href="{{route('admin.faq_panel')}}">سوالات متدوال</a>
                             </li>
                             <li>
-                                <a href="{{route('admin.rule_panel')}}">قوانین</a>
+                                <a href="{{route('admin.slider_images_panel')}}">اسلایدر</a>
                             </li>
                             <li>
-                                <a href="{{route('admin.slider_images_panel')}}">اسلایدر</a>
+                                <a href="{{route('admin.tax')}}">مالیات</a>
+                            </li>
+                            <li>
+                                <a href="{{route('admin.rule_panel')}}">قوانین</a>
                             </li>
                             <li>
                                 <a href="{{route('admin.banner_images_panel')}}">بنرها</a>

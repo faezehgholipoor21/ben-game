@@ -297,7 +297,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="{{route('user.wallet')}}">
                                     <i class="far fa-wallet"></i>
                                     کیف پول
                                 </a>

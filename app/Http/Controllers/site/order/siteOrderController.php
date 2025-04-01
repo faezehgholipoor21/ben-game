@@ -7,13 +7,10 @@ use App\Helper\GetDollar;
 use App\Helper\PointHelper;
 use App\Helper\TaxHelper;
 use App\Http\Controllers\Controller;
-use App\Models\AuthenticationPrice;
 use App\Models\Cart;
-use App\Models\DollarPrice;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
 class siteOrderController extends Controller

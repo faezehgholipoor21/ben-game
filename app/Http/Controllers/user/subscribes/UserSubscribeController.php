@@ -53,12 +53,6 @@ class UserSubscribeController extends Controller
 
         $sub_info = Subscribe::query()->find($sub_history_info['subscribe_id']);
 
-        if ($sub_info) {
-            $is_exists = 1;
-        } else {
-            $is_exists = 0;
-        }
-
         $view_name = "user.subscribes.final_view";
         $data = $sub_history_user_id;
 
@@ -66,7 +60,7 @@ class UserSubscribeController extends Controller
         $authority = $request->get("Authority");
 
         $update_subscribe_after_pay = new SubscribeZarrinpalVerify();
-        return $update_subscribe_after_pay->update_after_pay($request, $is_exists, $data, $amount, $authority, $view_name);
+        return $update_subscribe_after_pay->update_after_pay($request, $data, $amount, $authority, $view_name);
     }
 
     public function subscribe_history_init($user_id, $sub_id, $description, $price)

@@ -19,7 +19,8 @@ return new class extends Migration
             $table->string('discount_name',255);
             $table->timestamp('expired_time');
             $table->integer('limit');
-            $table->boolean('used')->default(0);
+            $table->integer('used')->comment('neshoon mide chand bar estefade shode')->default(0);
+            $table->integer('status')->comment('active boodan ya naboodane takhfif ya morede dige');
             $table->timestamps();
         });
     }

@@ -39,10 +39,15 @@
                 </div>
 
                 <div class="col-md-6 col-sm-12 text-right hidden-xs">
+                    <a href="{{route('admin.membership_day')}}" class="btn btn-sm btn-warning">
+                        <i class="fa fa-check mr-2"></i>
+                        تنظیم تعداد روزهای باشگاه
+                    </a>
                     <a href="{{route('admin.membership_create')}}" class="btn btn-sm btn-success">
                         <i class="fa fa-plus mr-2"></i>
                         افزودن سطح جدید
                     </a>
+
                 </div>
             </div>
         </div>

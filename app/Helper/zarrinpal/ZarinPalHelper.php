@@ -21,7 +21,7 @@ abstract class ZarinPalHelper
             $result = $this->request($MerchantID, $Amount, $Description, $Email, $Mobile, $CallbackURL, $SandBox, $ZarinGate, $data);
 
             if (isset($result["code"]) && intval($result["code"]) === 100) {
-                $this->success_go_to_bank($result['authority'], $result['link'], $result['data']);
+                $this->success_go_to_bank($result['authority'], $result['link'], $Amount, $result['data']);
             } else {
                 $this->fail_to_transaction($data);
             }
@@ -97,8 +97,7 @@ abstract class ZarinPalHelper
     }
 
 
-
-    abstract public function success_go_to_bank($authority, $link, $data);
+    abstract public function success_go_to_bank($authority, $link, $amount, $data);
 
     abstract public function fail_to_transaction($data);
 

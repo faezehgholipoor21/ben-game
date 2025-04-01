@@ -5,27 +5,10 @@
 @endsection
 
 @section('custom-css')
-    <link rel="stylesheet" href="{{asset('admin/assets/vendor/summernote/dist/summernote.css')}}"/>
-    <link rel="stylesheet" href="{{asset('admin/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.css')}}"/>
-    <link rel="stylesheet" href="{{asset('admin/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.css')}}"/>
 @endsection
 
 @section('custom-js')
-    <script src="{{asset('admin/assets/vendor/summernote/dist/summernote.js')}}"></script>
-    <script src="{{asset('admin/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js')}}"></script>
-    <script src="{{asset('admin/assets/vendor/bootstrap-tagsinput/bootstrap-tagsinput.js')}}"></script>
     <script>
-        $(".dropify").dropify();
-
-        $('#category_select').multiselect({
-            enableFiltering: true,
-            enableCaseInsensitiveFiltering: true,
-            maxHeight: 200,
-            selectAll: true,
-            nonSelectedText: 'دسته بندی (ها) را انتخاب کنید',
-            filterPlaceholder: 'جستجو کنید',
-            allSelectedText: 'همه انتخاب شدند',
-        });
         function formatNumber(input) {
             // حذف همه کاراکترهای غیر از عدد
             let value = input.value.replace(/\D/g, '');
@@ -69,9 +52,6 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item">
                                 <a href="{{route('admin.dashboard')}}">پنل مدیریت</a>
-                            </li>
-                            <li class="breadcrumb-item">
-                                <a href="{{route('admin.posts.index')}}">مبلغ احراز هویت</a>
                             </li>
                             <li class="breadcrumb-item active" aria-current="page">ویرایش مبلغ احراز هویت</li>
                         </ol>

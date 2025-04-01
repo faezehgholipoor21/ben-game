@@ -16,10 +16,8 @@ return new class extends Migration
 
         Schema::create('wallet', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->string('plus_price', 255);
-            $table->string('mines_price', 255);
-            $table->string('main_price', 255);
+            $table->unsignedBigInteger('user_id')->unique();
+            $table->bigInteger('inventory');
             $table->timestamps();
         });
     }

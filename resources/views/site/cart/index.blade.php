@@ -35,7 +35,7 @@
         let my_fullscreen_loader = $("#my_full_screen_loader");
 
         function remove_comma(number) {
-            return parseInt(number.replace(',', ''));
+            return parseFloat(number.replace(/,/g, ''));
         }
 
         function putComma(Number) {
@@ -103,7 +103,7 @@
                 tr_count = parseInt(cart_table_tr.eq(i).find('.quantity').val());
                 cart_table_tr.eq(i).find('.tbl_total_price').text(tr_price * tr_count);
 
-             console.log('cart_table_tr = ' + cart_table_tr + 'tr_count = ' + tr_count + 'tr_price=' + tr_price);
+             console.log('cart_table_tr = ' + cart_table_tr + 'tr_count = ' + tr_count + 'tr_price=' + tr_price + 'tbl_price == ' + cart_table_tr.eq(i).find('.tbl_price').text());
             }
 
             if (cart_cookie === null) {
@@ -187,6 +187,10 @@
             });
         });
 
+        function delete_cart(){
+
+        }
+
     </script>
 
 @endsection
@@ -216,144 +220,155 @@
 
     <div class="shop-cart py-100">
         <div class="container">
-            @if(!empty($cart))
-                <div class="shop-cart-wrap">
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <div class="cart-table">
-                                <div class="table-responsive">
-                                    <table class="table cart_table">
-                                        <thead>
-                                        <tr>
-                                            <th>تصویر</th>
-                                            <th>نام محصول</th>
-                                            <th>مقدار</th>
-                                            <th>قیمت واحد (تومان)</th>
-                                            <th>قیمت کل (تومان)</th>
-                                            <th></th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @php
-                                            $total_price = 0 ;
-                                        @endphp
-                                        @foreach($cart as $item)
-                                            @php
-                                                if ($item->is_force == 1){
-                                                    $price = \App\Helper\ChangeDollar::change_dollar($item->product->product_force_price) ;
-                                                    $count = $item->count ;
-                                                    $t_price = $price * $count;
-
-                                                }else{
-                                                    $price = \App\Helper\ChangeDollar::change_dollar($item->product->product_price) ;
-                                                    $count = $item->count ;
-                                                    $t_price = $price * $count;
-                                                }
-                                                    $total_price += $t_price ;
-                                            @endphp
+            @if($cartModel)
+                @if(count($cartModel->getProducts())!=0)
+                    <div class="shop-cart-wrap">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="cart-table">
+                                    <div class="table-responsive">
+                                        <table class="table cart_table">
+                                            <thead>
                                             <tr>
-                                                <td>
-                                                    <div class="shop-cart-img">
-                                                        <a href="#">
-                                                            <img
-                                                                src="{{\App\Helper\GetProductMainImage::get_product_main_image($item['product_id'])}}"
-                                                                alt>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="shop-cart-content">
-                                                        <h5 class="shop-cart-name">
-                                                            <a href="#">
-                                                                {{$item->product->product_name}}
-                                                            </a>
-                                                        </h5>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="shop-cart-qty" dir="ltr">
-                                                        <input type="hidden" class="product_id" value="{{$item->product->id}}">
-                                                        <button class="minus-btn"><i class="fal fa-minus"></i></button>
-                                                        <input class="quantity" type="text" value="{{$item->count}}" disabled>
-                                                        <button class="plus-btn" data-max="{{$item->product->inventory}}"><i class="fal fa-plus"></i></button>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="shop-cart-subtotal">
-                                                        <span
-                                                            class="tbl_price">{{number_format($price)}}</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="shop-cart-subtotal">
-                                                        <span
-                                                            class="tbl_total_price">{{number_format($t_price)}}</span>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <a href="#" class="shop-cart-remove">
-                                                        <i class="far fa-times"></i>
-                                                    </a>
-                                                </td>
+                                                <th>تصویر</th>
+                                                <th>نام محصول</th>
+                                                <th>مقدار</th>
+                                                <th>قیمت واحد (تومان)</th>
+                                                <th>قیمت کل (تومان)</th>
+                                                <th></th>
                                             </tr>
-                                        @endforeach
+                                            </thead>
+                                            <tbody>
+                                            @php
+                                                $total_price = 0 ;
+                                            @endphp
+                                            @foreach($cartModel->getProducts() as $item)
+                                                <tr>
+                                                    <td>
+                                                        <div class="shop-cart-img">
+                                                            <a href="#">
+                                                                <img
+                                                                    src="{{\App\Helper\GetProductMainImage::get_product_main_image($item['id'])}}"
+                                                                    alt>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="shop-cart-content">
+                                                            <h5 class="shop-cart-name">
+                                                                <a href="#">
+                                                                    {{$item['name']}}
+                                                                </a>
+                                                            </h5>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="shop-cart-qty" dir="ltr">
+                                                            <input type="hidden" class="product_id" value="{{$item['id']}}">
+                                                            <button class="minus-btn"><i class="fal fa-minus"></i></button>
+                                                            <input class="quantity" type="text" value="{{$item['quantity']}}" disabled>
+                                                            <button class="plus-btn" data-max="{{$item['inventory']}}"><i class="fal fa-plus"></i></button>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="shop-cart-subtotal">
+                                                        <span
+                                                            class="tbl_price">{{number_format($item['main_price'])}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="shop-cart-subtotal">
+                                                        <span
+                                                            class="tbl_total_price">{{number_format($item['final_price'])}}</span>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#" class="shop-cart-remove">
+                                                            <i class="far fa-times"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
 
-                                        </tbody>
-                                    </table>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="shop-cart-footer">
-                                <div class="row">
-                                    <div class="col-md-7 col-lg-6">
-                                        <div class="shop-cart-coupon">
-                                            <div class="form-group">
-                                                <input type="text" class="form-control" placeholder="کد کوپن شما">
-                                                <button class="theme-btn" type="submit">اعمال کوپن</button>
+                                <div class="shop-cart-footer">
+                                    <div class="row">
+                                        <div class="col-md-7 col-lg-6">
+                                            <div class="shop-cart-coupon">
+                                                <div class="form-group">
+                                                    <input type="text" class="form-control" placeholder="کد کوپن شما">
+                                                    <button class="theme-btn" type="submit">اعمال کوپن</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5 col-lg-6">
+                                            <div class="shop-cart-btn text-md-end">
+                                                <a href="{{route('site.products')}}" class="theme-btn"> ادامه خرید <span
+                                                        class="fas fa-arrow-left"></span></a>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-5 col-lg-6">
-                                        <div class="shop-cart-btn text-md-end">
-                                            <a href="{{route('site.products')}}" class="theme-btn"> ادامه خرید <span
-                                                    class="fas fa-arrow-left"></span></a>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="shop-cart-summary">
-                                <h5>خلاصه سبد خرید</h5>
-                                <ul>
-                                    <li>
-                                        <strong>قیمت کل :</strong>
-                                        <span class="show_total_price_without_tax">
-                                            {{number_format($total_price)}} تومان
+                            <div class="col-lg-4">
+                                <div class="shop-cart-summary">
+                                    <h5>خلاصه سبد خرید</h5>
+                                    <ul>
+                                        <li>
+                                            <strong>قیمت کل :</strong>
+                                            <span>
+                                            (با احتساب تخفیف و بدون مالیات)
                                         </span>
-                                    </li>
-                                    <li>
-                                        <strong>مالیات:</strong>
-                                        <span class="show_tax_price">
-                                            {{@number_format($total_price * 0.1)}} تومان
+                                            <span class="show_total_price_without_tax">
+                                            {{number_format($main_total_price)}} تومان
                                         </span>
-                                    </li>
-                                    <li class="shop-cart-total">
-                                        <strong>مجموع:</strong>
-                                        <span class="show_total_price_with_tax">
-                                            {{@number_format(($total_price) + $total_price * 0.1)}} تومان
+                                        </li>
+                                        <li>
+                                            <strong>مالیات:</strong>
+                                            <span class="show_tax_price">
+                                            {{@number_format($tax_price)}} تومان
                                         </span>
-                                    </li>
-                                </ul>
-                                <div class="text-end mt-40">
-                                    <a href="{{route('site.checkout')}}" class="theme-btn w-100 d-block">
-                                        تسویه حساب
-                                        <i class="fas fa-arrow-left-long"></i>
-                                    </a>
+                                        </li>
+                                        <li>
+                                            <strong>تخفیف باشگاه:</strong>
+                                            <span>
+                                            {{$club_percentage}} درصد
+                                        </span>
+                                        </li>
+                                        <li class="shop-cart-total">
+                                            <strong>مجموع:</strong>
+                                            <span class="show_total_price_with_tax">
+                                            {{@number_format($final_price_after_club)}} تومان
+                                        </span>
+                                        </li>
+                                    </ul>
+                                    <div class="text-end mt-40">
+                                        <a href="{{route('site.checkout')}}" class="theme-btn w-100 d-block">
+                                            تسویه حساب
+                                            <i class="fas fa-arrow-left-long"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                @else
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="alert alert-danger mb-0">
+                                <i class="far fa-shopping-bag"></i>
+                                سبد خرید شما خالی می باشد.
+                                <a href="{{route('site.products')}}" class="btn btn-warning p-2">
+                                    برو به فروشگاه
+                                    <i class="fa fa-arrow-left"></i>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                @endif
             @else
                 <div class="row">
                     <div class="col-12">
@@ -368,6 +383,7 @@
                     </div>
                 </div>
             @endif
+
         </div>
     </div>
 @endsection

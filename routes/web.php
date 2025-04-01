@@ -27,6 +27,8 @@ use App\Http\Controllers\admin\authentication_price\adminAuthenticationPriceCont
 use App\Http\Controllers\admin\dollar_price\adminDollarPriceController;
 use App\Http\Controllers\admin\subscribe\adminSubscribeController;
 use App\Http\Controllers\admin\membership\adminMembershipController;
+use App\Http\Controllers\admin\discount\adminDiscountController;
+use App\Http\Controllers\config\ConfigController;
 
 //site
 use App\Http\Controllers\site\home\homeController;
@@ -54,6 +56,7 @@ use App\Http\Controllers\user\orders\userOrderController;
 use App\Http\Controllers\user\customer_authentication\userAuthenticationController;
 use App\Http\Controllers\user\accounts\userAccountController;
 use App\Http\Controllers\user\subscribes\UserSubscribeController;
+use App\Http\Controllers\user\wallet\userWalletController;
 
 //admin norm
 use App\Http\Controllers\admin_norm\dashboard\adminNormDashboardController;
@@ -248,7 +251,22 @@ Route::namespace('App\Http\Controllers\admin')
         Route::post('membership_delete/{member_id}', [adminMembershipController::class, 'destroy'])->name('membership_delete');
 
 
+        //discount
+        Route::get('discount',[adminDiscountController::class,'index'])->name('discount');
+        Route::get('discount_create',[adminDiscountController::class, 'create'])->name('discount_create');
+        Route::post('discount_store',[adminDiscountController::class, 'store'])->name('discount_store');
+        Route::get('discount_edit/{discount_id}',[adminDiscountController::class, 'edit'])->name('discount_edit');
+        Route::post('discount_update/{discount_id}',[adminDiscountController::class, 'update'])->name('discount_update');
+        Route::delete('discount_delete/{discount_id}', [adminDiscountController::class, 'destroy'])->name('discount_delete');
 
+
+        //membership days
+        Route::get('membership_day', [adminMembershipController::class, 'days'])->name('membership_day');
+        Route::post('membership_day_update', [adminMembershipController::class, 'day_update'])->name('membership_day_update');
+
+        //config
+        Route::get('tax' , [configController::class, 'tax'])->name('tax');
+        Route::post('tax_update', [configController::class, 'tax_update'])->name('tax_update');
 
     });
 
@@ -362,6 +380,12 @@ Route::namespace('App\Http\Controllers\user')
         Route::get('subscribe',[UserSubscribeController::class,'index'])->name('subscribe');
         Route::get('subscribe_pay/{sub_id}',[UserSubscribeController::class,'subscribe_pay'])->name('subscribe_pay');
         Route::middleware(['checkIsLogin'])->get('update_sub_after_pay/{sub_history_user_id}', [UserSubscribeController::class, 'update_subscribe_after_pay'])->name('update_sub_after_pay');
+
+        //wallet
+        Route::get('wallet',[UserWalletController::class,'index'])->name('wallet');
+        Route::get('wallet_pay' , [UserWalletController::class,'wallet_pay'])->name('wallet_pay');
+        Route::middleware(['checkIsLogin'])->get('update_wallet_after_pay/{user_id}', [UserWalletController::class, 'update_wallet_after_pay'])->name('update_wallet_after_pay');
+
 
     });
 

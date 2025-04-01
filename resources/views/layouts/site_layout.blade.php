@@ -121,10 +121,17 @@
                     <div class="header-middle-right">
                         <ul class="header-middle-list">
                             <li class="dropdown-cart">
-                                <a href="{{route('site.cart')}}" class="shop-cart list-item">
-                                    <i class="far fa-shopping-bag"></i>
-                                    <span id="cart_count_span">{{$cart_count}}</span>
-                                </a>
+                                @if(Auth::check())
+                                    <a href="{{route('site.cart')}}" class="shop-cart list-item">
+                                        <i class="far fa-shopping-bag"></i>
+                                        <span id="cart_count_span">{{$cart_count}}</span>
+                                    </a>
+                                @else
+                                    <a href="#" class="shop-cart list-item">
+                                        <i class="far fa-shopping-bag"></i>
+                                    </a>
+                                @endif
+
 {{--                                <div class="dropdown-cart-menu">--}}
 {{--                                    <div class="dropdown-cart-header">--}}
 {{--                                        <span>03 مورد</span>--}}

@@ -68,7 +68,52 @@ class adminSubscribeController extends Controller
         return view('admin.subscribe.edit', compact('subscriber'));
     }
 
-    public function update(Request $request, $sub_id){}
+    public function update(Request $request, $sub_id){
+        $subscribe_info = Subscribe::query()->find($sub_id);
+
+        $input = $request->all();
+        $validation = Validator::make($input, [
+            'name' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'date' => 'required',
+        ]);
+
+        if ($validation->fails()) {
+            alert()->error($validation->errors()->first(), 'خطا !');
+            return back()->withErrors($validation->errors())->withInput();
+        }
+
+        if ($request->has('image')) {
+            //get posts image and delete old profile
+            $old = $subscribe_info->image;
+
+            if (file_exists($old) and !is_dir($old)) {
+                unlink($old);
+            }
+
+            $file = $request->file('image');
+            $file_ext = $file->getClientOriginalExtension();
+            $file_name = 'sub_image_' . time() . '.' . $file_ext;
+            $sub_image = $file->move('site\assets\subscribe', $file_name);
+
+            $subscribe_info->update([
+                'image' => RepairFileSrc::repair_file_src($sub_image),
+            ]);
+        }
+
+        $subscribe_info->update([
+            'name' => $input['name'],
+            'price' => $input['price'],
+            'date' => $input['date'],
+            'discount' => $input['discount'],
+            'description' => $input['description'],
+        ]);
+
+        alert()->success('', 'اشتراک با موفقیت ویرایش شد.');
+        return redirect()->route('admin.subscribe');
+
+    }
     public function destroy($sub_id): \Illuminate\Http\RedirectResponse
     {
         $subscriber = Subscribe::query()->find($sub_id);

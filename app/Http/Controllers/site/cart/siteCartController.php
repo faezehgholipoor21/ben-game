@@ -4,7 +4,9 @@ namespace App\Http\Controllers\site\cart;
 
 use App\Helper\CalculateTotalCart;
 use App\Helper\ChangeDollar;
+use App\Helper\CurrentUserClub;
 use App\Helper\SetCookie;
+use App\Helper\TaxHelper;
 use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
@@ -12,6 +14,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class siteCartController extends Controller
 {
@@ -23,9 +26,16 @@ class siteCartController extends Controller
 
         $is_force = $request->input("is_force");
 
-        SetCookie::set_cookie();
+        $cartCookie = SetCookie::set_cookie();
 
-        $cartCookie = $_COOKIE["cart_id"];
+//        if (!isset($_COOKIE["cart_id"])) {
+////            $cartCookie = $_COOKIE["cart_id"];
+//            $cartCookie = Str::random(32);
+//            setcookie($cartCookie);
+//        }
+//        else{
+//            $cartCookie = $_COOKIE["cart_id"];
+//        }
 
 
         $productId = $request->input('product_id');
@@ -55,27 +65,6 @@ class siteCartController extends Controller
 
         $cookie = $cartCookie;
 
-//
-//        $exist = Cart::query()
-//            ->where('cookie', $cookie)
-//            ->where('product_id', $input['product_id'])
-//            ->first();
-
-//        if ($exist) {
-//
-//            if ($is_force == 'on') {
-//                $exist->update([
-//                    'is_force' => 1 ,
-//                    'user_account_id' => $user_acc_radio
-//                ]);
-//            } elseif ($is_force == null) {
-//                $exist->update([
-//                    'is_force' => 0 ,
-//                    'user_account_id' => $user_acc_radio
-//                ]);
-//            }
-//        } else {
-
         $is_cart = Cart::query()
             ->where('cookie', $cookie)
             ->where('product_id', $input['product_id'])
@@ -87,7 +76,7 @@ class siteCartController extends Controller
                     'count' => $is_cart->count + 1,
                     'is_force' => 1,
                 ]);
-            }else{
+            } else {
                 Cart::query()->create([
                     'product_id' => $productId,
                     'is_force' => 1,
@@ -103,7 +92,7 @@ class siteCartController extends Controller
                     'count' => $is_cart->count + 1,
                     'is_force' => 0,
                 ]);
-            }else{
+            } else {
                 Cart::query()->create([
                     'product_id' => $productId,
                     'cookie' => $cookie,
@@ -115,31 +104,40 @@ class siteCartController extends Controller
 
         }
         return redirect()->route('site.home')->with('success', 'محصول به سبد خرید افزوده شد');
-//
-//        alert()->success('', 'محصول به سبد خرید افزوده شد');
-//        return redirect()->route('site.home');
-
-//        return response()->json([
-//            'error' => false,
-//            'message' => 'محصول به سبد خرید افزوده شد',
-//            'cookie' => $cookie,
-//            'cart_count' => $cart_count,
-//        ]);
 
     }
 
     public function cart(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
         if (isset($_COOKIE['cart_id'])) {
-            $cart = Cart::query()
-                ->where('cookie', $_COOKIE['cart_id'])
-                ->get();
+            try {
+                $cartModel = CurrentUserClub::get_detail_cart_club($_COOKIE['cart_id']);
+                $main_total_price = $cartModel->getTotalPrice();
 
-        } else {
-            $cart = [];
+                $tax_price = ($main_total_price * TaxHelper::get_tax()) / 100;
+                $club_percentage = 0;
+                try {
+                    $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
+                } catch (\Exception $e) {
+                    $club_percentage =0;
+                }
+
+                $final_price_after_club = $main_total_price + $tax_price ;
+                return view('site.cart.index', compact('cartModel' , 'main_total_price' , 'tax_price','club_percentage' , 'final_price_after_club'));
+
+            } catch (\Exception $e) {
+                Log::info("cart controller".$e->getMessage());
+            }
         }
+        $cartModel = null;
+        $main_total_price = null;
+        $tax_price = null;
+        $club_percentage = null;
+        $final_price_after_club = null;
+        return view('site.cart.index', compact('cartModel' , 'main_total_price' , 'tax_price','club_percentage' , 'final_price_after_club'));
 
-        return view('site.cart.index', compact('cart'));
+
+
     }
 
     public function updateCart(Request $request): \Illuminate\Http\JsonResponse

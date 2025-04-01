@@ -6,6 +6,7 @@ use App\Helper\ChangeDollar;
 use App\Helper\GetAccountFieldTitle;
 use App\Helper\GetGameAccountTitle;
 use App\Helper\GetProductMainImage;
+use App\Helper\GetSellerName;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\DefaultAccount;
@@ -55,7 +56,7 @@ class siteCategoryController extends Controller
         return view('site.categories.cat_index', compact('categories', 'main_categories', 'cat_title'));
     }
 
-    public function detail($category_id): View
+    public function detail($category_id): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
     {
         $cat_info = Category::query()
             ->where('id', $category_id)
@@ -67,18 +68,29 @@ class siteCategoryController extends Controller
             ->orderBy('created_at', 'asc') // ترتیب صعودی برای قدیمی‌ترین تاریخ
             ->first();
 
-        $accounts = $product_info->accounts;
+        if($product_info){
+            $accounts = $product_info->accounts;
 
-        $product_images_list = ImageProduct::query()
-            ->where('product_id', $category_id)
-            ->where('is_main', '!=', 1)
-            ->get();
+            $product_images_list = ImageProduct::query()
+                ->where('product_id', $category_id)
+                ->where('is_main', '!=', 1)
+                ->get();
 
-        $keywords = explode(',', $cat_info['cat_meta_keywords']);
+            $keywords = explode(',', $cat_info['cat_meta_keywords']);
 
-        $image_count = GetProductMainImage::get_product_images($cat_info['id']);
+            $image_count = GetProductMainImage::get_product_images($cat_info['id']);
 
-        return view('site.categories.detail', compact('category_id', 'cat_info', 'product_info', 'image_count', 'product_images_list', 'keywords', 'accounts'));
+            return view('site.categories.detail', compact('category_id', 'cat_info', 'product_info', 'image_count', 'product_images_list', 'keywords', 'accounts'));
+
+        }
+        else
+        {
+            alert()->success('','برای این دسته هنوز محصولی تعریف نشده است');
+            return redirect()->route('site.home');
+        }
+
+
+
     }
 
     public function getProducts($cat_id): \Illuminate\Http\JsonResponse
@@ -94,16 +106,9 @@ class siteCategoryController extends Controller
                 'product_image' => asset($product->product_image),
                 'product_price' => number_format(ChangeDollar::change_dollar($product->product_price)),
                 'product_force_price' => number_format(ChangeDollar::change_dollar($product->product_force_price)),
+                'seller_product_name' => GetSellerName::get_seller_name($product->user_seller_id),
             ];
         });
-
-//        foreach ($products as $product) {
-//            Log::info('product_price=' . ChangeDollar::change_dollar($product['product_price']));
-//
-//            $product['product_image'] = asset($product['product_image']);
-//            $product['product_price'] = number_format(ChangeDollar::change_dollar($product['product_price']),2);
-//            $product['product_force_price'] = number_format(ChangeDollar::change_dollar($product['product_force_price']),2);
-//        }
 
         // بازگشت محصولات به صورت JSON
         return response()->json($formattedProducts);
@@ -135,7 +140,6 @@ class siteCategoryController extends Controller
 //            $product['product_image'] = asset($product['product_image']);
 //            $product['product_price'] = @number_format(ChangeDollar::change_dollar($product['product_price']));
 //            $product['product_force_price_seperated'] = @number_format(ChangeDollar::change_dollar($product['product_force_price']));
-
 
 
             $formattedProduct = [
@@ -205,7 +209,6 @@ class siteCategoryController extends Controller
         return response()->json([]);
 
     }
-
 
 
 }

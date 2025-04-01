@@ -250,6 +250,10 @@ return [
         'label' => 'عنوان',
         'type' => 'نوع',
         'field_name' => 'نام فیلد',
+        'discount_name' => 'عنوان تخفیف',
+        'limit' => 'محدودیت',
+        'discount_code' => 'کد تخفیف',
+        'percentage' => 'درصد تخفیف',
     ],
 
 ];

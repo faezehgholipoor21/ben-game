@@ -29,6 +29,7 @@ class User extends Authenticatable
         'email',
         'password',
         'user_image',
+        'membership_level_id'
     ];
 
     /**

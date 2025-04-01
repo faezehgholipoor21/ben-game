@@ -255,6 +255,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer(['*'], function ($view) {
+
             if (isset($_COOKIE['cart_id'])) {
                 $cart_count = Cart::query()
                     ->where('cookie', $_COOKIE['cart_id'])
@@ -262,6 +263,7 @@ class AppServiceProvider extends ServiceProvider
             } else {
                 $cart_count = 0;
             }
+
 
             $view->with('cart_count', $cart_count);
         });

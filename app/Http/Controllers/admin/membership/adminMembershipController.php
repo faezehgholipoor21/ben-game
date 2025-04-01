@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin\membership;
 use App\Helper\RepairFileSrc;
 use App\Http\Controllers\Controller;
 use App\Jobs\membership_level_job;
+use App\Models\Config;
 use App\Models\MembershipLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -104,8 +105,34 @@ class adminMembershipController extends Controller
         return back();
     }
 
+    public function days(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    {
+        $limit_day_membership = Config::query()
+            ->where('key' , 'limit_day_membership')
+            ->value('value');
+
+        return view('admin.membership.configs.membership_days', compact('limit_day_membership'));
+    }
+
+    public function day_update(Request $request)
+    {
+        $input = $request->all();
+
+        $config_info = Config::query()
+            ->where('key' , 'limit_day_membership')
+            ->first();
+
+        $config_info->update([
+            'value' => $input['limit_day_membership'],
+        ]);
+
+        alert()->success('','روز باشگاه با موفقیت ویرایش شد');
+        return redirect()->route('admin.membership');
+
+    }
     public function test()
     {
+
         $this->dispatch(new membership_level_job());
     }
 

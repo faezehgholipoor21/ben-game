@@ -9,19 +9,17 @@ use Illuminate\Support\Facades\Log;
 
 abstract class ZarrinpalHelperVerify
 {
-    function update_after_pay(Request $request, $is_exist, $data, $amount, $authority , $view_name)
+    function update_after_pay(Request $request, $data, $amount, $authority, $view_name)
     {
-        if ($is_exist) {
-            $verify_result = $this->verify(env("ZARINPAL_MERCHEND_CODE"), $amount, $authority, true);
+        $verify_result = $this->verify(env("ZARINPAL_MERCHEND_CODE"), $amount, $authority, true);
 
-            if ($verify_result['code'] == 100) {
+        if ($verify_result['code'] == 100) {
 
-                $this->verify_done($verify_result , $data);
+            $this->verify_done($verify_result, $data);
 
-            } else {
-                $this->verify_fail($verify_result , $data);
+        } else {
+            $this->verify_fail($verify_result, $data);
 
-            }
         }
         return view($view_name, compact('data'));
     }
@@ -76,7 +74,7 @@ abstract class ZarrinpalHelperVerify
         ];
     }
 
-    abstract function verify_done($verify_result , $data);
+    abstract function verify_done($verify_result, $data);
 
-    abstract function verify_fail($verify_result , $data);
+    abstract function verify_fail($verify_result, $data);
 }

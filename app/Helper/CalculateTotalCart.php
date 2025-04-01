@@ -16,8 +16,6 @@ class CalculateTotalCart
 
         $total_price = 0;
 
-
-
         foreach ($cart as $cart_item) {
             if ($cart_item['is_force'] == 0) {
                 $total_price += ($cart_item['product']['product_price']) * $cart_item['count'];
