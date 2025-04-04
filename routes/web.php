@@ -335,7 +335,9 @@ Route::namespace('App\Http\Controllers\site')
         Route::get('cart', [siteCartController::class, 'cart'])->name('cart');
 
         //checkout
-        Route::middleware(['checkIsLogin'])->get('checkout', [siteCheckoutController::class, 'index'])->name('checkout');
+        Route::middleware(['checkIsLogin'])
+            ->get('checkout', [siteCheckoutController::class, 'index'])
+            ->name('checkout');
 
         //orders
         Route::middleware(['checkIsLogin'])->post('submitOrder', [siteOrderController::class, 'submitOrder'])->name('submitOrder');

@@ -17,32 +17,30 @@ class siteCheckoutController extends Controller
     public function index(): View|RedirectResponse
     {
         if (isset($_COOKIE['cart_id'])) {
-            try {
-                $cartModel = CurrentUserClub::get_detail_cart_club($_COOKIE['cart_id']);
+            $cartModel = CurrentUserClub::get_detail_cart_club($_COOKIE['cart_id']);
+            $products = $cartModel->getProducts();
 
-                if ($cartModel->getTotalPrice() === 0 or count($cartModel->getProducts()) === 0) {
-                    return redirect()->route('site.cart');
-                }
+            $main_total_price = $cartModel->getTotalPrice();
 
-                $main_total_price = $cartModel->getTotalPrice();
-                $main_discount = $cartModel->main_discount($_COOKIE['cart_id']);
+            $tax_price = ($main_total_price * TaxHelper::get_tax()) / 100;
 
-                $tax_price = ($main_total_price * TaxHelper::get_tax()) / 100;
-                $club_percentage = 0;
+            $final_price_after_club = $main_total_price + $tax_price;
 
-                $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
+            $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
 
-                $final_price_after_club = $main_total_price + $tax_price;
-
-                return view('site.checkout.index', compact('cartModel', 'main_total_price', 'tax_price', 'main_discount', 'club_percentage', 'final_price_after_club'));
-
-            } catch (\Exception $e) {
-                Log::info("cart controller" . $e->getMessage());
+            if ($club_percentage > 0) {
+                $final_price_after_club = ceil($final_price_after_club - ($main_total_price * $club_percentage / 100));
             }
         } else {
-            return redirect()->route('site.cart');
+            $cartModel = null;
+            $main_total_price = null;
+            $tax_price = null;
+            $club_percentage = null;
+            $final_price_after_club = null;
+            $products = [];
         }
 
-        return view('site.checkout.index', compact('cartModel', 'main_total_price', 'tax_price', 'main_discount', 'club_percentage', 'final_price_after_club'));
+        return view('site.checkout.index', compact('cartModel', 'main_total_price', 'tax_price', 'club_percentage', 'final_price_after_club'));
+
     }
 }

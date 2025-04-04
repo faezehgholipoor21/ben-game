@@ -220,15 +220,13 @@
                                     <span>
                                             {{$club_percentage}} درصد
                                         </span>
-                                </li>
-                                @if($main_discount)
-                                    <li>
-                                        <strong>تخفیف :</strong>
-                                        <span>
-                                                {{$main_discount}} تومان
+
+                                    @if($club_percentage > 0)
+                                        <span class="ms-2">
+                                            ({{@number_format($main_total_price * $club_percentage / 100)}} تومان)
                                             </span>
-                                    </li>
-                                @endif
+                                    @endif
+                                </li>
 
                                 <li class="shop-cart-total">
                                     <strong>مجموع:</strong>

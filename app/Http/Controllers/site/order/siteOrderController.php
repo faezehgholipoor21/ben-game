@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\site\order;
 
 use App\Helper\ChangeDollar;
+use App\Helper\CurrentUserClub;
+use App\Helper\DiscountHelper;
 use App\Helper\GetDollar;
 use App\Helper\PointHelper;
 use App\Helper\TaxHelper;
@@ -24,8 +26,6 @@ class siteOrderController extends Controller
         ]);
 
         if ($validation->fails()) {
-
-            // error
             alert()->error('', $validation->errors()->first());
             return back();
         }
@@ -33,19 +33,6 @@ class siteOrderController extends Controller
         $user = request()->user();
 
         $cart = $this->getCart();
-
-
-        // Authentication Price Condition  **********************************************************
-
-//        $authentication_price_info = AuthenticationPrice::query()
-//            ->first();
-
-//        if ($cart['total_price'] > $authentication_price_info['authentication_price'] and $user['status_id'] !== 2) {
-//            alert()->error('', "حساب کاربری شما نیاز به احراز هویت دارد، لطفا از طریق پنل کاربری خود اقدام به احراز هویت نمایید");
-//            return back();
-//        }
-
-        // Authentication Price Condition  **********************************************************
 
         $total_price_usd = $cart['total_price'] / ChangeDollar::get_current_dollar();
 
@@ -67,7 +54,6 @@ class siteOrderController extends Controller
         ]);
 
         foreach ($cart['cart'] as $product) {
-
             OrderDetail::query()->create([
                 'order_id' => $order['id'],
                 'product_id' => $product['product_id'],
@@ -127,18 +113,24 @@ class siteOrderController extends Controller
 
         foreach ($cart as $item) {
             if ($item['is_force'] == 1) {
-                $total_price += ($item['product']['product_force_price']);
-                $item['bought_price'] = $item['product']['product_force_price'];
+                $total_price +=  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_force_price']));
+                $item['bought_price'] =  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_force_price']));
             } else {
-                $total_price += ($item['product']['product_price']);
-                $item['bought_price'] = $item['product']['product_price'];
+                $total_price +=  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_price']));
+                $item['bought_price'] =  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_price']));
             }
         }
 
-        $total_price += ((TaxHelper::get_tax()) * $total_price) / 100;
+        $total_final_price = $total_price + ((TaxHelper::get_tax()) * $total_price) / 100;
+
+        $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
+
+        if ($club_percentage > 0) {
+            $total_final_price = ($total_final_price - ($total_price * $club_percentage / 100));
+        }
 
         return [
-            'total_price' => ChangeDollar::change_dollar($total_price),
+            'total_price' => $total_final_price,
             'cart' => $cart,
         ];
     }

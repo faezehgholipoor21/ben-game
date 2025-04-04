@@ -12,13 +12,12 @@ class TaxHelper
             ->where('key', 'tax')
             ->first();
 
-        if ($config_info) {
-            return $config_info->value;
-        } else {
+        if (!$config_info) {
             $config_info = Config::query()->create([
                 'tax' => '10',
             ]);
-            return $config_info->value;
         }
+
+        return $config_info->value;
     }
 }
