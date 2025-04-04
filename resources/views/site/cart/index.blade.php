@@ -263,6 +263,13 @@
                                                                 <a href="#">
                                                                     {{$item['name']}}
                                                                 </a>
+                                                                @if($item['is_force'] === 1)
+                                                                    <p>
+                                                                        <span class="badge text-white bg-danger px-4">
+                                                                            فوری
+                                                                        </span>
+                                                                    </p>
+                                                                @endif
                                                             </h5>
                                                         </div>
                                                     </td>
@@ -302,6 +309,7 @@
                                         </table>
                                     </div>
                                 </div>
+
                                 <div class="shop-cart-footer">
                                     <div class="row">
                                         <div class="col-md-7 col-lg-6">
@@ -321,6 +329,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="col-lg-4">
                                 <div class="shop-cart-summary">
                                     <h5>خلاصه سبد خرید</h5>
@@ -328,7 +337,7 @@
                                         <li>
                                             <strong> قیمت کل :</strong>
                                             <span class="show_total_price_without_tax">
-                                            {{number_format($main_total_price)}} تومان
+                                            {{@number_format($main_total_price)}} تومان
                                         </span>
                                         </li>
                                         <li class="help_text">
@@ -343,14 +352,14 @@
                                         <li>
                                             <strong>تخفیف باشگاه:</strong>
                                             <span>
-                                            {{$club_percentage}} درصد
-                                        </span>
+                                                 {{$club_percentage}} درصد
+                                            </span>
                                         </li>
                                         @if($main_discount)
                                         <li>
                                             <strong>تخفیف :</strong>
                                             <span>
-                                                {{$main_discount}} تومان
+                                                {{@number_format($main_discount)}} تومان
                                             </span>
                                         </li>
                                         @endif

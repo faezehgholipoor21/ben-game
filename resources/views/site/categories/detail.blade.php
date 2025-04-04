@@ -1,3 +1,4 @@
+@php use App\Helper\ChangeDollar;use Illuminate\Support\Facades\Auth; @endphp
 @extends('layouts.site_layout')
 
 @section('title')
@@ -544,34 +545,49 @@
                                 <div class="table-responsive mt-4">
                                     <table class="table table-bordered align-middle text-center">
                                         <thead>
-                                        <tr>
-                                            <th>تصویر</th>
-                                            <th>نام محصول</th>
-                                            <th>قیمت (تومان)</th>
-                                        </tr>
+                                            <tr>
+                                                <th>تصویر</th>
+                                                <th>نام محصول</th>
+                                                <th>قیمت (تومان)</th>
+                                            </tr>
                                         </thead>
+
                                         <tbody>
                                         <tr id="selected_product_tr">
                                             <td>
                                                 <img class="w-100px rounded-2"
                                                      src="{{asset($product_info['product_image'])}}">
                                             </td>
+
                                             <td>
                                                 <p class="p_name">
                                                     {{$product_info['product_name']}}
                                                 </p>
                                                 <input type="hidden" class="p_id">
                                             </td>
+
                                             <td>
-                                                <p class="p_price">
-                                                    {{@number_format(\App\Helper\ChangeDollar::change_dollar($product_info['product_price']))}}
-                                                </p>
+                                                @if($product_info['product_price'] !== $product_info['final_price'])
+                                                    <del class="p_price text-danger">
+                                                        {{@number_format(ChangeDollar::change_dollar($product_info['product_price']))}}
+                                                    </del>
+
+                                                    <p class="p_price">
+                                                        {{@number_format(ChangeDollar::change_dollar($product_info['final_price']))}}
+                                                    </p>
+                                                @else
+                                                    <p class="p_price">
+                                                        {{@number_format(ChangeDollar::change_dollar($product_info['product_price']))}}
+                                                    </p>
+                                                @endif
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td>
                                                 حساب های مجاز
                                             </td>
+
                                             <td colspan="2">
                                                 @foreach($product_info->accounts as $account)
                                                     <span class="account_css text-black">
@@ -580,9 +596,10 @@
                                                 @endforeach
                                             </td>
                                         </tr>
+
                                         <tr>
                                             <td colspan="3">
-                                                @if(\Illuminate\Support\Facades\Auth::user())
+                                                @if(Auth::user())
                                                     <p onclick="ShowAccountProductModal({{$product_info['id']}} , '{{$cat_info['cat_title']}}' , '{{Auth::id()}}')"
                                                        id="product-ip" class="account_p_css"
                                                        data-product-id="{{$product_info['id']}}">
@@ -595,14 +612,13 @@
                                                         </a>
                                                     </p>
                                                 @endif
-
                                             </td>
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             @else
-                                <p>hich</p>
+                                <p>محصولی یافت نشد</p>
                             @endif
 
                         </div>
@@ -688,12 +704,12 @@
         <div class="modal-dialog">
             <form action="{{route("api.addToCart")}}" method="POST">
                 @csrf
-            <div class="modal-content">
+                <div class="modal-content">
 
-                <div class="modal-header">
-                    <h5 class="modal-title">انتخاب اکانت</h5>
-                    <p class="modal-title title_css" id="cat_name"></p>
-                </div>
+                    <div class="modal-header">
+                        <h5 class="modal-title">انتخاب اکانت</h5>
+                        <p class="modal-title title_css" id="cat_name"></p>
+                    </div>
 
                     <div class="modal-body">
                         <ul id="account-list">
@@ -720,7 +736,8 @@
                                  خرید فوری
                             </span>
                             </label>
-                            <input type="hidden" value="{{$product_info['id']}}" name="product_id" id="product_modal_id">
+                            <input type="hidden" value="{{$product_info['id']}}" name="product_id"
+                                   id="product_modal_id">
                         </div>
                         <input type="hidden" value="{{$product_info['product_force_price']}}" name="force_price">
                         <button type="submit" class="btn btn-sm btn-primary">
@@ -730,7 +747,7 @@
 
                     </div>
 
-            </div>
+                </div>
             </form>
 
         </div>

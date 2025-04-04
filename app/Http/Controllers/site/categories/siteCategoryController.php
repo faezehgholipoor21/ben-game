@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\site\categories;
 
 use App\Helper\ChangeDollar;
+use App\Helper\DiscountHelper;
 use App\Helper\GetAccountFieldTitle;
 use App\Helper\GetGameAccountTitle;
 use App\Helper\GetProductMainImage;
@@ -62,14 +63,15 @@ class siteCategoryController extends Controller
             ->where('id', $category_id)
             ->first();
 
-
         $product_info = Product::query()
             ->where('cat_id', $category_id)
-            ->orderBy('created_at', 'asc') // ترتیب صعودی برای قدیمی‌ترین تاریخ
+            ->orderBy('created_at' )
             ->first();
 
-        if($product_info){
+        if ($product_info) {
             $accounts = $product_info->accounts;
+
+            $product_info['final_price'] = DiscountHelper::getProductFinalPrice($product_info['cat_id'], $product_info['product_price']);
 
             $product_images_list = ImageProduct::query()
                 ->where('product_id', $category_id)
@@ -81,16 +83,10 @@ class siteCategoryController extends Controller
             $image_count = GetProductMainImage::get_product_images($cat_info['id']);
 
             return view('site.categories.detail', compact('category_id', 'cat_info', 'product_info', 'image_count', 'product_images_list', 'keywords', 'accounts'));
-
-        }
-        else
-        {
-            alert()->success('','برای این دسته هنوز محصولی تعریف نشده است');
+        } else {
+            alert()->success('', 'برای این دسته هنوز محصولی تعریف نشده است');
             return redirect()->route('site.home');
         }
-
-
-
     }
 
     public function getProducts($cat_id): \Illuminate\Http\JsonResponse

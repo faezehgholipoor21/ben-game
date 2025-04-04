@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Product;
 use DateTime;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
@@ -107,7 +109,7 @@ class siteCartController extends Controller
 
     }
 
-    public function cart(): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
+    public function cart(): View
     {
         if (isset($_COOKIE['cart_id'])) {
             try {
@@ -116,15 +118,11 @@ class siteCartController extends Controller
                 $main_discount = $cartModel->main_discount($_COOKIE['cart_id']);
 
                 $tax_price = ($main_total_price * TaxHelper::get_tax()) / 100;
-                $club_percentage = 0;
-                try {
-                    $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
-                } catch (\Exception $e) {
-                    $club_percentage = 0;
-                }
+
+                $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
 
                 $final_price_after_club = $main_total_price + $tax_price;
-                return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price','main_discount', 'club_percentage', 'final_price_after_club'));
+                return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price', 'main_discount', 'club_percentage', 'final_price_after_club'));
 
             } catch (\Exception $e) {
                 Log::info("cart controller" . $e->getMessage());
@@ -136,12 +134,10 @@ class siteCartController extends Controller
         $club_percentage = null;
         $final_price_after_club = null;
         $main_discount = null;
-        return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price','main_discount', 'club_percentage', 'final_price_after_club'));
-
-
+        return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price', 'main_discount', 'club_percentage', 'final_price_after_club'));
     }
 
-    public function updateCart(Request $request): \Illuminate\Http\JsonResponse
+    public function updateCart(Request $request): JsonResponse
     {
         $input = $request->all();
 

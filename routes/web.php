@@ -331,7 +331,6 @@ Route::namespace('App\Http\Controllers\site')
         Route::get('get_product_detail', [siteCategoryController::class, 'get_product_detail'])->name('get_product_detail');
         Route::get('get_product_account', [siteCategoryController::class, 'get_product_account'])->name('get_product_account');
 
-
         //cart
         Route::get('cart', [siteCartController::class, 'cart'])->name('cart');
 
@@ -341,7 +340,6 @@ Route::namespace('App\Http\Controllers\site')
         //orders
         Route::middleware(['checkIsLogin'])->post('submitOrder', [siteOrderController::class, 'submitOrder'])->name('submitOrder');
         Route::middleware(['checkIsLogin'])->get('update-orders-after-pay/{order_id}', [siteOrderController::class, 'update_order_after_pay'])->name('update_order_after_pay');
-
     });
 
 

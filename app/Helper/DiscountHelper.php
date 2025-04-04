@@ -6,18 +6,15 @@ use App\Models\Cart;
 use App\Models\Discount;
 use App\Models\DiscountProduct;
 use Illuminate\Support\Facades\Log;
-use mysql_xdevapi\Exception;
 
 class DiscountHelper
 {
-    static function get_total_price_after_discount($cart_cookie)
+    static function get_total_price_after_discount($cart_cookie): float|int
     {
-
         $cart_info = Cart::query()
             ->where('cookie', $cart_cookie)->with('product')
             ->get();
 
-        $total_discount = 0;
         $discount_all_product = [
             'is_active' => false,
             'percentage' => 0,
@@ -27,8 +24,9 @@ class DiscountHelper
 
         $active_discount = Discount::query()
             ->where('status', 1)
-            ->where('limit', '>=', 'used')
-            ->get();
+            ->where('cat_id', 0)
+            ->latest()
+            ->first();
 
         foreach ($active_discount as $discount) {
             if ($discount['cat_id'] == null) {
@@ -56,13 +54,13 @@ class DiscountHelper
 
         $object = new DiscountHelper();
         $r = $object->get_discount_for_all_product_cart($discount_all_product['is_active'], $cart_info, $discount_all_product['percentage']);
-        $e = $object->get_discount_for_special_product_cart($list_product_ready_for_discount , $cart_info);
+        $e = $object->get_discount_for_special_product_cart($list_product_ready_for_discount, $cart_info);
 
-       return $e+$r;
+        return $e + $r;
 
     }
 
-    private function get_discount_for_all_product_cart($is_for_all_product_discount, $cart_info, $percentage)
+    private function get_discount_for_all_product_cart($is_for_all_product_discount, $cart_info, $percentage): float|int
     {
         $total_amount_discount = 0;
         if ($is_for_all_product_discount) {
@@ -74,29 +72,18 @@ class DiscountHelper
         return $total_amount_discount;
     }
 
-
-//    static function get_discount_for_special_product_cart($product_list, $cart_info)
-//    {
-//        foreach ($cart_info as $item) {
-//            foreach ($product_list as $product) {
-//                if ($item['product_id'] == $product['product_id']) {
-//                  $product['discount_percentage'] * $product['product']['product_price'];
-//                }
-//            }
-//        }
-//    }
-    private function get_discount_for_special_product_cart($product_list, $cart_info)
+    private function get_discount_for_special_product_cart($product_list, $cart_info): float|int
     {
         $total_discount = 0;
         $product_discount_map = [];
         foreach ($product_list as $item) {
             $product_discount_map[$item['product_id']] = $item['discount_percentage'];
         }
-        Log::info("product_discount_map: ".json_encode($product_discount_map));
+        Log::info("product_discount_map: " . json_encode($product_discount_map));
 
         foreach ($cart_info as $item) {
             $product_id = $item['product_id'];
-            $product_price =ChangeDollar::change_dollar( $item['product']['product_price']);
+            $product_price = ChangeDollar::change_dollar($item['product']['product_price']);
 
             if (isset($product_discount_map[$product_id])) {
                 $discount_percentage = $product_discount_map[$product_id];
@@ -107,5 +94,29 @@ class DiscountHelper
         }
 
         return $total_discount;
+    }
+
+    static function getProductFinalPrice($cat_id, $price): int|float
+    {
+        $cat_discount = Discount::query()
+            ->where('status', 1)
+            ->where('cat_id', $cat_id)
+            ->latest()
+            ->first();
+
+        if ($cat_discount and $cat_discount['limit'] > $cat_discount['used']) {
+            return $price * (100 - $cat_discount['percentage']) / 100;
+        }
+
+        $general_discount = Discount::query()
+            ->where('status', 1)
+            ->latest()
+            ->first();
+
+        if ($cat_discount and $general_discount['limit'] > $general_discount['used']) {
+            return $price * (100 - $general_discount['percentage']) / 100;
+        }
+
+        return $price;
     }
 }
