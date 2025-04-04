@@ -105,7 +105,7 @@ class siteCartController extends Controller
             }
 
         }
-        return redirect()->route('site.home')->with('success', 'محصول به سبد خرید افزوده شد');
+        return redirect()->route('site.cart')->with('success', 'محصول به سبد خرید افزوده شد');
 
     }
 

@@ -96,7 +96,7 @@ class DiscountHelper
         return $total_discount;
     }
 
-    static function getProductFinalPrice($cat_id, $price): int|float
+    static function getProductFinalPrice($cat_id, $price, $with_discount = false): int|float|array
     {
         $cat_discount = Discount::query()
             ->where('status', 1)
@@ -105,7 +105,14 @@ class DiscountHelper
             ->first();
 
         if ($cat_discount and $cat_discount['limit'] > $cat_discount['used']) {
-            return $price * (100 - $cat_discount['percentage']) / 100;
+            if (!$with_discount) {
+                return $price * (100 - $cat_discount['percentage']) / 100;
+            } else {
+                return [
+                    'price' => $price * (100 - $cat_discount['percentage']) / 100,
+                    'discount' => $price * ($cat_discount['percentage']) / 100
+                ];
+            }
         }
 
         $general_discount = Discount::query()
@@ -114,9 +121,23 @@ class DiscountHelper
             ->first();
 
         if ($cat_discount and $general_discount['limit'] > $general_discount['used']) {
-            return $price * (100 - $general_discount['percentage']) / 100;
+            if (!$with_discount) {
+                return $price * (100 - $general_discount['percentage']) / 100;
+            } else {
+                return [
+                    'price' => $price * (100 - $general_discount['percentage']) / 100,
+                    'discount' => $price * ($general_discount['percentage']) / 100
+                ];
+            }
         }
 
-        return $price;
+        if (!$with_discount) {
+            return $price;
+        } else {
+            return [
+                'price' => $price,
+                'discount' => 0
+            ];
+        }
     }
 }

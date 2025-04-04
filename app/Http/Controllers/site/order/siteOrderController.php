@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -33,7 +34,7 @@ class siteOrderController extends Controller
         $user = request()->user();
 
         $cart = $this->getCart();
-
+        $discount_price = $cart['discount_price'];
         $total_price_usd = $cart['total_price'] / ChangeDollar::get_current_dollar();
 
         $order = Order::query()->create([
@@ -41,6 +42,7 @@ class siteOrderController extends Controller
             'order_status' => 1,
             'payment_status_id' => 1,
             'total_price' => $cart['total_price'],
+            'discount_price' => $discount_price,
             'total_price_usd' => $total_price_usd,
             'point_earned' => PointHelper::convert_order_too_point_with_total_price_usd($total_price_usd),
             'user_id' => $user->id,
@@ -110,28 +112,34 @@ class siteOrderController extends Controller
         }
 
         $total_price = 0;
+        $discount_price = 0;
 
         foreach ($cart as $item) {
             if ($item['is_force'] == 1) {
-                $total_price +=  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_force_price']));
-                $item['bought_price'] =  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_force_price']));
+                $res = DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_force_price'], true);
             } else {
-                $total_price +=  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_price']));
-                $item['bought_price'] =  ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_price']));
+                $res = DiscountHelper::getProductFinalPrice($item['product']['cat_id'], $item['product']['product_price'], true);
             }
+
+            $total_price +=  ChangeDollar::change_dollar($res['price']);
+            $item['bought_price'] =  ChangeDollar::change_dollar($res['price']);
+            $discount_price += ChangeDollar::change_dollar($res['discount']);
         }
 
         $total_final_price = $total_price + ((TaxHelper::get_tax()) * $total_price) / 100;
 
         $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
+        $club_discount_price = 0;
 
         if ($club_percentage > 0) {
-            $total_final_price = ($total_final_price - ($total_price * $club_percentage / 100));
+            $club_discount_price = ($total_price * $club_percentage / 100);
+            $total_final_price = ($total_final_price - $club_discount_price);
         }
 
         return [
             'total_price' => $total_final_price,
             'cart' => $cart,
+            'discount_price' => $discount_price + $club_discount_price,
         ];
     }
 
@@ -151,7 +159,7 @@ class siteOrderController extends Controller
         }
     }
 
-    function update_order_after_pay(Request $request)
+    function update_order_after_pay(Request $request): View
     {
         $order_id = $request->order_id;
 
@@ -178,11 +186,12 @@ class siteOrderController extends Controller
 
             } else {
                 $order->update([
-                    'payment_status_id' => 1,
                     'transaction_number' => $verify_result['ref_id'],
                     'card_pan' => $verify_result['card_pan'] ?? null,
                 ]);
             }
+        } else {
+            abort(404);
         }
 
         return view('site.verify.index', compact('order', 'products'));

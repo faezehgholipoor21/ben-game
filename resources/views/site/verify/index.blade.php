@@ -92,7 +92,7 @@
                                             </td>
                                             <td>
                                                 <div class="shop-cart-price">
-                                                    <span class="tr_price">{{number_format(\App\Helper\ChangeDollar::change_dollar($price) * $item['count'])}}</span>
+                                                    <span class="tr_price">{{number_format($price * $item['count'])}}</span>
                                                 </div>
                                             </td>
 
@@ -109,31 +109,14 @@
                             <h5>فاکتور</h5>
                             <ul>
                                 <li>
-                                    @php
-                                    $total_price = \App\Helper\ChangeDollar::change_dollar($total_price);
-                                    $tax_price = \App\Helper\TaxHelper::get_tax() ;
-                                    $price_with_tax = ($total_price * $tax_price) / 100;
-                                    @endphp
-                                    <strong>قیمت کل :</strong>
-                                    <span class="show_total_price_without_tax">
-                                            {{number_format($total_price)}} تومان
-                                        </span>
-                                </li>
-                                <li>
-                                    <strong>تخفیف:</strong>
-                                    <span>0 تومان</span>
+                                    <strong>تخفیف محاسبه شده:</strong>
+                                    <span> {{@number_format($order['discount_price'])}} تومان</span>
                                 </li>
                                 {{--                                <li><strong>ارسال:</strong> <span>رایگان</span></li>--}}
-                                <li>
-                                    <strong>مالیات:</strong>
-                                    <span class="show_tax_price">
-                                            {{@number_format($price_with_tax)}} تومان
-                                        </span>
-                                </li>
                                 <li class="shop-cart-total">
-                                    <strong>مجموع:</strong>
+                                    <strong>پرداخت شده:</strong>
                                     <span class="show_total_price_with_tax">
-                                            {{@number_format($total_price + $price_with_tax)}} تومان
+                                            {{@number_format($order['total_price'])}} تومان
                                         </span>
                                 </li>
                             </ul>
