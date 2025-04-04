@@ -109,32 +109,36 @@ class siteCartController extends Controller
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public function cart(): View
     {
-        if (isset($_COOKIE['cart_id'])) {
-            try {
+            if (isset($_COOKIE['cart_id'])) {
                 $cartModel = CurrentUserClub::get_detail_cart_club($_COOKIE['cart_id']);
+                $products = $cartModel->getProducts();
+
                 $main_total_price = $cartModel->getTotalPrice();
-                $main_discount = $cartModel->main_discount($_COOKIE['cart_id']);
 
                 $tax_price = ($main_total_price * TaxHelper::get_tax()) / 100;
 
                 $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
 
                 $final_price_after_club = $main_total_price + $tax_price;
-                return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price', 'main_discount', 'club_percentage', 'final_price_after_club'));
 
-            } catch (\Exception $e) {
-                Log::info("cart controller" . $e->getMessage());
+                if ($club_percentage > 0) {
+                    $final_price_after_club = ceil($final_price_after_club - ($main_total_price * $club_percentage / 100));
+                }
+            } else {
+                $cartModel = null;
+                $main_total_price = null;
+                $tax_price = null;
+                $club_percentage = null;
+                $final_price_after_club = null;
+                $products = [];
             }
-        }
-        $cartModel = null;
-        $main_total_price = null;
-        $tax_price = null;
-        $club_percentage = null;
-        $final_price_after_club = null;
-        $main_discount = null;
-        return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price', 'main_discount', 'club_percentage', 'final_price_after_club'));
+
+            return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price', 'club_percentage', 'final_price_after_club', 'products'));
     }
 
     public function updateCart(Request $request): JsonResponse

@@ -15,6 +15,7 @@ use App\Models\ImageProduct;
 use App\Models\Product;
 use App\Models\UserAccount;
 use App\Models\UserAccountOld;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -65,7 +66,7 @@ class siteCategoryController extends Controller
 
         $product_info = Product::query()
             ->where('cat_id', $category_id)
-            ->orderBy('created_at' )
+            ->orderBy('created_at')
             ->first();
 
         if ($product_info) {
@@ -89,11 +90,12 @@ class siteCategoryController extends Controller
         }
     }
 
-    public function getProducts($cat_id): \Illuminate\Http\JsonResponse
+    public function getProducts($cat_id): JsonResponse
     {
         // دریافت محصولاتی که cat_id آنها برابر مقدار داده‌شده است
         $products = Product::query()
-            ->where('cat_id', $cat_id)->get();
+            ->where('cat_id', $cat_id)
+            ->get();
 
         $formattedProducts = $products->map(function ($product) {
             return [
@@ -101,6 +103,7 @@ class siteCategoryController extends Controller
                 'product_name' => $product->product_name,
                 'product_image' => asset($product->product_image),
                 'product_price' => number_format(ChangeDollar::change_dollar($product->product_price)),
+                'final_price' => number_format(ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($product['cat_id'], $product->product_price))),
                 'product_force_price' => number_format(ChangeDollar::change_dollar($product->product_force_price)),
                 'seller_product_name' => GetSellerName::get_seller_name($product->user_seller_id),
             ];
@@ -110,7 +113,7 @@ class siteCategoryController extends Controller
         return response()->json($formattedProducts);
     }
 
-    public function get_product_detail(Request $request): \Illuminate\Http\JsonResponse
+    public function get_product_detail(Request $request): JsonResponse
     {
         $input = $request->all();
 
@@ -133,23 +136,17 @@ class siteCategoryController extends Controller
                 'message' => 'کالای مورد نظر یافت نشد'
             ]);
         } else {
-//            $product['product_image'] = asset($product['product_image']);
-//            $product['product_price'] = @number_format(ChangeDollar::change_dollar($product['product_price']));
-//            $product['product_force_price_seperated'] = @number_format(ChangeDollar::change_dollar($product['product_force_price']));
-
 
             $formattedProduct = [
                 'id' => $product->id,
                 'name' => $product->name,
                 'description' => $product->description ?? '',
                 'product_image' => asset($product->product_image),
-                'product_price' => isset($product->product_price)
-                    ? number_format(floatval(ChangeDollar::change_dollar($product->product_price)), 2)
-                    : '0.00',
+                'product_price' => isset($product->product_price) ? number_format(floatval(ChangeDollar::change_dollar($product->product_price))) : 0,
+                'final_price' => number_format(ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($product['cat_id'], $product->product_price))),
 
                 'product_force_price_seperated' => isset($product->product_force_price) ? number_format(ChangeDollar::change_dollar($product->product_force_price), 2) : '0.00',
             ];
-
 
             return response()->json([
                 'error' => false,
@@ -160,7 +157,7 @@ class siteCategoryController extends Controller
     }
 
 
-    public function get_product_account(Request $request): \Illuminate\Http\JsonResponse
+    public function get_product_account(Request $request): JsonResponse
     {
         $input = $request->all();
         $user_id = Auth::id();

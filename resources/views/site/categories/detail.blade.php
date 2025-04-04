@@ -166,30 +166,31 @@
     <script>
         let account_fields = [];
 
-        function ShowProductDetail(productId) {
+        function ShowProductDetail(productId, product_info) {
             document.getElementById("product_modal_id").value = productId;
-
             let selected_product_tr = $("#selected_product_tr")
-            $.ajax({
-                url: '{{route("site.get_product_detail")}}', // URL برای دریافت اطلاعات محصول
-                method: 'GET',
-                data: {
-                    id: productId
-                },
-                success: function (response) {
-                    if (!response.error) {
-                        selected_product_tr.find('img').attr('src', response['product']['product_image'])
-                        selected_product_tr.find('p.p_name').text(response['product']['product_name'])
-                        selected_product_tr.find('p.p_price').text(response['product']['product_price'])
-                        selected_product_tr.find('.p_id').val(response['product']['id'])
-                        $('#is_force_span').text('خرید فوری ( ' + response['product']['product_force_price_seperated'] + ' تومان )')
-                    }
-                    $('#ProductModal').modal('hide');
-                },
-                error: function (error) {
-                    console.log('خطا در بارگیری اطلاعات محصول', error);
-                }
-            });
+
+            selected_product_tr.find('img').attr('src', product_info['product_image'])
+            selected_product_tr.find('p.p_name').text(product_info['product_name'])
+            selected_product_tr.find('.p_id').val(product_info['id'])
+            $('#is_force_span').text('خرید فوری ( ' + product_info['product_force_price_seperated'] + ' تومان )')
+            let price_td;
+
+            if (product_info['final_price'] !== product_info['product_price']) {
+                price_td = `<del class="p_price text-danger">${product_info['product_price']}</del>
+                                <p class="p_price">
+                                    ${product_info['final_price']}
+                                </p>`;
+            } else {
+                price_td = `<p class="p_price">
+                                    ${product_info['final_price']}
+                                </p>`
+            }
+
+            selected_product_tr.find('.p_price_td').html(price_td)
+
+            let product_modal = $("#ProductModal");
+            product_modal.modal('hide')
         }
 
         let product_quantity = $("#product_quantity");
@@ -221,16 +222,39 @@
 
                     if (response.length > 0) {
                         let productList = '<div class="product-list">';
+                        let product_string;
+
                         response.forEach(product => {
-                            productList += `
-                        <button onclick="ShowProductDetail(${product.id})" class="product-item pro_img product-link w-100 border-0">
-                            <img src="${product.product_image}" alt="${product.product_name}">
-                            <div>
-                                <p class="title_css" style="font-weight: bold;">${product.product_name}</p>
-                                <p class="title_css" style="color: green;">${product.product_price} تومان</p>
-                                <p class="title_css" style="color:red;font-size: 10px">${product.seller_product_name}</p>
-                            </div>
-                        </button>`;
+                            product_string = JSON.stringify(product).toString()
+                            product_string = product_string.replaceAll(`"` , `'`)
+
+                            if (product.product_price !== product.final_price) {
+
+                                productList += `
+                                    <button onclick="ShowProductDetail(${product.id}, ${product_string})" class="product-item pro_img product-link w-100 border-0 h-auto">
+                                        <img src="${product.product_image}" alt="${product.product_name}">
+                                        <div>
+                                            <p class="title_css" style="font-weight: bold;">${product.product_name}</p>
+
+                                            <del class="title_css" style="color: red;">${product.product_price} تومان</del>
+                                            <p class="title_css" style="color: green;">${product.final_price} تومان</p>
+
+                                            <p class="title_css" style="color:red;font-size: 10px">${product.seller_product_name}</p>
+                                        </div>
+                                    </button>`;
+                            } else {
+                                productList += `
+                                    <button onclick="ShowProductDetail(${product.id}, ${product_string})" class="product-item pro_img product-link w-100 border-0 h-auto">
+                                        <img src="${product.product_image}" alt="${product.product_name}">
+                                        <div>
+                                            <p class="title_css" style="font-weight: bold;">${product.product_name}</p>
+
+                                            <p class="title_css" style="color: green;">${product.product_price} تومان</p>
+
+                                            <p class="title_css" style="color:red;font-size: 10px">${product.seller_product_name}</p>
+                                        </div>
+                                    </button>`;
+                            }
                         });
 
                         productList += '</div>';
@@ -545,11 +569,11 @@
                                 <div class="table-responsive mt-4">
                                     <table class="table table-bordered align-middle text-center">
                                         <thead>
-                                            <tr>
-                                                <th>تصویر</th>
-                                                <th>نام محصول</th>
-                                                <th>قیمت (تومان)</th>
-                                            </tr>
+                                        <tr>
+                                            <th>تصویر</th>
+                                            <th>نام محصول</th>
+                                            <th>قیمت (تومان)</th>
+                                        </tr>
                                         </thead>
 
                                         <tbody>
@@ -566,7 +590,7 @@
                                                 <input type="hidden" class="p_id">
                                             </td>
 
-                                            <td>
+                                            <td class="p_price_td">
                                                 @if($product_info['product_price'] !== $product_info['final_price'])
                                                     <del class="p_price text-danger">
                                                         {{@number_format(ChangeDollar::change_dollar($product_info['product_price']))}}

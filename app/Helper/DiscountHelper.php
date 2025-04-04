@@ -12,7 +12,8 @@ class DiscountHelper
     static function get_total_price_after_discount($cart_cookie): float|int
     {
         $cart_info = Cart::query()
-            ->where('cookie', $cart_cookie)->with('product')
+            ->where('cookie', $cart_cookie)
+            ->with('product')
             ->get();
 
         $discount_all_product = [
@@ -20,7 +21,6 @@ class DiscountHelper
             'percentage' => 0,
         ];
         $list_product_ready_for_discount = [];
-
 
         $active_discount = Discount::query()
             ->where('status', 1)

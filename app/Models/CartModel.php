@@ -33,18 +33,18 @@ class CartModel
         return $this->products;
     }
 
-    public function main_discount($cookie)
+    public function main_discount($cookie): float|int
     {
         return DiscountHelper::get_total_price_after_discount($cookie);
     }
 
-    protected function calculateTotalPrice()
+    protected function calculateTotalPrice(): void
     {
         $this->totalPrice = array_sum(array_map(function ($product) {
             if ($product['is_force'] == 1) {
-                return $product['force_price'] * $product['quantity'];
+                return DiscountHelper::getProductFinalPrice($product['cat_id'], $product['force_price'] * $product['quantity']);
             } else {
-                return $product['price'] * $product['quantity'];
+                return DiscountHelper::getProductFinalPrice($product['cat_id'], $product['price'] * $product['quantity']);
 
             }
         }, $this->products));
@@ -52,9 +52,6 @@ class CartModel
 
     public function getTotalPrice()
     {
-        if ($this->percentage != null) {
-            return $this->totalPrice - (($this->percentage * $this->totalPrice) / 100);
-        }
         return $this->totalPrice;
     }
 

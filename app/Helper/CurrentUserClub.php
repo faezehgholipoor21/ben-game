@@ -25,6 +25,7 @@ class CurrentUserClub
             $percentage = self::get_percentage_level_membership($user_level);
             $cart_model->setPercentage($percentage);
         }
+
         $cart_info = Cart::query()
             ->where('cookie', $cookie)
             ->get();
@@ -35,9 +36,9 @@ class CurrentUserClub
                 ->first();
 
             if ($cart->is_force) {
-                $price = ChangeDollar::change_dollar($product_info->product_force_price);
+                $price = ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($product_info->cat_id, $product_info->product_force_price));
             } else {
-                $price = ChangeDollar::change_dollar($product_info->product_price);
+                $price = ChangeDollar::change_dollar(DiscountHelper::getProductFinalPrice($product_info->cat_id, $product_info->product_price));
             }
 
             $cart_model->addProduct([
@@ -51,6 +52,7 @@ class CurrentUserClub
                 'percentage' => $percentage,
                 'inventory' => $product_info->inventory,
                 'final_price' => $price * $cart->count,
+                'cat_id' => $product_info->cat_id,
             ]);
         }
 
@@ -70,12 +72,7 @@ class CurrentUserClub
             ->where('id', $memebership_level_id)
             ->first();
 
-        if ($membership_info) {
-            return $membership_info->discount;
-        } else {
-            throw  new \Exception('چنین سطحی وجود ندارد');
-        }
-
+        return $membership_info->discount ?? 0;
     }
 
     static function get_percentage_current_user_level_membership(): int
