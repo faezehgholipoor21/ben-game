@@ -31,138 +31,28 @@
                 <div class="row">
                     <div class="col-lg-8 col-12">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
-                                    <div class="blog-item-img">
-                                        <img src="{{asset('site/assets/img/blog/01.jpg')}}" alt="Thumb">
-                                    </div>
-                                    <div class="blog-item-info">
-                                        <div class="blog-item-meta">
-                                            <ul>
-                                                <li><a href="#"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>
-                                                <li><a href="#"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>
-                                            </ul>
+                           @foreach($posts as $post)
+                                <div class="col-md-6">
+                                    <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+                                        <div class="blog-item-img">
+                                            <img src="{{asset($post['post_image'])}}" alt="Thumb">
                                         </div>
-                                        <h4 class="blog-title">
-                                            <a href="#">تغییرهای زیادی برای اکثریت در دسترس وجود دارد
-                                                رنج می برد.</a>
-                                        </h4>
-                                        <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییر شده اند
-                                            کلمات تصادفی.</p>
-                                        <a class="theme-btn" href="#">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
+                                        <div class="blog-item-info">
+{{--                                            <div class="blog-item-meta">--}}
+{{--                                                <ul>--}}
+{{--                                                    <li><a href="#"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>--}}
+{{--                                                    <li><a href="#"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>--}}
+{{--                                                </ul>--}}
+{{--                                            </div>--}}
+                                            <h4 class="blog-title">
+                                                <a href="#">{{$post['post_title']}}</a>
+                                            </h4>
+                                            <p>{{$post['post_meta_description0']}}</p>
+                                            <a class="theme-btn" href="#">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="blog-item wow fadeInUp" data-wow-delay=".50s">
-                                    <div class="blog-item-img">
-                                        <img src="{{asset('site/assets/img/blog/02.jpg')}}" alt="Thumb">
-                                    </div>
-                                    <div class="blog-item-info">
-                                        <div class="blog-item-meta">
-                                            <ul>
-                                                <li><a href="{{route('site.blog_single')}}"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>
-                                                <li><a href="{{route('site.blog_single')}}"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="blog-title">
-                                            <a href="{{route('site.blog_single')}}">تغییرهای زیادی برای اکثریت در دسترس وجود دارد
-                                                رنج می برد.</a>
-                                        </h4>
-                                        <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییر شده اند
-                                            کلمات تصادفی.</p>
-                                        <a class="theme-btn" href="{{route('site.blog_single')}}">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="blog-item wow fadeInUp" data-wow-delay=".75s">
-                                    <div class="blog-item-img">
-                                        <img src="{{asset('site/assets/img/blog/03.jpg')}}" alt="Thumb">
-                                    </div>
-                                    <div class="blog-item-info">
-                                        <div class="blog-item-meta">
-                                            <ul>
-                                                <li><a href="#"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>
-                                                <li><a href="#"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="blog-title">
-                                            <a href="#">تغییرهای زیادی برای اکثریت در دسترس وجود دارد
-                                                رنج می برد.</a>
-                                        </h4>
-                                        <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییر شده اند
-                                            کلمات تصادفی.</p>
-                                        <a class="theme-btn" href="#">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="blog-item wow fadeInUp" data-wow-delay=".25s">
-                                    <div class="blog-item-img">
-                                        <img src="{{asset('site/assets/img/blog/01.jpg')}}" alt="Thumb">
-                                    </div>
-                                    <div class="blog-item-info">
-                                        <div class="blog-item-meta">
-                                            <ul>
-                                                <li><a href="{{route('site.blog_single')}}"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>
-                                                <li><a href="{{route('site.blog_single')}}"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="blog-title">
-                                            <a href="{{route('site.blog_single')}}">تغییرهای زیادی برای اکثریت در دسترس وجود دارد
-                                                رنج می برد.</a>
-                                        </h4>
-                                        <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییر شده اند
-                                            کلمات تصادفی.</p>
-                                        <a class="theme-btn" href="{{route('site.blog_single')}}">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="blog-item wow fadeInUp" data-wow-delay=".50s">
-                                    <div class="blog-item-img">
-                                        <img src="{{asset('siteassets/img/blog/02.jpg')}}" alt="Thumb">
-                                    </div>
-                                    <div class="blog-item-info">
-                                        <div class="blog-item-meta">
-                                            <ul>
-                                                <li><a href="#"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>
-                                                <li><a href="#"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="blog-title">
-                                            <a href="#">تغییرهای زیادی برای اکثریت در دسترس وجود دارد
-                                                رنج می برد.</a>
-                                        </h4>
-                                        <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییر شده اند
-                                            کلمات تصادفی.</p>
-                                        <a class="theme-btn" href="{{route('site.blog_single')}}">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="blog-item wow fadeInUp" data-wow-delay=".75s">
-                                    <div class="blog-item-img">
-                                        <img src="{{asset('site/assets/img/blog/03.jpg')}}" alt="Thumb">
-                                    </div>
-                                    <div class="blog-item-info">
-                                        <div class="blog-item-meta">
-                                            <ul>
-                                                <li><a href="#"><i class="far fa-user-circle"></i> توسط آلیشیا دیویس</a></li>
-                                                <li><a href="#"><i class="far fa-calendar-alt"></i> 29 بهمن 1402</a></li>
-                                            </ul>
-                                        </div>
-                                        <h4 class="blog-title">
-                                            <a href="#">تغییرهای زیادی برای اکثریت در دسترس وجود دارد
-                                                رنج می برد.</a>
-                                        </h4>
-                                        <p>تغییرهای زیادی وجود دارد که اکثر آنها دچار تغییر شده اند
-                                            کلمات تصادفی.</p>
-                                        <a class="theme-btn" href="#">بیشتر بخوانید<i class="fas fa-arrow-left-long"></i></a>
-                                    </div>
-                                </div>
-                            </div>
+                           @endforeach
                         </div>
 
                         <div class="pagination-area mb-lg-0">

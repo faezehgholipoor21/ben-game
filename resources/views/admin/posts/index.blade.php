@@ -4,6 +4,14 @@
     پنل مدیریت | مقالات
 @endsection
 
+@section('custom-css')
+    <style>
+        .post_image{
+            width: 140px;
+        }
+    </style>
+@endsection
+
 @section('custom-js')
     <script>
         function removePost(id) {
@@ -46,6 +54,7 @@
                             <thead>
                             <tr>
                                 <th>#</th>
+                                <th>تصویر مقاله</th>
                                 <th>عنوان مقاله</th>
                                 <th>نامک مقاله</th>
                                 <th>عملیات</th>
@@ -61,7 +70,9 @@
                                     <td class="w60">
                                         <span>{{$row}}</span>
                                     </td>
-
+                                    <td>
+                                        <img src="{{asset($post['post_image'])}}" class="post_image">
+                                    </td>
                                     <td>
                                         <p class="mb-0">
                                             {{$post['post_title']}}
@@ -75,7 +86,7 @@
                                     </td>
 
                                     <td>
-                                        <a href="{{route('admin.posts.show', ['posts' => $post['id']])}}">
+                                        <a href="{{route('admin.posts.show', ['post' => $post['id']])}}">
                                             <button class="btn btn-primary" data-toggle="tooltip" title="ویرایش مقاله">
                                                 <i class="icon-pencil"></i>
                                             </button>

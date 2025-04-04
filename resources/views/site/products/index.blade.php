@@ -89,7 +89,7 @@
                                                     {{--                                                   data-tooltip="tooltip" title="نمایش سریع">--}}
                                                     {{--                                                    <i class="far fa-eye"></i>--}}
                                                     {{--                                                </a>--}}
-                                                    <a href="{{route('site.product_detail',['product_id' => $product['id']])}}"
+                                                    <a href="{{route('site.category_detail',['cat_id' => $product['id']])}}"
                                                        data-tooltip="tooltip" title="نمایش سریع">
                                                         <i class="far fa-eye"></i>
                                                     </a>
@@ -100,7 +100,7 @@
                                         </div>
                                         <div class="product-content">
                                             <h3 class="product-title">
-                                                <a href="{{route('site.product_detail',['product_id' => $product['id']])}}">
+                                                <a href="{{route('site.category_detail',['cat_id' => $product['id']])}}">
                                                     {{$product['cat_title']}}
                                                 </a>
                                             </h3>

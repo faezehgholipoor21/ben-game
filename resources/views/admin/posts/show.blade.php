@@ -58,7 +58,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form enctype="multipart/form-data"
-                              action="{{route('admin.posts.update', ['posts'=>$post_info['id']])}}" method="post"
+                              action="{{route('admin.posts.update', ['post'=>$post_info['id']])}}" method="post"
                               class="row">
                             @csrf
                             @method('PUT')

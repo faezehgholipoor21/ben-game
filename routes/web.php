@@ -276,6 +276,7 @@ Route::namespace('App\Http\Controllers\site')
     ->prefix('')
     ->group(function () {
 
+        Route::get('test',[homeController::class,'test'])->name('test');
         //home
         Route::get('/', [homeController::class, 'index'])->name('home');
 

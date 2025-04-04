@@ -3,6 +3,7 @@
 
 namespace App\Models;
 
+use App\Helper\DiscountHelper;
 use Doctrine\DBAL\LockMode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
@@ -30,6 +31,11 @@ class CartModel
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function main_discount($cookie)
+    {
+        return DiscountHelper::get_total_price_after_discount($cookie);
     }
 
     protected function calculateTotalPrice()

@@ -12,7 +12,7 @@ class Cart extends Model
     protected $table = 'cart';
     protected $guarded = [];
 
-    function product()
+    function product(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Product::class);
     }

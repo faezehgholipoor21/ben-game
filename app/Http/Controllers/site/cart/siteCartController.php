@@ -113,20 +113,21 @@ class siteCartController extends Controller
             try {
                 $cartModel = CurrentUserClub::get_detail_cart_club($_COOKIE['cart_id']);
                 $main_total_price = $cartModel->getTotalPrice();
+                $main_discount = $cartModel->main_discount($_COOKIE['cart_id']);
 
                 $tax_price = ($main_total_price * TaxHelper::get_tax()) / 100;
                 $club_percentage = 0;
                 try {
                     $club_percentage = CurrentUserClub::get_percentage_current_user_level_membership();
                 } catch (\Exception $e) {
-                    $club_percentage =0;
+                    $club_percentage = 0;
                 }
 
-                $final_price_after_club = $main_total_price + $tax_price ;
-                return view('site.cart.index', compact('cartModel' , 'main_total_price' , 'tax_price','club_percentage' , 'final_price_after_club'));
+                $final_price_after_club = $main_total_price + $tax_price;
+                return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price','main_discount', 'club_percentage', 'final_price_after_club'));
 
             } catch (\Exception $e) {
-                Log::info("cart controller".$e->getMessage());
+                Log::info("cart controller" . $e->getMessage());
             }
         }
         $cartModel = null;
@@ -134,8 +135,8 @@ class siteCartController extends Controller
         $tax_price = null;
         $club_percentage = null;
         $final_price_after_club = null;
-        return view('site.cart.index', compact('cartModel' , 'main_total_price' , 'tax_price','club_percentage' , 'final_price_after_club'));
-
+        $main_discount = null;
+        return view('site.cart.index', compact('cartModel', 'main_total_price', 'tax_price','main_discount', 'club_percentage', 'final_price_after_club'));
 
 
     }

@@ -26,6 +26,10 @@
             left: 0;
             margin: auto;
         }
+        .help_text{
+            font-size: 13px;
+            color: red;
+        }
     </style>
 @endsection
 
@@ -103,7 +107,7 @@
                 tr_count = parseInt(cart_table_tr.eq(i).find('.quantity').val());
                 cart_table_tr.eq(i).find('.tbl_total_price').text(tr_price * tr_count);
 
-             console.log('cart_table_tr = ' + cart_table_tr + 'tr_count = ' + tr_count + 'tr_price=' + tr_price + 'tbl_price == ' + cart_table_tr.eq(i).find('.tbl_price').text());
+                console.log('cart_table_tr = ' + cart_table_tr + 'tr_count = ' + tr_count + 'tr_price=' + tr_price + 'tbl_price == ' + cart_table_tr.eq(i).find('.tbl_price').text());
             }
 
             if (cart_cookie === null) {
@@ -187,7 +191,7 @@
             });
         });
 
-        function delete_cart(){
+        function delete_cart() {
 
         }
 
@@ -264,10 +268,14 @@
                                                     </td>
                                                     <td>
                                                         <div class="shop-cart-qty" dir="ltr">
-                                                            <input type="hidden" class="product_id" value="{{$item['id']}}">
-                                                            <button class="minus-btn"><i class="fal fa-minus"></i></button>
-                                                            <input class="quantity" type="text" value="{{$item['quantity']}}" disabled>
-                                                            <button class="plus-btn" data-max="{{$item['inventory']}}"><i class="fal fa-plus"></i></button>
+                                                            <input type="hidden" class="product_id"
+                                                                   value="{{$item['id']}}">
+                                                            <button class="minus-btn"><i class="fal fa-minus"></i>
+                                                            </button>
+                                                            <input class="quantity" type="text"
+                                                                   value="{{$item['quantity']}}" disabled>
+                                                            <button class="plus-btn" data-max="{{$item['inventory']}}">
+                                                                <i class="fal fa-plus"></i></button>
                                                         </div>
                                                     </td>
                                                     <td>
@@ -318,13 +326,13 @@
                                     <h5>خلاصه سبد خرید</h5>
                                     <ul>
                                         <li>
-                                            <strong>قیمت کل :</strong>
-                                            <span>
-                                            (با احتساب تخفیف و بدون مالیات)
-                                        </span>
+                                            <strong> قیمت کل :</strong>
                                             <span class="show_total_price_without_tax">
                                             {{number_format($main_total_price)}} تومان
                                         </span>
+                                        </li>
+                                        <li class="help_text">
+                                            قیمت کل با احتساب تخفیف و بدون احتساب مالیات است
                                         </li>
                                         <li>
                                             <strong>مالیات:</strong>
@@ -338,6 +346,14 @@
                                             {{$club_percentage}} درصد
                                         </span>
                                         </li>
+                                        @if($main_discount)
+                                        <li>
+                                            <strong>تخفیف :</strong>
+                                            <span>
+                                                {{$main_discount}} تومان
+                                            </span>
+                                        </li>
+                                        @endif
                                         <li class="shop-cart-total">
                                             <strong>مجموع:</strong>
                                             <span class="show_total_price_with_tax">

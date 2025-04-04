@@ -10,6 +10,7 @@ use App\Models\Category;
 use App\Models\ImageProduct;
 use App\Models\Product;
 use http\Env\Response;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use SebastianBergmann\CodeCoverage\Report\Xml\Project;
@@ -34,13 +35,13 @@ class siteProductController extends Controller
         return view('site.products.index', compact('product_list', 'product_cat','main_categories'));
     }
 
-    public function detail($product_id)
+    public function detail($product_id): View
     {
-        $product_info = Product::query()
+        $product_info = Category::query()
             ->where('id', $product_id)
-            ->first();
+            ->firstOrFail();
 
-        $image_count = \App\Helper\GetProductMainImage::get_product_images($product_info['id']);
+        $image_count = GetProductMainImage::get_product_images($product_info['id']);
 
         $product_images_list = ImageProduct::query()
             ->where('product_id', $product_id)

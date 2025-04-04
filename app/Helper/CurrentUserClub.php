@@ -34,8 +34,6 @@ class CurrentUserClub
                 ->where('id', $cart->product_id)
                 ->first();
 
-            $price = null;
-
             if ($cart->is_force) {
                 $price = ChangeDollar::change_dollar($product_info->product_force_price);
             } else {
@@ -80,7 +78,7 @@ class CurrentUserClub
 
     }
 
-    static function get_percentage_current_user_level_membership()
+    static function get_percentage_current_user_level_membership(): int
     {
         $user = Auth::user();
 
@@ -90,12 +88,6 @@ class CurrentUserClub
             ->where('id', $membership_level_id)
             ->first();
 
-        if ($membership_info) {
-            return $membership_info->discount;
-        } else {
-            throw  new \Exception('چنین سطحی وجود ندارد');
-        }
-
+        return !$membership_info ? 0 : intval($membership_info->discount);
     }
-
 }

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\admin\membership;
 
+use App\Helper\DiscountHelper;
 use App\Helper\RepairFileSrc;
 use App\Http\Controllers\Controller;
 use App\Jobs\membership_level_job;
 use App\Models\Config;
+use App\Models\Discount;
 use App\Models\MembershipLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -132,8 +134,8 @@ class adminMembershipController extends Controller
     }
     public function test()
     {
-
-        $this->dispatch(new membership_level_job());
+        DiscountHelper::get_total_price_after_discount('cart_67eb950772b672.94184108');
+//        $this->dispatch(new membership_level_job());
     }
 
 
